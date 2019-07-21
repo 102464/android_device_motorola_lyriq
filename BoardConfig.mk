@@ -115,5 +115,8 @@ BOARD_USES_METADATA_PARTITION := true
 # Platform
 TARGET_BOARD_PLATFORM := mt6893
 
+# SPL
+VENDOR_SECURITY_PATCH := 2026-01-01
+
 # Inherit the proprietary files
 include vendor/motorola/lyriq/BoardConfigVendor.mk
