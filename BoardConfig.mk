@@ -145,6 +145,9 @@ TARGET_USERIMAGES_USE_F2FS := true
 BOOT_SECURITY_PATCH := 2026-01-01
 VENDOR_SECURITY_PATCH := 2026-01-01
 
+# SELinux
+include device/mediatek/sepolicy_vndr/SEPolicy.mk
+
 # Verified Boot
 BOARD_AVB_ENABLE := true
 BOARD_AVB_KEY_PATH := external/avb/test/data/testkey_rsa4096.pem
