@@ -74,6 +74,7 @@ PRODUCT_PACKAGES += \
     init.modem.rc \
     init.mt6893.rc \
     init.cgroup.rc \
+    init.recovery.mt6893.rc \
     init.mtkgki.rc \
     init.oem.hw.sh \
     init.project.rc \
