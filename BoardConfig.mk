@@ -4,6 +4,7 @@
 #
 
 DEVICE_PATH := device/motorola/lyriq
+KERNEL_PATH := device/motorola/lyriq-kernel
 
 # Architecture
 TARGET_ARCH := arm64
@@ -22,8 +23,10 @@ TARGET_2ND_CPU_VARIANT := cortex-a55
 BOARD_BOOT_HEADER_VERSION := 4
 BOARD_INIT_BOOT_HEADER_VERSION := 4
 BOARD_USES_GENERIC_KERNEL_IMAGE := true
+BOARD_KERNEL_IMAGE_NAME := Image.gz
 BOARD_RAMDISK_USE_LZ4 := true
 BOARD_MOVE_GSI_AVB_KEYS_TO_VENDOR_BOOT := true
+BOARD_INCLUDE_DTB_IN_BOOTIMG := true
 
 BOARD_KERNEL_CMDLINE += bootopt=64S3,32N2,64N2
 
@@ -42,6 +45,20 @@ BOARD_MKBOOTIMG_ARGS += \
     --tags_offset $(BOARD_TAGS_OFFSET)
 
 BOARD_MKBOOTIMG_INIT_ARGS += --header_version $(BOARD_INIT_BOOT_HEADER_VERSION)
+
+# Kernel
+TARGET_FORCE_PREBUILT_KERNEL := true
+TARGET_PREBUILT_KERNEL := $(KERNEL_PATH)/Image.gz
+
+# Kill lineage kernel build task while preserving kernel
+TARGET_NO_KERNEL_OVERRIDE := true
+
+# Workaround to make lineage's soong generator work
+TARGET_KERNEL_SOURCE := device/motorola/lyriq-kernel/kernel-headers
+
+# DTB
+BOARD_PREBUILT_DTBIMAGE_DIR := $(KERNEL_PATH)/dtb
+BOARD_MKBOOTIMG_ARGS += --dtb $(BOARD_PREBUILT_DTBIMAGE_DIR)/mt6893.dtb
 
 # Bootloader
 TARGET_NO_BOOTLOADER := true
