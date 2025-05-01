@@ -73,6 +73,7 @@ PRODUCT_PACKAGES += \
     init.mmi.rc \
     init.modem.rc \
     init.mt6893.rc \
+    init.mt6893.usb.rc \
     init.cgroup.rc \
     init.recovery.mt6893.rc \
     init.mtkgki.rc \
