@@ -1,6 +1,7 @@
 # All blobs from user 15 V1TLS35.73-60-3-7 73817f release-keys, unless pinned
 
 # Audio
+vendor/lib/libaudioaidlcommon.so
 vendor/lib/libaudiocompensationfilterc.so
 vendor/lib/libaudiocompensationfilter_vendor.so
 vendor/lib/libaudiocomponentenginec.so
@@ -12,9 +13,13 @@ vendor/lib/libaudioloudc.so
 vendor/lib/libaudiopolicyconfigxml_mtk_vendor.so
 vendor/lib/libaudioprimarydevicehalifclient.so
 vendor/lib/libaudiotoolkit_vendor.so
+vendor/lib/libaudioutils.so
+vendor/lib/libaudio_aidl_conversion_common_ndk.so
 vendor/lib/libaudio_param_parser-vnd.so
 vendor/lib/libtinycompress.so
+vendor/lib/soundfx/libaudiopreprocessing.so
 vendor/lib/soundfx/libaudiopreprocessing_mtk.so
+vendor/lib64/libaudioaidlcommon.so
 vendor/lib64/libaudiocompensationfilterc.so
 vendor/lib64/libaudiocompensationfilter_vendor.so
 vendor/lib64/libaudiocomponentenginec.so
@@ -26,16 +31,38 @@ vendor/lib64/libaudioloudc.so
 vendor/lib64/libaudiopolicyconfigxml_mtk_vendor.so
 vendor/lib64/libaudioprimarydevicehalifclient.so
 vendor/lib64/libaudiotoolkit_vendor.so
+vendor/lib64/libaudioutils.so
+vendor/lib64/libaudio_aidl_conversion_common_ndk.so
 vendor/lib64/libaudio_param_parser-vnd.so
 vendor/lib64/libtinycompress.so
+vendor/lib64/soundfx/libaudiopreprocessing.so
 vendor/lib64/soundfx/libaudiopreprocessing_mtk.so
 
 # Audio-Hardware
+system_ext/bin/hw/android.hardware.audio.parameter_parser.service
+system_ext/etc/init/android.hardware.audio.parameter_parser.service.rc
 system_ext/lib/vendor.mediatek.hardware.audio@7.1.so
 system_ext/lib/vendor.mediatek.hardware.audio@8.1.so
 system_ext/lib64/vendor.mediatek.hardware.audio@7.1.so
 system_ext/lib64/vendor.mediatek.hardware.audio@8.1.so
+vendor/bin/hw/android.hardware.audio.service-aidl.mediatek
+vendor/etc/init/android.hardware.audio.service-aidl.mediatek.rc
+-vendor/etc/vintf/manifest/android.hardware.audio.effect.service-aidl.xml
+-vendor/etc/vintf/manifest/android.hardware.audio.service-aidl.xml
 -vendor/etc/vintf/manifest/motorola.hardware.audio.radar2.xml
+vendor/lib/android.hardware.audio.common-util.so
+vendor/lib/android.hardware.audio.common-V3-ndk.so
+vendor/lib/android.hardware.audio.common@2.0.so
+vendor/lib/android.hardware.audio.common@5.0.so
+vendor/lib/android.hardware.audio.common@6.0-util.so
+vendor/lib/android.hardware.audio.common@6.0.so
+vendor/lib/android.hardware.audio.core-impl-mediatek.so
+vendor/lib/android.hardware.audio.core-V2-ndk.so
+vendor/lib/android.hardware.audio.core.sounddose-V2-ndk.so
+vendor/lib/android.hardware.audio.effect-V2-ndk.so
+vendor/lib/android.hardware.audio.effect@6.0.so
+vendor/lib/android.hardware.audio@6.0.so
+vendor/lib/hw/audio.primary.mt6893.so
 vendor/lib/hw/audio.r_submix.mt6893.so
 vendor/lib/hw/audio_radar.primary.default.so
 vendor/lib/hw/motorola.hardware.audio.radar2-impl.so
@@ -43,6 +70,20 @@ vendor/lib/hw/vendor.mediatek.hardware.audio-impl.so
 vendor/lib/motorola.hardware.audio.radar2-V1-ndk.so
 vendor/lib/vendor.mediatek.hardware.audio-V1-ndk.so
 vendor/lib/vendor.mediatek.hardware.audio@6.1.so
+vendor/lib64/android.hardware.audio.common-util.so
+vendor/lib64/android.hardware.audio.common-V3-ndk.so
+vendor/lib64/android.hardware.audio.common@2.0.so
+vendor/lib64/android.hardware.audio.common@5.0.so
+vendor/lib64/android.hardware.audio.common@6.0-util.so
+vendor/lib64/android.hardware.audio.common@6.0.so
+vendor/lib64/android.hardware.audio.core-impl-mediatek.so
+vendor/lib64/android.hardware.audio.core-V2-ndk.so
+vendor/lib64/android.hardware.audio.core.sounddose-V2-ndk.so
+vendor/lib64/android.hardware.audio.effect-V2-ndk.so
+vendor/lib64/android.hardware.audio.effect@6.0.so
+vendor/lib64/android.hardware.audio@6.0.so
+vendor/lib64/hw/android.hardware.audio.effect.aidl-impl-mediatek.so
+vendor/lib64/hw/audio.primary.mt6893.so;SYMLINK=vendor/lib64/hw/audio.primary.mediatek.so
 vendor/lib64/hw/audio.r_submix.mt6893.so;SYMLINK=vendor/lib64/hw/audio.r_submix.mediatek.so
 vendor/lib64/hw/audio_radar.primary.default.so
 vendor/lib64/hw/motorola.hardware.audio.radar2-impl.so
@@ -88,6 +129,8 @@ vendor/lib/vendor.mediatek.hardware.bluetooth.audio@2.2.so
 vendor/lib64/vendor.mediatek.hardware.bluetooth.audio@2.2.so
 
 # Soundtrigger HAL (missing from original device tree)
+vendor/lib/hw/android.hardware.soundtrigger3-impl.so
+vendor/lib64/hw/android.hardware.soundtrigger3-impl.so
 
 # Audio-configs
 vendor/etc/aurisys_config.xml
