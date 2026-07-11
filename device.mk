@@ -6,18 +6,55 @@
 # Enforce generic ramdisk allow list
 $(call inherit-product, $(SRC_TARGET_DIR)/product/generic_ramdisk.mk)
 
-# Inherit launch_with_vendor_ramdisk product
-$(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/launch_with_vendor_ramdisk.mk)
+# Virtual A/B Compression (VABC) - T launching device with init_boot.
+# android_t_baseline.mk -> vabc_features.mk enables:
+#   ro.virtual_ab.enabled/compression.enabled/userspace.snapshots.enabled/
+#   batch_writes/io_uring.enabled/compression.xor.enabled = true
+# and packages snapuserd (vendor_ramdisk + recovery variants).
+# snapuserd_ramdisk for the generic ramdisk (init_boot) is provided by
+# generic_ramdisk.mk above. Do NOT also inherit launch_with_vendor_ramdisk.mk
+# or compression.mk to avoid conflicting/duplicate configuration.
+$(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/android_t_baseline.mk)
 
 # Project ID Quota
 $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 
 DEVICE_PATH := device/motorola/lyriq
 
-# Virtual A/B
+# Boot control HAL for Virtual A/B
 PRODUCT_PACKAGES += \
     com.android.hardware.boot \
     android.hardware.boot-service.default_recovery
+
+# VABC compression method: determined from stock firmware analysis.
+# Stock vendor/build.prop: ro.virtual_ab.compression.enabled=true,
+#   ro.virtual_ab.compression.xor.enabled=true,
+#   ro.virtual_ab.compression.threads=true
+# Stock snapuserd binary (from vendor_boot recovery ramdisk) supports:
+#   lz4, brotli, zstd, uncompressed (does NOT include gz)
+# No OTA package or COW header available to confirm the exact algorithm.
+# Using lz4: matches Google Cuttlefish reference (device/google/cuttlefish),
+# supported by both stock and AOSP snapuserd, fast decompression, and is the
+# most common VABC compression in Android 14/15.
+PRODUCT_VIRTUAL_AB_COMPRESSION_METHOD := lz4
+
+# Copy prebuilt kernel to output directory.
+# TARGET_NO_KERNEL_OVERRIDE := true in BoardConfig skips
+# vendor/lineage/build/tasks/kernel.mk entirely, which means the rule
+# that copies TARGET_PREBUILT_KERNEL to $(PRODUCT_OUT)/kernel is never
+# defined. Without this rule, bootimage build fails after installclean
+# because the kernel file is removed and not recreated.
+PRODUCT_COPY_FILES += device/motorola/lyriq-kernel/Image.gz:kernel
+
+# snapuserd.recovery is required because this device uses
+# BOARD_INCLUDE_RECOVERY_RAMDISK_IN_VENDOR_BOOT, meaning Recovery loads the
+# recovery ramdisk from vendor_boot and does NOT load init_boot (generic ramdisk).
+# vabc_features.mk only packages snapuserd into the generic ramdisk (init_boot)
+# and the system image; the recovery ramdisk needs its own copy so that Recovery
+# can handle VABC snapshots. snapuserd is a static_executable, so no extra
+# shared libraries are needed.
+PRODUCT_PACKAGES += \
+    snapuserd.recovery
 
 AB_OTA_POSTINSTALL_CONFIG += \
     RUN_POSTINSTALL_system=true \
