@@ -1,0 +1,42 @@
+<compatibility-matrix version="9.0" type="framework" level="202404">
+    <hal format="aidl" optional="true">
+        <name>android.hardware.radio.modem</name>
+        <version>3</version>
+        <interface>
+            <name>IRadioModem</name>
+            <instance>imsSlot1</instance>
+            <instance>imsSlot2</instance>
+            <instance>se1</instance>
+            <instance>se2</instance>
+        </interface>
+    </hal>
+    <hal format="aidl" optional="true">
+        <name>android.hardware.radio.network</name>
+        <version>3</version>
+        <interface>
+            <name>IRadioNetwork</name>
+            <instance>imsSlot1</instance>
+            <instance>imsSlot2</instance>
+        </interface>
+    </hal>
+    <hal format="aidl" optional="true">
+        <name>android.hardware.radio.sim</name>
+        <version>3</version>
+        <interface>
+            <name>IRadioSim</name>
+            <instance>imsSlot1</instance>
+            <instance>imsSlot2</instance>
+            <instance>se1</instance>
+            <instance>se2</instance>
+        </interface>
+    </hal>
+    <hal format="aidl" optional="true">
+        <name>android.hardware.radio.voice</name>
+        <version>3</version>
+        <interface>
+            <name>IRadioVoice</name>
+            <instance>imsSlot1</instance>
+            <instance>imsSlot2</instance>
+        </interface>
+    </hal>
+</compatibility-matrix>
