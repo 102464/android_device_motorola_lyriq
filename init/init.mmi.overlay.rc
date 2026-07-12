@@ -5,13 +5,8 @@ on property:ro.vendor.hw.dualsim=true
 on property:ro.vendor.hw.dualsim=false
    setprop persist.vendor.radio.multisim.config ""
 
-import /vendor/etc/init/hw/init.vendor.st21nfc.rc
-import /vendor/etc/init/android.hardware.nfc@1.2-service.st.rc
-
 on early-init
    exec u:r:vendor_modprobe:s0 -- /vendor/bin/modprobe -r -d /vendor/lib/modules zram
-   insmod /vendor/lib/modules/mmi_sys_temp.ko
-   insmod /vendor/lib/modules/aw883xx_dlkm.ko
    insmod /vendor/lib/modules/exfat.ko
    insmod /vendor/lib/modules/bq25980_mmi.ko
    insmod /vendor/lib/modules/cps_wls_charger_4038.ko
