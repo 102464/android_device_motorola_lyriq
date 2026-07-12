@@ -154,7 +154,8 @@ PRODUCT_PACKAGES += \
 # Soong namespaces
 PRODUCT_SOONG_NAMESPACES += \
     $(DEVICE_PATH) \
-    hardware/mediatek
+    hardware/mediatek \
+    hardware/mediatek/libmtkperf_client
 
 # USB
 PRODUCT_PACKAGES += \
