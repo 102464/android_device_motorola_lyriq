@@ -9,6 +9,7 @@ KERNEL_PATH := device/motorola/lyriq-kernel
 # A/B
 AB_OTA_PARTITIONS := \
     boot \
+    dtbo \
     init_boot \
     product \
     system \
@@ -81,6 +82,9 @@ TARGET_BOARD_INFO_FILE := $(DEVICE_PATH)/board-info.txt
 BOARD_PREBUILT_DTBIMAGE_DIR := $(KERNEL_PATH)/dtb
 BOARD_MKBOOTIMG_ARGS += --dtb $(BOARD_PREBUILT_DTBIMAGE_DIR)/mt6893.dtb
 
+# DTBO
+BOARD_PREBUILT_DTBOIMAGE := $(KERNEL_PATH)/dtbo.img
+
 BOARD_SYSTEM_KERNEL_MODULES := $(wildcard $(KERNEL_PATH)/system/*.ko)
 BOARD_SYSTEM_KERNEL_MODULES_LOAD := $(strip $(shell cat $(KERNEL_PATH)/modules.load.system))
 BOARD_VENDOR_KERNEL_MODULES := $(wildcard $(KERNEL_PATH)/vendor/*.ko)
@@ -110,6 +114,24 @@ DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += \
     $(DEVICE_PATH)/configs/vintf/framework_compatibility_matrix.xml
 DEVICE_PRODUCT_COMPATIBILITY_MATRIX_FILE += \
     $(DEVICE_PATH)/configs/vintf/product_framework_compatibility_matrix.xml
+
+# Stock ODM VINTF manifests
+ODM_MANIFEST_FILES += \
+    vendor/motorola/lyriq/proprietary/vendor/odm/etc/vintf/manifest_b.xml \
+    vendor/motorola/lyriq/proprietary/vendor/odm/etc/vintf/manifest_bn.xml \
+    vendor/motorola/lyriq/proprietary/vendor/odm/etc/vintf/manifest_d.xml \
+    vendor/motorola/lyriq/proprietary/vendor/odm/etc/vintf/manifest_de.xml \
+    vendor/motorola/lyriq/proprietary/vendor/odm/etc/vintf/manifest_dn.xml
+
+# Stock vendor VINTF manifest fragments
+DEVICE_MANIFEST_FILE += \
+    vendor/motorola/lyriq/proprietary/vendor/etc/vintf/manifest/CommandService.xml \
+    vendor/motorola/lyriq/proprietary/vendor/etc/vintf/manifest/dms-service.xml \
+    vendor/motorola/lyriq/proprietary/vendor/etc/vintf/manifest/manifest_apuware_apusys_aidl.xml \
+    vendor/motorola/lyriq/proprietary/vendor/etc/vintf/manifest/manifest_apuware_utils_aidl.xml \
+    vendor/motorola/lyriq/proprietary/vendor/etc/vintf/manifest/manifest_apuware_xrp_aidl.xml \
+    vendor/motorola/lyriq/proprietary/vendor/etc/vintf/manifest/manifest_rcs.xml \
+    vendor/motorola/lyriq/proprietary/vendor/etc/vintf/manifest/motorola.hardware.audio.radar2.xml
 
 # Partitions
 BOARD_FLASH_BLOCK_SIZE := 262144 # (BOARD_KERNEL_PAGESIZE * 64)
@@ -151,6 +173,14 @@ BOARD_USES_METADATA_PARTITION := true
 # Platform
 TARGET_BOARD_PLATFORM := mt6893
 
+# Vendor properties
+# configs/props/vendor.prop contains ~400 hardware properties extracted from
+# stock vendor/build.prop (MTK platform, camera, GPU, gralloc, audio, Dolby,
+# PQ, radio, etc.). The build system (sysprop.mk) merges this file into
+# vendor/build.prop via the build-properties macro. Duplicates are resolved
+# last-one-wins, so PRODUCT_VENDOR_PROPERTIES still overrides these.
+TARGET_VENDOR_PROP := $(DEVICE_PATH)/configs/props/vendor.prop
+
 # Recovery
 BOARD_INCLUDE_RECOVERY_RAMDISK_IN_VENDOR_BOOT := true
 BOARD_MOVE_RECOVERY_RESOURCES_TO_VENDOR_BOOT := true
@@ -160,8 +190,8 @@ TARGET_RECOVERY_FSTAB := $(DEVICE_PATH)/init/fstab.mt6893
 TARGET_USERIMAGES_USE_F2FS := true
 
 # SPL
-BOOT_SECURITY_PATCH := 2026-01-01
-VENDOR_SECURITY_PATCH := 2026-01-01
+BOOT_SECURITY_PATCH := 2026-04-01
+VENDOR_SECURITY_PATCH := 2026-04-01
 
 # SELinux
 include device/mediatek/sepolicy_vndr/SEPolicy.mk
