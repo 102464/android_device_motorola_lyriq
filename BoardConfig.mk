@@ -99,6 +99,18 @@ TARGET_SCREEN_DENSITY := 400
 # Filesystem
 TARGET_FS_CONFIG_GEN := $(DEVICE_PATH)/configs/mot_aids.fs
 
+# VINTF
+# Stock vendor/etc/vintf/manifest.xml declares all device HALs (camera provider,
+# radio, MTK HALs, trustonic, etc.) with target-level="202404" (Android 15).
+# Stock vendor/etc/vintf/compatibility_matrix.xml requires framework HALs like
+# android.frameworks.sensorservice. Both are copied from stock firmware.
+DEVICE_MANIFEST_FILE += $(DEVICE_PATH)/configs/vintf/manifest.xml
+DEVICE_MATRIX_FILE := $(DEVICE_PATH)/configs/vintf/compatibility_matrix.xml
+DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += \
+    $(DEVICE_PATH)/configs/vintf/framework_compatibility_matrix.xml
+DEVICE_PRODUCT_COMPATIBILITY_MATRIX_FILE += \
+    $(DEVICE_PATH)/configs/vintf/product_framework_compatibility_matrix.xml
+
 # Partitions
 BOARD_FLASH_BLOCK_SIZE := 262144 # (BOARD_KERNEL_PAGESIZE * 64)
 BOARD_BOOTIMAGE_PARTITION_SIZE := 67108864
