@@ -3,6 +3,11 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
+# Device uses AIDL CAS HAL (com.android.hardware.cas APEX) instead of
+# deprecated HIDL CAS 1.2 service. Set this before inheriting base products,
+# where build/target/product/base_vendor.mk decides default vendor packages.
+TARGET_REQUIRES_HIDL_CAS_HAL := false
+
 # Inherit from those products. Most specific first.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
