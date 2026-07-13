@@ -172,6 +172,7 @@ BOARD_USES_METADATA_PARTITION := true
 
 # Platform
 TARGET_BOARD_PLATFORM := mt6893
+TARGET_USES_VULKAN := false
 
 # Vendor properties
 # configs/props/vendor.prop contains ~400 hardware properties extracted from
