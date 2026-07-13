@@ -31,18 +31,34 @@ def lib_fixup_vendor_suffix(lib: str, partition: str, *args, **kwargs):
 lib_fixups: lib_fixups_user_type = {
     **lib_fixups,
     (
+        'libcodec2_aidl',
+        'libcodec2_hidl@1.0',
+        'libcodec2_hidl@1.1',
+        'libcodec2_hidl@1.2',
         'vendor.mediatek.hardware.videotelephony-V1-ndk'
     ): lib_fixup_vendor_suffix,
 }
 
 blob_fixups: blob_fixups_user_type = {
-    'system_ext/bin/hw/android.hardware.audio.parameter_parser.service': blob_fixup()
-        .replace_needed('av-audio-types-aidl-V1-ndk.so', 'av-audio-types-aidl-ndk.so')
-        .remove_needed('android.hardware.audio.core-V2-ndk.so'),
     'system_ext/bin/hw/motorola.hardware.tcmdaidl-service': blob_fixup()
         .remove_needed('libandroidicu.so'),
     'vendor/lib64/libmtkcam_hal_aidl_common.so': blob_fixup()
         .replace_needed('android.hardware.camera.common-V2-ndk.so', 'android.hardware.camera.common-V1-ndk.so'),
+    # The stock firmware ships a proprietary android.hardware.power-service-
+    # mediatek.so that implements IPower @5 (DT_NEEDED: power-V5-ndk).  The
+    # LineageOS source tree also builds a library of the same name, but it
+    # implements @2 and ships power-mtk.xml (@2) which conflicts with the
+    # proprietary power-mediatek.xml (@5) and is too old for FCM level 202404
+    # (requires @5+).  By extracting the proprietary blob the auto-generated
+    # Android.bp creates a cc_prebuilt_library_shared with prefer:true that
+    # overrides the source module — so power-mtk.xml is NOT installed and no
+    # conflict occurs.  The source module links power-V2-ndk; Soong forbids
+    # a module from depending on multiple AIDL versions, so the prebuilt must
+    # also use V2.  The proprietary blob was compiled against V5 but only
+    # references V1-V2 symbols (verified via check_elf_file), so V5->V2 is
+    # safe.
+    'vendor/lib64/android.hardware.power-service-mediatek.so': blob_fixup()
+        .replace_needed('android.hardware.power-V5-ndk.so', 'android.hardware.power-V2-ndk.so'),
     'vendor/bin/hw/vendor.mediatek.hardware.mtkpower-service.mediatek': blob_fixup()
         .replace_needed('android.hardware.power-V5-ndk.so', 'android.hardware.power-V2-ndk.so'),
     'vendor/bin/hw/android.hardware.sensors-service.multihal': blob_fixup()
@@ -94,6 +110,23 @@ blob_fixups: blob_fixups_user_type = {
         .replace_needed('android.hardware.graphics.common-V5-ndk.so', 'android.hardware.graphics.common-V6-ndk.so'),
     'vendor/lib64/vendor.mediatek.hardware.pq_aidl-V7-ndk.so': blob_fixup()
         .replace_needed('android.hardware.graphics.common-V4-ndk.so', 'android.hardware.graphics.common-V6-ndk.so'),
+    # libneuralnetworks_sl_driver_mtk_legacy_prebuilt.so was linked against the
+    # versioned NDK stub libnativewindow (symbols carry @LIBNATIVEWINDOW). The
+    # AOSP LLNDK vendor variant libnativewindow.vendor.so is built unversioned
+    # (llndk.unversioned=true), so check_elf_file cannot match the versioned
+    # references and fails the build. At runtime the blob loads the versioned
+    # /system/lib64/libnativewindow.so, so clearing the version node is safe:
+    # unversioned references resolve against both the unversioned vendor
+    # variant (build-time check) and the versioned system lib (runtime).
+    'vendor/lib64/libneuralnetworks_sl_driver_mtk_legacy_prebuilt.so': blob_fixup()
+        .clear_symbol_version('AHardwareBuffer_allocate')
+        .clear_symbol_version('AHardwareBuffer_createFromHandle')
+        .clear_symbol_version('AHardwareBuffer_describe')
+        .clear_symbol_version('AHardwareBuffer_getNativeHandle')
+        .clear_symbol_version('AHardwareBuffer_lock')
+        .clear_symbol_version('AHardwareBuffer_release')
+        .clear_symbol_version('AHardwareBuffer_unlock'),
+
 }  # fmt: skip
 
 module = ExtractUtilsModule(
