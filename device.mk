@@ -6,14 +6,15 @@
 # Enforce generic ramdisk allow list
 $(call inherit-product, $(SRC_TARGET_DIR)/product/generic_ramdisk.mk)
 
-# Virtual A/B Compression (VABC) - T launching device with init_boot.
+# Virtual A/B Compression (VABC) - T launching device.
 # android_t_baseline.mk -> vabc_features.mk enables:
 #   ro.virtual_ab.enabled/compression.enabled/userspace.snapshots.enabled/
 #   batch_writes/io_uring.enabled/compression.xor.enabled = true
 # and packages snapuserd (vendor_ramdisk + recovery variants).
-# snapuserd_ramdisk for the generic ramdisk (init_boot) is provided by
-# generic_ramdisk.mk above. Do NOT also inherit launch_with_vendor_ramdisk.mk
-# or compression.mk to avoid conflicting/duplicate configuration.
+# snapuserd_ramdisk for the generic ramdisk (packed into boot.img since
+# this device does not use init_boot) is provided by generic_ramdisk.mk
+# above. Do NOT also inherit launch_with_vendor_ramdisk.mk or
+# compression.mk to avoid conflicting/duplicate configuration.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/virtual_ab_ota/android_t_baseline.mk)
 
 # Project ID Quota
@@ -48,8 +49,8 @@ PRODUCT_COPY_FILES += device/motorola/lyriq-kernel/Image.gz:kernel
 
 # snapuserd.recovery is required because this device uses
 # BOARD_INCLUDE_RECOVERY_RAMDISK_IN_VENDOR_BOOT, meaning Recovery loads the
-# recovery ramdisk from vendor_boot and does NOT load init_boot (generic ramdisk).
-# vabc_features.mk only packages snapuserd into the generic ramdisk (init_boot)
+# recovery ramdisk from vendor_boot and does NOT load boot.img's generic ramdisk.
+# vabc_features.mk only packages snapuserd into the generic ramdisk (boot.img)
 # and the system image; the recovery ramdisk needs its own copy so that Recovery
 # can handle VABC snapshots. snapuserd is a static_executable, so no extra
 # shared libraries are needed.
@@ -146,7 +147,6 @@ PRODUCT_PACKAGES += \
     init.cgroup.rc \
     init.recovery.mt6893.rc \
     init.mtkgki.rc \
-    init.oem.hw.sh \
     init.project.rc \
     init.sensor_2_0.rc \
     ueventd.mt6893.rc
