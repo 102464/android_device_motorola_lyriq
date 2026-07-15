@@ -10,7 +10,6 @@ KERNEL_PATH := device/motorola/lyriq-kernel
 AB_OTA_PARTITIONS := \
     boot \
     dtbo \
-    init_boot \
     product \
     system \
     system_dlkm \
@@ -38,7 +37,6 @@ TARGET_2ND_CPU_VARIANT := cortex-a55
 
 # Boot image
 BOARD_BOOT_HEADER_VERSION := 4
-BOARD_INIT_BOOT_HEADER_VERSION := 4
 BOARD_USES_GENERIC_KERNEL_IMAGE := true
 BOARD_KERNEL_IMAGE_NAME := Image.gz
 BOARD_RAMDISK_USE_LZ4 := true
@@ -63,7 +61,11 @@ BOARD_MKBOOTIMG_ARGS += \
     --ramdisk_offset $(BOARD_RAMDISK_OFFSET) \
     --tags_offset $(BOARD_KERNEL_TAGS_OFFSET)
 
-BOARD_MKBOOTIMG_INIT_ARGS += --header_version $(BOARD_INIT_BOOT_HEADER_VERSION)
+# init_boot is not used: Motorola bootloader denies fastboot flash to the
+# init_boot partition ("flash permission denied"). The generic ramdisk
+# (first_stage init, snapuserd, etc.) is therefore packed into boot.img
+# instead. AOSP Makefile automatically adds --ramdisk to boot.img when
+# BUILDING_INIT_BOOT_IMAGE is not true.
 
 # Kernel
 TARGET_FORCE_PREBUILT_KERNEL := true
@@ -136,7 +138,6 @@ DEVICE_MANIFEST_FILE += \
 # Partitions
 BOARD_FLASH_BLOCK_SIZE := 262144 # (BOARD_KERNEL_PAGESIZE * 64)
 BOARD_BOOTIMAGE_PARTITION_SIZE := 67108864
-BOARD_INIT_BOOT_IMAGE_PARTITION_SIZE := 8388608
 BOARD_VENDOR_BOOTIMAGE_PARTITION_SIZE := 67108864
 BOARD_SUPER_PARTITION_SIZE := 9126805504
 
