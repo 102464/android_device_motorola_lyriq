@@ -1485,7 +1485,45 @@ vendor/lib64/vendor.trustonic.tee-V1-ndk.so
 vendor/lib64/vendor.trustonic.tui-V1-ndk.so
 vendor/etc/init/mtk_storageproxyd.rc
 vendor/etc/init/tee.rc
+vendor/etc/init/trustonic.rc
 vendor/etc/init/vendor.trustonic.tee-service.rc
+
+# TEE Trustlets (mcRegistry) - required by mcDriverDaemon (trustonic.rc)
+vendor/app/mcRegistry/020f0000000000000000000000000000.drbin
+vendor/app/mcRegistry/020f0000000000000000000000000000.tlbin
+vendor/app/mcRegistry/031c0000000000000000000000000000.drbin
+vendor/app/mcRegistry/031c0000000000000000000000000000.tlbin
+vendor/app/mcRegistry/05060000000000000000000000000000.tabin
+vendor/app/mcRegistry/05070000000000000000000000000000.drbin
+vendor/app/mcRegistry/05070000000000000000000000000000.tlbin
+vendor/app/mcRegistry/05120000000000000000000000000001.drbin
+vendor/app/mcRegistry/05120000000000000000000000000001.tlbin
+vendor/app/mcRegistry/06090000000000000000000000000000.drbin
+vendor/app/mcRegistry/06090000000000000000000000000000.tlbin
+vendor/app/mcRegistry/07010000000000000000000000000000.tlbin
+vendor/app/mcRegistry/0706000000000000000000000000004d.tlbin
+vendor/app/mcRegistry/07061000000000000000000000000000.tlbin
+vendor/app/mcRegistry/07150000000000000000000000000000.drbin
+vendor/app/mcRegistry/07150000000000000000000000000000.tlbin
+vendor/app/mcRegistry/07170000000000000000000000000000.drbin
+vendor/app/mcRegistry/07170000000000000000000000000000.tlbin
+vendor/app/mcRegistry/07210000000000000000000000000000.drbin
+vendor/app/mcRegistry/07210000000000000000000000000000.tlbin
+vendor/app/mcRegistry/08030000000000000000000000000000.tabin
+vendor/app/mcRegistry/08040000000000000000000000003419.tabin
+vendor/app/mcRegistry/08050000000000000000000000003419.drbin
+vendor/app/mcRegistry/08050000000000000000000000003419.tlbin
+vendor/app/mcRegistry/08110000000000000000000000000000.tabin
+vendor/app/mcRegistry/40188311faf343488db888ad39496f9a.drbin
+vendor/app/mcRegistry/40188311faf343488db888ad39496f9a.tlbin
+vendor/app/mcRegistry/5020170115e016302017012521300000.drbin
+vendor/app/mcRegistry/5020170115e016302017012521300000.tlbin
+vendor/app/mcRegistry/6b3f5fa0f8cf55a7be2582587d62d63a.drbin
+vendor/app/mcRegistry/9073f03a9618383bb1856eb3f990babd.drbin
+vendor/app/mcRegistry/9073f03a9618383bb1856eb3f990babd.tlbin
+vendor/app/mcRegistry/98fb95bcb4bf42d26473eae48690d7ea.tabin
+vendor/app/mcRegistry/e97c270ea5c44c58bcd3384a2fa2539e.tabin
+vendor/app/mcRegistry/ffffffff000000000000000000000003.tabin
 
 # Thermal
 system_ext/bin/thermald
@@ -1660,6 +1698,7 @@ vendor/etc/vintf/manifest/android.hardware.boot-service.mtk.xml
 
 # Init scripts
 vendor/bin/hardware_revisions.sh
+vendor/bin/init.oem.hw.sh
 vendor/bin/init.mmi.attest_model.sh
 vendor/bin/init.mmi.backup.trustlet.sh
 vendor/bin/init.mmi.block_perm.sh
