@@ -5,12 +5,6 @@
 //
 
 sh_binary {
-    name: "init.oem.hw.sh",
-    src: "init.oem.hw.sh",
-    vendor: true,
-}
-
-sh_binary {
     name: "init.insmod.sh",
     src: "init.insmod.sh",
     vendor: true,
