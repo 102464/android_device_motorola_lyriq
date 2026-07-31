@@ -53,6 +53,7 @@ vendor/lib64/libdlbdsservice.so
 vendor/lib64/libdmshal.so
 vendor/lib64/libmbrainSDKv.so
 vendor/lib64/libmsbc_mtk.so
+vendor/lib/libmtk_drvb.so
 vendor/lib64/libmtk_drvb.so
 vendor/lib64/libmtklimiter_vendor.so
 vendor/lib64/libmtkshifter_vendor.so
@@ -934,11 +935,17 @@ vendor/lib/libpqsharememory.so
 vendor/lib/libpqtuning.so
 vendor/lib/libsdrparser.so
 vendor/lib/mt6893/libdpframework.so;SYMLINK=vendor/lib/libdpframework.so
+vendor/lib/mt6893/libdre.so;SYMLINK=vendor/lib/libdre.so
+vendor/lib/mt6893/libhdrvideo.so;SYMLINK=vendor/lib/libhdrvideo.so
 vendor/lib/mt6893/libmml.so;SYMLINK=vendor/lib/libmml.so
-vendor/lib/mt6893/libpq_sec.so
+vendor/lib/mt6893/libneuron_platform.vpu.so;SYMLINK=vendor/lib/libneuron_platform.vpu.so
+vendor/lib/mt6893/libnir_neon_driver.so;SYMLINK=vendor/lib/libnir_neon_driver.so
+vendor/lib/mt6893/libpq_sec.so;SYMLINK=vendor/lib/libpq_sec.so
 vendor/lib/mt6893/libpqparamparser.so;SYMLINK=vendor/lib/libpqparamparser.so
 vendor/lib/vendor.mediatek.hardware.pq_aidl-V2-ndk.so
+vendor/lib/arm.graphics-V5-ndk.so
 vendor/lib64/arm.graphics-V5-ndk.so
+vendor/lib/arm.mali.platform-V2-ndk.so
 vendor/lib64/arm.mali.platform-V2-ndk.so
 vendor/lib64/egl/libGLES_mali.so
 vendor/lib64/egl/libGLES_meow.so
@@ -952,10 +959,14 @@ vendor/lib64/hw/mapper.mediatek.so
 vendor/lib64/hw/vendor.mediatek.hardware.pq_aidl-impl.so
 vendor/lib64/hw/vulkan.mali.so
 vendor/lib64/libaal_cust.so
+vendor/lib/libaal_sec.so
 vendor/lib64/libaal_sec.so
 vendor/lib64/libaalservice.so
+vendor/lib/libarm_egl_properties_sysprop.so
 vendor/lib64/libarm_egl_properties_sysprop.so
+vendor/lib/libarm_gralloc_properties_sysprop.so
 vendor/lib64/libarm_gralloc_properties_sysprop.so
+vendor/lib/libarm_mali_config_sysprops.so
 vendor/lib64/libarm_mali_config_sysprops.so
 vendor/lib64/libbwc.so
 vendor/lib64/libcomposer_ext.so
@@ -982,8 +993,15 @@ vendor/lib64/libpqxmlparser.so
 vendor/lib64/libsdrparser.so
 vendor/lib64/libsilkybrightnesscore.so
 vendor/lib64/mt6893/libdpframework.so;SYMLINK=vendor/lib64/libdpframework.so
+vendor/lib64/mt6893/libdre.so;SYMLINK=vendor/lib64/libdre.so
+vendor/lib64/mt6893/libgpudataproducer.so;SYMLINK=vendor/lib64/libgpudataproducer.so
+vendor/lib64/mt6893/libhdrvideo.so;SYMLINK=vendor/lib64/libhdrvideo.so
+vendor/lib64/mt6893/libmdla_ut.so;SYMLINK=vendor/lib64/libmdla_ut.so
 vendor/lib64/mt6893/libmml.so;SYMLINK=vendor/lib64/libmml.so
 vendor/lib64/mt6893/libmmlpqImpl.so;SYMLINK=vendor/lib64/libmmlpqImpl.so
+vendor/lib64/mt6893/libneuron_platform.vpu.so;SYMLINK=vendor/lib64/libneuron_platform.vpu.so
+vendor/lib64/mt6893/libneuron_runtime.so;SYMLINK=vendor/lib64/libneuron_runtime.so
+vendor/lib64/mt6893/libnir_neon_driver.so;SYMLINK=vendor/lib64/libnir_neon_driver.so
 vendor/lib64/mt6893/libpq_sec.so;SYMLINK=vendor/lib64/libpq_sec.so
 vendor/lib64/mt6893/libpqparamparser.so;SYMLINK=vendor/lib64/libpqparamparser.so
 vendor/lib64/vendor.mediatek.hardware.composer_ext-V1-ndk.so
@@ -1266,15 +1284,15 @@ system_ext/lib64/vendor.mediatek.hardware.apuware.utils@2.0.so
 system_ext/lib64/vendor.mediatek.hardware.apuware.xrp-V1-ndk.so
 system_ext/lib64/vendor.mediatek.hardware.apuware.xrp@1.0.so
 system_ext/lib64/vendor.mediatek.hardware.apuware.xrp@2.0.so
-vendor/lib/mt6893/libaiselector.so
+vendor/lib/mt6893/libaiselector.so;SYMLINK=vendor/lib/libaiselector.so
 vendor/lib/vendor.mediatek.hardware.mmagent-V1-ndk.so
 vendor/lib64/libapu_mdw.so
 vendor/lib64/libmvpu_config_data.so
 vendor/lib64/libneuralnetworks_sl_driver_mtk_legacy_prebuilt.so
 vendor/lib64/libneuron_wrapper.so
-vendor/lib64/mt6893/libaiselector.so
+vendor/lib64/mt6893/libaiselector.so;SYMLINK=vendor/lib64/libaiselector.so
 vendor/lib64/mt6893/libmmagent.so;SYMLINK=vendor/lib64/libmmagent.so
-vendor/lib64/mt6893/libneuron_runtime.5.so
+vendor/lib64/mt6893/libneuron_runtime.5.so;SYMLINK=vendor/lib64/libneuron_runtime.5.so
 vendor/lib64/vendor.mediatek.hardware.mmagent-V1-ndk.so
 vendor/lib64/vendor.mediatek.hardware.mmagent@1.0.so
 vendor/lib64/vendor.mediatek.hardware.mmagent@1.1.so
@@ -1694,6 +1712,8 @@ vendor/etc/motorola/tcmd/cid_template.locked
 vendor/etc/motorola/tcmd/cid_template.unlocked
 
 # Boot
+vendor/bin/hw/android.hardware.boot-service.mtk
+vendor/etc/init/android.hardware.boot-service.mtk.rc
 vendor/etc/vintf/manifest/android.hardware.boot-service.mtk.xml
 
 # Init scripts
@@ -1999,9 +2019,6 @@ system_ext/app/mediatek-res/mediatek-res.apk
 system_ext/app/TeeService/TeeService.apk
 system_ext/priv-app/MtkGbaService/MtkGbaService.apk
 system_ext/priv-app/MtkTelephonyAssist/MtkTelephonyAssist.apk
-
-# system_ext - Binaries
-system_ext/bin/hwservicemanager
 
 # system_ext - Libraries
 system_ext/lib64/libmtk_vt_service.so
