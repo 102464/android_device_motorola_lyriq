@@ -1,0 +1,4 @@
+/mnt/vendor/tzapp(/.*)? u:object_r:mnt_vendor_trustlet_file:s0
+/vendor/bin/hw/android\.hardware\.boot-service\.mtk u:object_r:hal_bootctl_default_exec:s0
+/vendor/bin/hw/android\.hardware\.gatekeeper-service\.trustonic u:object_r:hal_gatekeeper_default_exec:s0
+/vendor/bin/hw/android\.hardware\.security\.keymint@3\.0-service\.trustonic_norkp u:object_r:hal_keymint_default_exec:s0
