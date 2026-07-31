@@ -22,10 +22,11 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 
 DEVICE_PATH := device/motorola/lyriq
 
-# Boot control HAL for Virtual A/B
+# Recovery Boot control HAL for Virtual A/B
 PRODUCT_PACKAGES += \
-    com.android.hardware.boot \
-    android.hardware.boot-service.default_recovery
+    android.hardware.boot-service.default_recovery \
+    hwservicemanager \
+    vndservicemanager
 
 # VABC compression method: determined from stock firmware analysis.
 # Stock vendor/build.prop: ro.virtual_ab.compression.enabled=true,
