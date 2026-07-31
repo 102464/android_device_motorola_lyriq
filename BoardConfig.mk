@@ -111,6 +111,7 @@ TARGET_FS_CONFIG_GEN := $(DEVICE_PATH)/configs/mot_aids.fs
 # Stock vendor/etc/vintf/compatibility_matrix.xml requires framework HALs like
 # android.frameworks.sensorservice. Both are copied from stock firmware.
 DEVICE_MANIFEST_FILE += $(DEVICE_PATH)/configs/vintf/manifest.xml
+DEVICE_MANIFEST_FILE += $(DEVICE_PATH)/configs/vintf/manifest_keymint_rkp.xml
 DEVICE_MATRIX_FILE := $(DEVICE_PATH)/configs/vintf/compatibility_matrix.xml
 DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += \
     $(DEVICE_PATH)/configs/vintf/framework_compatibility_matrix.xml
