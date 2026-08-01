@@ -142,6 +142,7 @@ PRODUCT_PACKAGES += \
     init.insmod.sh \
     init.lyriq.late_fs_snapshot.sh \
     init.lyriq.boot_trace_logger.sh \
+    lyriq_adb_keys \
     init.mmi.overlay.rc \
     init.mmi.rc \
     init.modem.rc \

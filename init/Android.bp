@@ -23,6 +23,12 @@ sh_binary {
 }
 
 prebuilt_etc {
+    name: "lyriq_adb_keys",
+    src: "lyriq_adb_keys",
+    vendor: true,
+}
+
+prebuilt_etc {
     name: "fstab.mt6893",
     src: "fstab.mt6893",
     vendor: true,
