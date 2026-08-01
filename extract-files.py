@@ -35,7 +35,18 @@ lib_fixups: lib_fixups_user_type = {
         'libcodec2_hidl@1.0',
         'libcodec2_hidl@1.1',
         'libcodec2_hidl@1.2',
-        'vendor.mediatek.hardware.videotelephony-V1-ndk'
+        'vendor.mediatek.hardware.videotelephony-V1-ndk',
+        # These exist in both vendor and system_ext partitions with identical
+        # basenames; suffix the vendor variants to avoid duplicate module names.
+        'vendor.mediatek.hardware.mtkpower@1.0',
+        'vendor.mediatek.hardware.mtkpower@1.1',
+        'vendor.mediatek.hardware.mtkpower@1.2',
+        'vendor.mediatek.hardware.mtkpower-V2-ndk',
+        'vendor.mediatek.hardware.mtkpower_applist-V2-ndk',
+        'vendor.mediatek.hardware.apuware.apusys-V5-ndk',
+        'vendor.mediatek.hardware.apuware.utils-V1-ndk',
+        'vendor.mediatek.hardware.apuware.xrp-V1-ndk',
+        'vendor.tsa.hdcp-V1-ndk',
     ): lib_fixup_vendor_suffix,
 }
 
@@ -93,7 +104,9 @@ blob_fixups: blob_fixups_user_type = {
         .replace_needed('libtinyxml2.so', 'libtinyxml2-v34.so'),
     (
         'vendor/lib64/egl/libGLES_mali.so',
+        'vendor/lib/egl/libGLES_mali.so',
         'vendor/lib64/libgpud.so',
+        'vendor/lib/libgpud.so',
         'vendor/lib64/libmtkcam_grallocutils.so',
         'vendor/lib64/libcodec2_fsr.so',
         'vendor/lib64/libgralloctypes.so',
@@ -125,6 +138,19 @@ blob_fixups: blob_fixups_user_type = {
         .clear_symbol_version('AHardwareBuffer_getNativeHandle')
         .clear_symbol_version('AHardwareBuffer_lock')
         .clear_symbol_version('AHardwareBuffer_release')
+        .clear_symbol_version('AHardwareBuffer_unlock'),
+    # libneuron_adapter_mgvi.so has the same @LIBNATIVEWINDOW versioned
+    # reference problem as libneuralnetworks_sl_driver_mtk_legacy_prebuilt.so
+    # above (check_elf_file fails on AHardwareBuffer_describe/lock/unlock).
+    # Clearing the version nodes is safe for the same reason: at runtime the
+    # blob resolves against the versioned /system/lib64/libnativewindow.so.
+    # Only the 64-bit variant is extracted: the 32-bit stock blob has a broken
+    # DT_STRTAB (virtual address not in any segment), so its dependencies can
+    # never be inferred and check_elf_file would always fail. Nothing links
+    # against the 32-bit variant via DT_NEEDED (verified with readelf).
+    'vendor/lib64/mt6893/libneuron_adapter_mgvi.so': blob_fixup()
+        .clear_symbol_version('AHardwareBuffer_describe')
+        .clear_symbol_version('AHardwareBuffer_lock')
         .clear_symbol_version('AHardwareBuffer_unlock'),
 
 }  # fmt: skip
