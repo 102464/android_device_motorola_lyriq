@@ -29,6 +29,8 @@ service vendor.lyriq-boot-trace-logger /vendor/bin/init.lyriq.boot_trace_logger.
 # Temporary persistent boot tracing for normal-boot hangs. Remove after diagnosis.
 on early-init
     write /sys/fs/selinux/enforce 0
+    # Temporary: silence the permissive-mode audit flood. Remove after diagnosis.
+    write /sys/module/audit/parameters/enable 0
     mkdir /metadata/lyriq_boot_trace 0700 root root
     restorecon_recursive /metadata/lyriq_boot_trace
     rm /metadata/lyriq_boot_trace/late_fs_snapshot
@@ -257,6 +259,18 @@ on post-fs
 on post-fs-data
     write /proc/bootprof "INIT:post-fs-data"
     start vendor.lyriq-boot-trace-logger
+    # Temporary: force-enable ADB for debugging. Remove after diagnosis.
+    # persist.vendor.usb.config is required because vendor.mmi-usb-sh
+    # (late_start) rewrites the whole USB property chain from it, defaulting
+    # to mtp on ro.boot.secure_hardware=1 devices.
+    # Use adb-only, NOT mtp,adb: ffs.mtp's userspace daemon (MtpServer)
+    # only runs after system_server starts; while boot is hung its
+    # desc_ready stays 0 and ffs_func_bind fails the whole gadget
+    # composition with -ENODEV, taking ffs.adb down with it.
+    setprop persist.vendor.usb.config adb
+    setprop persist.vendor.mot.usb.config adb
+    setprop persist.sys.usb.config adb
+    setprop sys.usb.config adb
     write /metadata/lyriq_boot_trace/stage post-fs-data-before-modules-ready
     wait_for_prop vendor.all.modules.ready 1
     write /metadata/lyriq_boot_trace/stage post-fs-data-after-modules-ready
