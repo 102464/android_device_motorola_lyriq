@@ -63,3 +63,20 @@ on property:sys.boot_completed=1
     write /sys/kernel/tracing/instances/mmstat/buffer_size_kb 16
     write /sys/kernel/tracing/instances/mmstat/events/mmstat/enable 1
     write /sys/kernel/tracing/instances/mmstat/tracing_on 1
+
+# enable touch zero-tap + tap-wake for FOD (stock TouchHwAidlService
+# equivalent); written once at boot, pushed to the touch IC at doze entry
+service vendor.lyriq-fod-gesture /vendor/bin/init.lyriq.fod_gesture.sh
+    class late_start
+    user root
+    group system
+    shutdown critical
+    oneshot
+
+# panel HBM for the goodix optical sensor (same DSI command the GF HAL
+# factory test uses); toggled by the framework via sys.fod.hbm
+on property:sys.fod.hbm=1
+    write /sys/class/drm/card0-DSI-1/disp_param 0xD00FFF
+
+on property:sys.fod.hbm=0
+    write /sys/class/drm/card0-DSI-1/disp_param 0xD01000

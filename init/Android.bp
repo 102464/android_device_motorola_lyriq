@@ -22,6 +22,12 @@ sh_binary {
     vendor: true,
 }
 
+sh_binary {
+    name: "init.lyriq.fod_gesture.sh",
+    src: "init.lyriq.fod_gesture.sh",
+    vendor: true,
+}
+
 prebuilt_etc {
     name: "lyriq_adb_keys",
     src: "lyriq_adb_keys",
