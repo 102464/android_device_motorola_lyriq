@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Display pixel pitch in micrometers (1080x2400, 6.55" ~= 402dpi);
+         required by AOSP UdfpsOverlayInteractor to size the fingerprint icon -->
+    <item name="pixel_pitch" format="float" type="dimen">63.18</item>
+</resources>

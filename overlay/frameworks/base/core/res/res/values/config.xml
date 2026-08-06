@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Panel supports 1080x2400@144 (HWC reports up to 144Hz). AOSP default
+         peak is 60Hz, which caps the display at 60FPS (logcat-win-4:
+         DisplayModeController falls back to fps=60.00 Hz). -->
+    <integer name="config_defaultPeakRefreshRate">144</integer>
+    <integer name="config_defaultRefreshRate">144</integer>
+
+    <!-- Enable the software navigation bar. AOSP default is false. -->
+    <bool name="config_showNavigationBar">true</bool>
+
+    <!-- Enable IMS support at the device level. AOSP defaults are false, which
+         makes ImsManager.isVolteEnabledByPlatform() return false and the
+         framework actively disable IMS (disableIms) on every boot. -->
+    <bool name="config_device_volte_available">true</bool>
+    <bool name="config_device_vt_available">true</bool>
+    <bool name="config_device_wfc_ims_available">true</bool>
+
+    <!-- Default to gesture navigation (mode=2). AOSP default is 0 (3-button).
+         Without this overlay the device boots into 3-button mode and the edge
+         back gesture is inactive (logcat-win-6: NavigationModeController
+         mode=0). EdgeBackGestureHandler only activates in gestural mode. -->
+    <integer name="config_navBarInteractionMode">2</integer>
+
+    <!-- Give the edge-back gesture a wider activation zone. The MTK touch
+         firmware clips the outermost pixels, so the AOSP default inset makes
+         edge swipe unreliable/non-functional on this panel. -->
+    <dimen name="config_backGestureInset">32dp</dimen>
+
+    <!-- Slot 1 is the eUICC (non-removable). AOSP15 determines eSIM slots via
+         this array (UiccSlot.isSlotRemovable); ro.telephony.esim_slot_id is a
+         Moto prop not consumed by AOSP. Without it slot 1 is treated as a
+         physical SIM slot ("关于本机显示两张实体 SIM 卡"). -->
+    <integer-array name="non_removable_euicc_slots">
+        <item>1</item>
+    </integer-array>
+</resources>

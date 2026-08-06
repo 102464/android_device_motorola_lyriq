@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Bind the stock MediaTek IMS implementation (system_ext/priv-app/ImsService,
+     package com.mediatek.ims) unconditionally. Without this, ImsResolver logs
+     "device MMTEL package: , device RCS package:" (empty) and never binds an
+     ImsService, so VoLTE/VoNR is dead and calls on LTE-only carriers
+     (e.g. China Broadnet 46015, which has no CS network) fail with
+     CM_SER_UNAVAILABLE (logcat-win-4). -->
+<resources>
+    <string name="config_ims_mmtel_package" translatable="false">com.mediatek.ims</string>
+    <string name="config_ims_rcs_package" translatable="false">com.mediatek.ims</string>
+</resources>
