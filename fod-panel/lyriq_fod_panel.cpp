@@ -22,6 +22,13 @@
 #define PANEL_MODE_HIGH_BRIGHT_FOD 4
 #define HBM_PROP "sys.fod.hbm"
 
+// Client-only stubs; AIBinder_Class_define rejects null callbacks.
+static void* panelOnCreate(void*) { return nullptr; }
+static void panelOnDestroy(void*) {}
+static binder_status_t panelOnTransact(AIBinder*, transaction_code_t, const AParcel*, AParcel*) {
+    return STATUS_UNKNOWN_TRANSACTION;
+}
+
 static AIBinder* waitPanelService(void) {
     AIBinder* binder = AServiceManager_waitForService(PANEL_SERVICE);
     if (binder == NULL) {
@@ -29,8 +36,8 @@ static AIBinder* waitPanelService(void) {
         return NULL;
     }
     // Remote binders need an interface class before any transaction.
-    static AIBinder_Class* clazz =
-            AIBinder_Class_define(PANEL_IFACE, NULL, NULL, NULL);
+    static AIBinder_Class* clazz = AIBinder_Class_define(PANEL_IFACE, panelOnCreate,
+                                                         panelOnDestroy, panelOnTransact);
     if (clazz == NULL || !AIBinder_associateClass(binder, clazz)) {
         ALOGE("failed to associate panel interface class");
         AIBinder_decStrong(binder);
