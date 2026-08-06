@@ -152,6 +152,7 @@ PRODUCT_PACKAGES += \
     init.recovery.mt6893.rc \
     init.mtkgki.rc \
     init.project.rc \
+    init.lyriq.fod_gesture.sh \
     init.sensor_2_0.rc \
     ueventd.mt6893.rc
 
@@ -162,9 +163,38 @@ PRODUCT_SOONG_NAMESPACES += \
     hardware/mediatek/libmtkperf_client
 
 # USB
+# NOTE: android.hardware.usb.gadget-service.mediatek is intentionally NOT included.
+# Its VINTF fragment declares IUsbGadget/default while its rc keeps the service
+# disabled until sys.usb.configfs=2 (never set without importing the full stock
+# init.mt6893.usb.rc). The declared-but-never-started HAL makes AOSP UsbService
+# block forever in ServiceManager.waitForService() inside its constructor, which
+# deadlocks onBootPhase(1000) on the android.display thread -> watchdog kills
+# system_server -> bootanim/black-screen loop (ticket00007, logcat-win-3).
+# Without the declaration, UsbDeviceManager uses the legacy init configfs path
+# which already provides working ADB/MTP.
 PRODUCT_PACKAGES += \
-    android.hardware.usb-service.mediatek \
-    android.hardware.usb.gadget-service.mediatek
+    android.hardware.usb-service.mediatek
+
+# Device-specific resource overlays (IMS package binding, 120Hz peak refresh,
+# edge-back gesture inset, eUICC slot declaration)
+DEVICE_PACKAGE_OVERLAYS += $(DEVICE_PATH)/overlay
+
+# Static RRO over AOSP CarrierConfig: converted stock carrier database
+# (vendor.xml) + NR (5G) + VoLTE defaults
+PRODUCT_PACKAGES += \
+    LyriqCarrierConfigOverlay
+
+# Telephony injection shim: plain AOSP components + MotoOemRIL companion
+# (mtkfusionrild add-on channel, required for eSIM slot reporting)
+PRODUCT_PACKAGES += \
+    lyriq-telephony-shim \
+    LyriqTelephonyInjectionOverlay
+
+# eSIM (eUICC on slot 1, stock product props)
+PRODUCT_PRODUCT_PROPERTIES += \
+    ro.telephony.esim_slot_id=1 \
+    esim.enable_esim_system_ui_by_default=true \
+    ro.telephony.default_network=26,26
 
 # Inherit the proprietary files
 $(call inherit-product, vendor/motorola/lyriq/lyriq-vendor.mk)
