@@ -16,6 +16,7 @@
 #define TAG "lyriq-fod-panel"
 
 #define PANEL_SERVICE "com.motorola.hardware.display.panel.IDisplayPanel/default"
+#define PANEL_IFACE "com.motorola.hardware.display.panel.IDisplayPanel"
 #define TXN_SET_MODE 5
 #define PANEL_MODE_NORMAL 0
 #define PANEL_MODE_HIGH_BRIGHT_FOD 4
@@ -25,6 +26,15 @@ static AIBinder* waitPanelService(void) {
     AIBinder* binder = AServiceManager_waitForService(PANEL_SERVICE);
     if (binder == NULL) {
         ALOGE("panel service not found");
+        return NULL;
+    }
+    // Remote binders need an interface class before any transaction.
+    static AIBinder_Class* clazz =
+            AIBinder_Class_define(PANEL_IFACE, NULL, NULL, NULL);
+    if (clazz == NULL || !AIBinder_associateClass(binder, clazz)) {
+        ALOGE("failed to associate panel interface class");
+        AIBinder_decStrong(binder);
+        return NULL;
     }
     return binder;
 }
