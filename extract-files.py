@@ -53,6 +53,22 @@ lib_fixups: lib_fixups_user_type = {
 blob_fixups: blob_fixups_user_type = {
     'system_ext/bin/hw/motorola.hardware.tcmdaidl-service': blob_fixup()
         .remove_needed('libandroidicu.so'),
+    'vendor/bin/hw/wpa_supplicant': blob_fixup()
+        .replace_needed(
+            'android.hardware.wifi.supplicant-V3-ndk.so',
+            'android.hardware.wifi.supplicant-V4-ndk.so',
+        ),
+    'vendor/bin/hw/hostapd': blob_fixup()
+        .replace_needed(
+            'android.hardware.wifi.hostapd-V2-ndk.so',
+            'android.hardware.wifi.hostapd-V3-ndk.so',
+        )
+        .remove_needed('android.hardware.wifi.common-V1-ndk.so'),
+    'vendor/bin/hw/android.hardware.wifi-service-lazy': blob_fixup()
+        .replace_needed(
+            'android.hardware.wifi-V2-ndk.so',
+            'android.hardware.wifi-V3-ndk.so',
+        ),
     'vendor/lib64/libmtkcam_hal_aidl_common.so': blob_fixup()
         .replace_needed('android.hardware.camera.common-V2-ndk.so', 'android.hardware.camera.common-V1-ndk.so'),
     # The stock firmware ships a proprietary android.hardware.power-service-
