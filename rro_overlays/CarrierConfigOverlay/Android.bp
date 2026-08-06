@@ -1,0 +1,10 @@
+// Static RRO over the AOSP CarrierConfig app (com.android.carrierconfig,
+// system_ext), replacing res/xml/vendor.xml with the converted stock Moto
+// carrier database plus lyriq defaults. system_ext_specific matches the
+// target partition.
+runtime_resource_overlay {
+    name: "LyriqCarrierConfigOverlay",
+    manifest: "AndroidManifest.xml",
+    sdk_version: "current",
+    system_ext_specific: true,
+}
