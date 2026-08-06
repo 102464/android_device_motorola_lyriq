@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-FileCopyrightText: The LineageOS Project
+     SPDX-License-Identifier: Apache-2.0
+-->
+<injection package="com.lineageos.lyriq.telephony.LyriqTelephonyComponentFactory"
+           jar="/system_ext/framework/lyriq-telephony-shim.jar:/system_ext/framework/mtk-moto-telephony-ext.jar:/system/framework/moto-telephony.jar">
+    <components>
+        <component>com.android.internal.telephony.RIL</component>
+    </components>
+</injection>

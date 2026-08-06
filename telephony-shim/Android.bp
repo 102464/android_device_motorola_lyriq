@@ -1,0 +1,12 @@
+// SPDX-FileCopyrightText: The LineageOS Project
+// SPDX-License-Identifier: Apache-2.0
+
+java_library {
+    name: "lyriq-telephony-shim",
+    srcs: ["src/**/*.java"],
+    libs: [
+        "telephony-common",
+    ],
+    system_ext_specific: true,
+    installable: true,
+}
