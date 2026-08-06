@@ -73,10 +73,10 @@ service vendor.lyriq-fod-gesture /vendor/bin/init.lyriq.fod_gesture.sh
     shutdown critical
     oneshot
 
-# panel HBM for the goodix optical sensor (same DSI command the GF HAL
-# factory test uses); toggled by the framework via sys.fod.hbm
-on property:sys.fod.hbm=1
-    write /sys/class/drm/card0-DSI-1/disp_param 0xD00FFF
-
-on property:sys.fod.hbm=0
-    write /sys/class/drm/card0-DSI-1/disp_param 0xD01000
+# panel HBM for the goodix optical sensor via the stock Moto display panel
+# HAL (setMode HIGH_BRIGHT_FOD/NORMAL); toggled by the framework via sys.fod.hbm
+service vendor.lyriq-fod-panel /vendor/bin/lyriq.fod.panel
+    class late_start
+    user system
+    group system
+    shutdown critical

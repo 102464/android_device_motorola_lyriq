@@ -1411,9 +1411,14 @@ vendor/bin/hw/android.hardware.nfc-service.nxp
 vendor/bin/nxpnfcinfo
 vendor/lib64/ese_teq1_nxp_snxxx.so
 vendor/lib64/libpn560_fw.so
+vendor/lib/libsn220u_fw.so
+vendor/lib64/libsn220u_fw.so
 vendor/lib64/nfc_nci_nxp_snxxx.so
 vendor/etc/libnfc-nci.conf
 vendor/etc/libnfc-nxp.conf
+vendor/etc/libnfc-nxp-PN560.conf
+vendor/etc/libnfc-nxp-SN220E.conf
+vendor/etc/libnfc-nxp-SN220P.conf
 vendor/odm/etc/permissions/sku_b/unavail.android.hardware.nfc.hce.xml
 vendor/odm/etc/permissions/sku_b/unavail.android.hardware.nfc.hcef.xml
 vendor/odm/etc/permissions/sku_b/unavail.android.hardware.nfc.uicc.xml
@@ -1812,6 +1817,8 @@ system_ext/lib64/motorola.hardware.tcmd@1.0.so
 vendor/lib/com.motorola.hardware.display.panel-V1-ndk.so
 vendor/lib64/com.motorola.hardware.display.panel-V1-ndk.so
 vendor/lib64/com.motorola.hardware.display.panel-V2-ndk.so
+vendor/lib64/com.motorola.hardware.display.panel@1.0.so
+vendor/lib64/hw/displaypanel.default.so
 vendor/lib64/motorola.hardware.fdr-V1-ndk.so
 vendor/lib64/motorola.hardware.health.aidl-V1-ndk.so
 vendor/lib64/motorola.hardware.health.storage.aidl-V1-ndk.so
