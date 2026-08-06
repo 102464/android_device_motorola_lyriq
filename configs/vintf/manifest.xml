@@ -221,6 +221,26 @@
         <name>vendor.tsa.hdcp</name>
         <fqname>IHDCPInterface/default</fqname>
     </hal>
+    <!-- WiFi HAL declarations. AOSP fragment installation for these is
+         non-deterministic in this tree (present in 19:09 build, absent in
+         02:2x build -> WiFi dead at runtime, logcat-win-5), so declare them
+         here as the single source of truth. If AOSP fragments ever get
+         installed again, checkvintf will fail loudly on duplicates. -->
+    <hal format="aidl">
+        <name>android.hardware.wifi</name>
+        <version>2</version>
+        <fqname>IWifi/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.wifi.supplicant</name>
+        <version>3</version>
+        <fqname>ISupplicant/default</fqname>
+    </hal>
+    <hal format="aidl">
+        <name>android.hardware.wifi.hostapd</name>
+        <version>2</version>
+        <fqname>IHostapd/default</fqname>
+    </hal>
     <sepolicy>
         <version>202404</version>
     </sepolicy>
