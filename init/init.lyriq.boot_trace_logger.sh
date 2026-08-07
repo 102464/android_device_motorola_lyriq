@@ -26,11 +26,7 @@ dmesg_file=${trace_dir}/dmesg.txt
 hang_snapshot=${trace_dir}/hang_snapshot
 hang_timeout=300
 interval=10
-# 6 MiB: large enough to keep the early-boot window (module loads,
-# probe deferrals, first gadget bind attempt) that the avc flood used
-# to push out within minutes. /metadata is 24 MiB total; logcat is
-# separately bounded to ~4 MiB by rotation.
-max_log_bytes=6291456
+max_log_bytes=2097152
 
 umask 077
 mkdir -p "${trace_dir}" 2>/dev/null
@@ -53,21 +49,13 @@ trim_log() {
 
 write_stage logger-start
 
-# --- ADB recovery helper ------------------------------------------
+# --- ADB recovery helper (optional) ---------------------------------------
 # /data here is the fresh per-DSU-install userdata (device-encrypted storage,
 # already mounted at post-fs-data). Authorizing a key file works even when
 # the boot hangs before any authorization dialog could be confirmed.
-# Priority: tester-provided key in /metadata, then the key embedded in the
-# vendor image (configs/lyriq_adb_keys).
-adb_keys_src=""
 if [ -s "${trace_dir}/adb_keys" ]; then
-    adb_keys_src="${trace_dir}/adb_keys"
-elif [ -s /vendor/etc/lyriq_adb_keys ]; then
-    adb_keys_src=/vendor/etc/lyriq_adb_keys
-fi
-if [ -n "${adb_keys_src}" ]; then
     mkdir -p /data/misc/adb 2>/dev/null
-    cat "${adb_keys_src}" > /data/misc/adb/adb_keys 2>/dev/null
+    cat "${trace_dir}/adb_keys" > /data/misc/adb/adb_keys 2>/dev/null
     chmod 0640 /data/misc/adb/adb_keys 2>/dev/null
     chown shell shell /data/misc/adb/adb_keys 2>/dev/null
     restorecon /data/misc/adb /data/misc/adb/adb_keys 2>/dev/null
@@ -81,24 +69,18 @@ fi
 # logd is not up yet at post-fs-data; retry forever in the background.
 # Rotation bounds the total logcat size to ~4 MiB so /metadata (which also
 # stores the FBE/metadata-encryption keys) can never be filled up.
-# The kernel buffer is excluded on purpose: the permissive-mode avc flood
-# rotates a 4 MiB buffer in seconds. Kernel messages are still captured by
-# the dmesg logger below. The auditd userspace duplicates are silenced too.
 (
     while true; do
-        logcat -b main -b system -b crash -b events -b radio -v threadtime -r 1024 -n 4 auditd:S -f "${logcat_file}"
+        logcat -b all -v threadtime -r 1024 -n 4 -f "${logcat_file}"
         echo "=== logcat logger restart ===" >> "${logcat_file}"
         sleep 2
     done
 ) &
 
-# dmesg is filtered through grep -v to drop the audit (type=1400) flood.
-# Without the filter the avc spam pushes early-boot messages out of the
-# trimmed window within minutes.
 (
     echo "=== dmesg logger start ===" >> "${dmesg_file}"
     while true; do
-        dmesg -w 2>/dev/null | grep -v "type=1400" >> "${dmesg_file}"
+        dmesg -w >> "${dmesg_file}" 2>/dev/null
         echo "=== dmesg logger restart ===" >> "${dmesg_file}"
         sleep 2
     done
@@ -136,13 +118,6 @@ write_stage hang-detected
     echo
     echo "=== mounts ==="
     cat /proc/mounts
-    echo
-    echo "=== asound ==="
-    cat /proc/asound/cards
-    cat /proc/asound/pcm
-    echo
-    echo "=== devices_deferred ==="
-    cat /sys/kernel/debug/devices_deferred
     echo
     echo "=== modules ==="
     cat /proc/modules
