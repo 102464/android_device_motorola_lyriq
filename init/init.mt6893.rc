@@ -1,7 +1,7 @@
 # MTK platform .rc configure
 
 import /vendor/etc/init/hw/init.connectivity.rc
-#import /vendor/etc/init/hw/init.mt6893.usb.rc
+import /vendor/etc/init/hw/init.mt6893.usb.rc
 import /vendor/etc/init/hw/init.project.rc
 import /vendor/etc/init/hw/init.sensor_2_0.rc
 import /vendor/etc/init/hw/init.cgroup.rc
@@ -11,6 +11,12 @@ import /vendor/etc/init/hw/init.mmi.rc
 # init.modem.rc must be the LAST rc file because vold.post_fs_data_done is set in it
 import /vendor/etc/init/hw/init.modem.rc
 # *** DO NOT import the new rc file after this line ***
+
+# SELinux stays permissive (BoardConfig cmdline androidboot.selinux=permissive)
+# for the stock vendor blobs; silence the resulting audit flood.
+on early-init
+    write /sys/fs/selinux/enforce 0
+    write /sys/module/audit/parameters/enable 0
 
 on early-init
     write /proc/bootprof "INIT:early-init"

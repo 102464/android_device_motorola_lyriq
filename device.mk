@@ -162,17 +162,11 @@ PRODUCT_SOONG_NAMESPACES += \
     hardware/mediatek/libmtkperf_client
 
 # USB
-# NOTE: android.hardware.usb.gadget-service.mediatek is intentionally NOT included.
-# Its VINTF fragment declares IUsbGadget/default while its rc keeps the service
-# disabled until sys.usb.configfs=2 (never set without importing the full stock
-# init.mt6893.usb.rc). The declared-but-never-started HAL makes AOSP UsbService
-# block forever in ServiceManager.waitForService() inside its constructor, which
-# deadlocks onBootPhase(1000) on the android.display thread -> watchdog kills
-# system_server -> bootanim/black-screen loop (ticket00007, logcat-win-3).
-# Without the declaration, UsbDeviceManager uses the legacy init configfs path
-# which already provides working ADB/MTP.
+# The gadget HAL stays disabled until sys.usb.configfs=2, which the stock
+# init.mt6893.usb.rc sets on boot; both are required together.
 PRODUCT_PACKAGES += \
-    android.hardware.usb-service.mediatek
+    android.hardware.usb-service.mediatek \
+    android.hardware.usb.gadget-service.mediatek
 
 # Device-specific resource overlays (IMS package binding, 120Hz peak refresh,
 # edge-back gesture inset, eUICC slot declaration)
