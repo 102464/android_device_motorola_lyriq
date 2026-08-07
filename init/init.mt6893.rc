@@ -12,32 +12,6 @@ import /vendor/etc/init/hw/init.mmi.rc
 import /vendor/etc/init/hw/init.modem.rc
 # *** DO NOT import the new rc file after this line ***
 
-service vendor.lyriq-late-fs-snapshot /vendor/bin/init.lyriq.late_fs_snapshot.sh
-    class core
-    user root
-    group root
-    disabled
-    oneshot
-
-service vendor.lyriq-boot-trace-logger /vendor/bin/init.lyriq.boot_trace_logger.sh
-    class core
-    user root
-    group root system shell log readproc
-    disabled
-    oneshot
-
-# Temporary persistent boot tracing for normal-boot hangs. Remove after diagnosis.
-on early-init
-    write /sys/fs/selinux/enforce 0
-    mkdir /metadata/lyriq_boot_trace 0700 root root
-    restorecon_recursive /metadata/lyriq_boot_trace
-    rm /metadata/lyriq_boot_trace/late_fs_snapshot
-    rm /metadata/lyriq_boot_trace/hang_snapshot
-    rm /metadata/lyriq_boot_trace/boot_completed_snapshot
-    rm /metadata/lyriq_boot_trace/logcat.txt
-    rm /metadata/lyriq_boot_trace/dmesg.txt
-    write /metadata/lyriq_boot_trace/stage early-init
-
 on early-init
     write /proc/bootprof "INIT:early-init"
     # boot perf. tune
@@ -60,7 +34,6 @@ on early-init && property:ro.build.type=userdebug
 
 on init
     write /proc/bootprof "INIT:init"
-    write /metadata/lyriq_boot_trace/stage init
 
     # Support legacy paths
     symlink /sdcard /mnt/sdcard
@@ -87,7 +60,6 @@ on init
 
 on late-init
     write /proc/bootprof "INIT:late-init"
-    write /metadata/lyriq_boot_trace/stage late-init
 # enable rcu_expedited
     write /sys/kernel/rcu_expedited 1
 
@@ -137,19 +109,15 @@ on charger
 
 on early-fs
     write /proc/bootprof "INIT:early-fs"
-    write /metadata/lyriq_boot_trace/stage early-fs
 on fs
     write /proc/bootprof "INIT:fs"
-    write /metadata/lyriq_boot_trace/stage fs-before-mount-all-early
     start vendor.boot-hal-1-2
 
     # mount fstab
     write /proc/bootprof "INIT:Mount_START"
     write /sys/kernel/tracing/trace_marker "B|1|Mount"
     mount_all --early
-    write /metadata/lyriq_boot_trace/stage fs-after-mount-all-early
     exec /system/bin/tune2fs -O has_journal -u 10010 -r 4096 /dev/block/by-name/userdata
-    write /metadata/lyriq_boot_trace/stage fs-after-tune2fs
     write /sys/kernel/tracing/trace_marker "E"
     write /proc/bootprof "INIT:Mount_END"
 
@@ -157,13 +125,10 @@ on fs
     write /proc/sys/vm/page-cluster 0
     write /proc/sys/vm/swappiness 100
     write /sys/kernel/mm/swap/vma_ra_enabled false
-    write /metadata/lyriq_boot_trace/stage fs-after-zram-tuning
 
 on fs
 
-    write /metadata/lyriq_boot_trace/stage fs-second-before-iso-mount
    mount iso9660 loop@/vendor/etc/iAmCdRom.iso /mnt/cd-rom ro
-    write /metadata/lyriq_boot_trace/stage fs-second-after-iso-mount
     # Support A/B feature for emmc boot region
     symlink /dev/block/sda /dev/block/mmcblk0boot0
     symlink /dev/block/sdb /dev/block/mmcblk0boot1
@@ -175,27 +140,20 @@ on fs
     symlink /dev/block/by-name/preloader_b /dev/block/by-name/preloader_emmc_b
     symlink /dev/block/by-name/preloader_a /dev/block/by-name/preloader_ufs_a
     symlink /dev/block/by-name/preloader_b /dev/block/by-name/preloader_ufs_b
-    write /metadata/lyriq_boot_trace/stage fs-second-after-preloader-links
-    write /metadata/lyriq_boot_trace/stage fs-second-before-bootdevice-wait
     wait /dev/block/platform/soc/${ro.boot.bootdevice}
-    write /metadata/lyriq_boot_trace/stage fs-second-after-bootdevice-wait
     symlink /dev/block/platform/soc/${ro.boot.bootdevice} /dev/block/platform/bootdevice
 
 on late-fs
     write /proc/bootprof "INIT:late-fs"
-    write /metadata/lyriq_boot_trace/stage late-fs-before-mount-all-late
-    start vendor.lyriq-late-fs-snapshot
 
     write /proc/bootprof "INIT:Mount_START --late"
     write /sys/kernel/tracing/trace_marker "B|1|Mount late"
     mount_all --late
-    write /metadata/lyriq_boot_trace/stage late-fs-after-mount-all-late
     write /sys/kernel/tracing/trace_marker "E"
     write /proc/bootprof "INIT:Mount_END --late"
 
 on post-fs
     write /proc/bootprof "INIT:post-fs"
-    write /metadata/lyriq_boot_trace/stage post-fs
 
     # Support legacy paths
     symlink /sdcard /storage/sdcard0
@@ -256,10 +214,7 @@ on post-fs
 
 on post-fs-data
     write /proc/bootprof "INIT:post-fs-data"
-    start vendor.lyriq-boot-trace-logger
-    write /metadata/lyriq_boot_trace/stage post-fs-data-before-modules-ready
     wait_for_prop vendor.all.modules.ready 1
-    write /metadata/lyriq_boot_trace/stage post-fs-data-after-modules-ready
     write /proc/bootprof "modprobe: Load_Module_DONE"
 
     # zram disable swapon in vendor
@@ -794,7 +749,6 @@ on post-fs-data
 # -----------------------
 on zygote-start
     write /proc/bootprof "INIT:zygote-start"
-    write /metadata/lyriq_boot_trace/stage zygote-start
 
 on early-boot
     write /proc/bootprof "INIT:early-boot"
@@ -802,7 +756,6 @@ on early-boot
 
 on boot
     write /proc/bootprof "INIT:boot"
-    write /metadata/lyriq_boot_trace/stage boot
 
     write /proc/sys/vm/dirty_writeback_centisecs 300
     chmod 0660 /sys/power/autosleep

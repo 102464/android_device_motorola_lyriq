@@ -11,18 +11,6 @@ sh_binary {
 }
 
 sh_binary {
-    name: "init.lyriq.late_fs_snapshot.sh",
-    src: "init.lyriq.late_fs_snapshot.sh",
-    vendor: true,
-}
-
-sh_binary {
-    name: "init.lyriq.boot_trace_logger.sh",
-    src: "init.lyriq.boot_trace_logger.sh",
-    vendor: true,
-}
-
-sh_binary {
     name: "init.lyriq.fod_gesture.sh",
     src: "init.lyriq.fod_gesture.sh",
     vendor: true,

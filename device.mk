@@ -140,8 +140,6 @@ PRODUCT_PACKAGES += \
     init.connectivity.common.rc \
     init_conninfra.rc \
     init.insmod.sh \
-    init.lyriq.late_fs_snapshot.sh \
-    init.lyriq.boot_trace_logger.sh \
     lyriq_adb_keys \
     init.mmi.overlay.rc \
     init.mmi.rc \
