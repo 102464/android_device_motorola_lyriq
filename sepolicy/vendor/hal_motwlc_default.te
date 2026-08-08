@@ -1,0 +1,9 @@
+type hal_motwlc_default, domain;
+init_daemon_domain(hal_motwlc_default)
+
+allow hal_motwlc_default dumpstate:binder { transfer };
+allow hal_motwlc_default dumpstate:fd { use };
+allow hal_motwlc_default dumpstate:fifo_file { write };
+allow hal_motwlc_default hal_motwlc_default_exec:file { entrypoint execute getattr map open read };
+allow hal_motwlc_default sysfs:file { read };
+allow init hal_motwlc_default:process transition;

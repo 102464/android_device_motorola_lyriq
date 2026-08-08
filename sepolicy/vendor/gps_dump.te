@@ -1,0 +1,17 @@
+type gps_dump, domain;
+init_daemon_domain(gps_dump)
+
+allow gps_dump conninfra_device:chr_file { append getattr ioctl lock map open read watch watch_reads write };
+allow gps_dump connsyslog_data_vendor_file:dir { add_name create getattr ioctl lock open read remove_name rename reparent rmdir search setattr watch watch_reads write };
+allow gps_dump connsyslog_data_vendor_file:file { append create getattr ioctl lock map open read rename setattr unlink watch watch_reads write };
+allow gps_dump gps_dump_exec:file { entrypoint execute getattr map open read };
+allow gps_dump mnt_user_file:dir { search };
+allow gps_dump mnt_user_file:lnk_file { getattr ioctl lock map open read watch watch_reads };
+allow gps_dump self:netlink_generic_socket { append bind connect create getattr getopt lock map read setattr setopt shutdown write };
+allow gps_dump self:netlink_socket { append bind connect create getattr getopt lock map read setattr setopt shutdown write };
+allow gps_dump storage_file:lnk_file { getattr ioctl lock map open read watch watch_reads };
+allow gps_dump stp_dump_data_file:dir { add_name create getattr ioctl lock open read remove_name rename reparent rmdir search setattr watch watch_reads write };
+allow gps_dump stp_dump_data_file:file { append create getattr ioctl lock map open read rename setattr unlink watch watch_reads write };
+allow gps_dump tmpfs:lnk_file { getattr ioctl lock map open read watch watch_reads };
+allow gps_dump vendor_mtk_coredump_prop:file { getattr map open read };
+allow init gps_dump:process transition;

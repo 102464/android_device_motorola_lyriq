@@ -1,0 +1,18 @@
+type mot_rkp_csr_extractor, domain;
+init_daemon_domain(mot_rkp_csr_extractor)
+hal_client_domain(mot_rkp_csr_extractor, hal_keymint)
+
+allow init mot_rkp_csr_extractor:process transition;
+allow mot_rkp_csr_extractor hal_drm_clearkey_aidl:binder { call transfer };
+allow mot_rkp_csr_extractor hal_drm_clearkey_aidl:fd { use };
+allow mot_rkp_csr_extractor hal_keymint_service:service_manager { find };
+allow mot_rkp_csr_extractor hal_remotelyprovisionedcomponent_service:service_manager { find };
+allow mot_rkp_csr_extractor mot_rkp_csr_extractor_exec:file { entrypoint execute getattr map open read };
+allow mot_rkp_csr_extractor servicemanager:binder { call transfer };
+allow mot_rkp_csr_extractor servicemanager:fd { use };
+allow mot_rkp_csr_extractor vendor_factory_tmp_file:dir { add_name getattr ioctl lock open read remove_name search watch watch_reads write };
+allow mot_rkp_csr_extractor vendor_factory_tmp_file:file { append create getattr ioctl lock map open read rename setattr unlink watch watch_reads write };
+allow mot_rkp_csr_extractor vendor_file:file { execute execute_no_trans getattr ioctl lock map open read watch watch_reads };
+allow mot_rkp_csr_extractor vendor_mot_tcmd_prop:file { getattr map open read };
+allow mot_rkp_csr_extractor vendor_shell_exec:file { execute execute_no_trans getattr ioctl lock map open read watch watch_reads };
+allow mot_rkp_csr_extractor vendor_toolbox_exec:file { execute execute_no_trans getattr ioctl lock map open read watch watch_reads };

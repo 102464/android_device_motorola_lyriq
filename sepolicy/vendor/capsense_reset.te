@@ -1,0 +1,20 @@
+type capsense_reset, domain;
+init_daemon_domain(capsense_reset)
+
+allow capsense_reset capsense_reset_exec:file { entrypoint execute getattr map open read };
+allow capsense_reset fwk_sensor_service:service_manager { find };
+allow capsense_reset input_device:chr_file { getattr ioctl lock map open read watch watch_reads };
+allow capsense_reset input_device:dir { getattr ioctl lock open read search watch watch_reads };
+allow capsense_reset self:netlink_kobject_uevent_socket { append bind connect create getattr getopt lock map read setattr setopt shutdown write };
+allow capsense_reset servicemanager:binder { call transfer };
+allow capsense_reset servicemanager:fd { use };
+allow capsense_reset sysfs_batteryinfo:dir { search };
+allow capsense_reset sysfs_capsense:dir { getattr ioctl lock open read search watch watch_reads };
+allow capsense_reset sysfs_capsense:file { append getattr ioctl lock map open read watch watch_reads write };
+allow capsense_reset sysfs_capsense:lnk_file { read };
+allow capsense_reset system_server:binder { call transfer };
+allow capsense_reset system_server:fd { use };
+allow capsense_reset vendor_sysfs_battery_supply:dir { getattr ioctl lock open read search watch watch_reads };
+allow capsense_reset vendor_sysfs_battery_supply:file { append getattr ioctl lock map open read watch watch_reads write };
+allow capsense_reset vendor_sysfs_battery_supply:lnk_file { read };
+allow init capsense_reset:process transition;

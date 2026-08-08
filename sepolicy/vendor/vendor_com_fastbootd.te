@@ -1,0 +1,13 @@
+type vendor_com_fastbootd, domain;
+init_daemon_domain(vendor_com_fastbootd)
+
+allow init vendor_com_fastbootd:process transition;
+allow vendor_com_fastbootd functionfs:dir { getattr ioctl lock open read search watch watch_reads };
+allow vendor_com_fastbootd functionfs:file { append getattr ioctl lock map open read watch watch_reads write };
+allow vendor_com_fastbootd init:unix_stream_socket { connectto };
+allow vendor_com_fastbootd powerctl_prop:file { getattr map open read };
+allow vendor_com_fastbootd powerctl_prop:property_service { set };
+allow vendor_com_fastbootd property_socket:sock_file { write };
+allow vendor_com_fastbootd vendor_com_fastbootd_exec:file { entrypoint execute getattr map open read };
+allow vendor_com_fastbootd vendor_mtk_usb_prop:file { getattr map open read };
+allow vendor_com_fastbootd vendor_mtk_usb_prop:property_service { set };

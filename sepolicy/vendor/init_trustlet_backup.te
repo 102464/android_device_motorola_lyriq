@@ -1,0 +1,17 @@
+type init_trustlet_backup, domain;
+init_daemon_domain(init_trustlet_backup)
+
+allow init init_trustlet_backup:process transition;
+allow init_trustlet_backup init:unix_stream_socket { connectto };
+allow init_trustlet_backup init_trustlet_backup_exec:file { entrypoint execute getattr map open read };
+allow init_trustlet_backup kmsg_device:chr_file { append getattr ioctl lock map open read watch watch_reads write };
+allow init_trustlet_backup mnt_vendor_file:dir { add_name create getattr ioctl lock open read remove_name rename reparent rmdir search setattr watch watch_reads write };
+allow init_trustlet_backup mnt_vendor_file:file { append create getattr ioctl lock map open read rename setattr unlink watch watch_reads write };
+allow init_trustlet_backup mnt_vendor_trustlet_file:dir { add_name create getattr ioctl lock open read remove_name rename reparent rmdir search setattr watch watch_reads write };
+allow init_trustlet_backup mnt_vendor_trustlet_file:file { append create getattr ioctl lock map open read rename setattr unlink watch watch_reads write };
+allow init_trustlet_backup property_socket:sock_file { write };
+allow init_trustlet_backup vendor_file:file { execute_no_trans };
+allow init_trustlet_backup vendor_mot_tl_bak_prop:file { getattr map open read };
+allow init_trustlet_backup vendor_mot_tl_bak_prop:property_service { set };
+allow init_trustlet_backup vendor_shell_exec:file { getattr ioctl lock map open read watch watch_reads };
+allow init_trustlet_backup vendor_toolbox_exec:file { execute_no_trans };

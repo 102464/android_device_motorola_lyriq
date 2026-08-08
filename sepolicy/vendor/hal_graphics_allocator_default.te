@@ -1,0 +1,15 @@
+
+allow hal_graphics_allocator_default debugfs_ion:dir { search };
+allow hal_graphics_allocator_default debugfs_tracing:file { append lock map open write };
+allow hal_graphics_allocator_default dmabuf_mtk_slc_heap_device:chr_file { getattr ioctl lock open read watch watch_reads };
+allow hal_graphics_allocator_default dmabuf_system_heap_device:chr_file { getattr ioctl lock map open read watch watch_reads };
+allow hal_graphics_allocator_default dmabuf_system_secure_heap_device:chr_file { getattr ioctl lock map open read watch watch_reads };
+allow hal_graphics_allocator_default dumpstate:fd { use };
+allow hal_graphics_allocator_default dumpstate:fifo_file { write };
+allow hal_graphics_allocator_default gpu_device:dir { search };
+allow hal_graphics_allocator_default hal_graphics_allocator_default_exec:file { entrypoint execute getattr map open read };
+allow hal_graphics_allocator_default hal_graphics_allocator_default_tmpfs:file { getattr map read write };
+allow hal_graphics_allocator_default mobicore_user_device:chr_file { append getattr ioctl lock map open read watch watch_reads write };
+allow hal_graphics_allocator_default proc_ged:file { getattr ioctl lock map open read watch watch_reads };
+allow hal_graphics_allocator_default sw_sync_device:chr_file { append getattr ioctl lock map open read watch watch_reads write };
+allow init hal_graphics_allocator_default:process transition;

@@ -1,0 +1,6 @@
+type hal_mothaptic_default, domain;
+init_daemon_domain(hal_mothaptic_default)
+
+allow hal_mothaptic_default dumpstate:binder { transfer };
+allow hal_mothaptic_default hal_mothaptic_default_exec:file { entrypoint execute getattr map open read };
+allow init hal_mothaptic_default:process transition;

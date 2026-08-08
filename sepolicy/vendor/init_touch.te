@@ -1,0 +1,26 @@
+type init_touch, domain;
+init_daemon_domain(init_touch)
+
+allow init init_touch:process transition;
+allow init_touch init:unix_stream_socket { connectto };
+allow init_touch init_touch_exec:file { entrypoint execute getattr map open read };
+allow init_touch kmsg_device:chr_file { append getattr ioctl lock map open read watch watch_reads write };
+allow init_touch powerctl_prop:file { getattr map open read };
+allow init_touch powerctl_prop:property_service { set };
+allow init_touch property_socket:sock_file { write };
+allow init_touch self:capability { chown fowner sys_module };
+allow init_touch sysfs:dir { getattr ioctl lock open read search watch watch_reads };
+allow init_touch sysfs:file { getattr ioctl lock map open read watch watch_reads };
+allow init_touch sysfs:file { setattr write };
+allow init_touch sysfs:lnk_file { getattr ioctl lock map open read watch watch_reads };
+allow init_touch sysfs_touchclass:dir { getattr ioctl lock open read search watch watch_reads };
+allow init_touch sysfs_touchclass:file { append getattr ioctl lock map open read setattr watch watch_reads write };
+allow init_touch vendor_file:dir { getattr ioctl lock open read search watch watch_reads };
+allow init_touch vendor_file:file { execute_no_trans };
+allow init_touch vendor_file:system { module_load };
+allow init_touch vendor_mot_hw_prop:file { getattr map open read };
+allow init_touch vendor_mot_hw_prop:property_service { set };
+allow init_touch vendor_mot_touchscreen_prop:file { getattr map open read };
+allow init_touch vendor_mot_touchscreen_prop:property_service { set };
+allow init_touch vendor_shell_exec:file { getattr ioctl lock map open read watch watch_reads };
+allow init_touch vendor_toolbox_exec:file { execute execute_no_trans getattr ioctl lock map open read watch watch_reads };

@@ -1,0 +1,7 @@
+type mtkpower_applist, domain;
+init_daemon_domain(mtkpower_applist)
+
+allow init mtkpower_applist:process transition;
+allow mtkpower_applist mtkpower_applist_exec:file { entrypoint execute getattr map open read };
+allow mtkpower_applist proc_perfmgr:dir { getattr ioctl lock open read search watch watch_reads };
+allow mtkpower_applist proc_perfmgr:file { append getattr ioctl lock map open read watch watch_reads write };

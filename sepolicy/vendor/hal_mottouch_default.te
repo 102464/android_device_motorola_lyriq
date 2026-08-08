@@ -1,0 +1,9 @@
+type hal_mottouch_default, domain;
+init_daemon_domain(hal_mottouch_default)
+
+allow hal_mottouch_default dumpstate:binder { transfer };
+allow hal_mottouch_default dumpstate:fd { use };
+allow hal_mottouch_default dumpstate:fifo_file { write };
+allow hal_mottouch_default hal_mottouch_default_exec:file { entrypoint execute getattr map open read };
+allow hal_mottouch_default sysfs_mmi_stow_class:file { getattr ioctl lock map open read watch watch_reads };
+allow init hal_mottouch_default:process transition;

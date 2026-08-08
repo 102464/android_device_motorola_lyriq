@@ -1,0 +1,15 @@
+type mmi_modem-rfs, domain;
+type mmi_modem-rfs_exec, exec_type, file_type, vendor_file_type;
+init_daemon_domain(mmi_modem-rfs)
+
+allow init mmi_modem-rfs:process transition;
+allow mmi_modem-rfs mmi_modem-rfs_exec:file { entrypoint execute getattr map open read };
+allow mmi_modem-rfs mtk_radio_data_file:dir { add_name getattr ioctl lock open read remove_name search watch watch_reads write };
+allow mmi_modem-rfs mtk_radio_data_file:file { append create getattr ioctl lock map open read rename setattr unlink watch watch_reads write };
+allow mmi_modem-rfs nvdata_file:dir { add_name getattr ioctl lock open read remove_name search watch watch_reads write };
+allow mmi_modem-rfs nvdata_file:file { append create getattr ioctl lock map open read rename setattr unlink watch watch_reads write };
+allow mmi_modem-rfs panic_data_file:dir { add_name getattr ioctl lock open read remove_name search watch watch_reads write };
+allow mmi_modem-rfs panic_data_file:file { append create getattr ioctl lock map open read rename setattr unlink watch watch_reads write };
+allow mmi_modem-rfs self:capability { chown fowner fsetid };
+allow mmi_modem-rfs vendor_file:file { execute_no_trans };
+allow mmi_modem-rfs vendor_toolbox_exec:file { execute_no_trans };

@@ -1,0 +1,10 @@
+
+allow hal_secure_element_default hal_nfc_default:binder { call };
+allow hal_secure_element_default hal_secure_element_default_exec:file { entrypoint execute getattr map open read };
+allow hal_secure_element_default nxpese_hwservice:hwservice_manager { add find };
+allow hal_secure_element_default secure_element_device:chr_file { append getattr ioctl lock map open read watch watch_reads write };
+allow hal_secure_element_default secure_element_device:chr_file { read write };
+allow hal_secure_element_default vendor_data_file:dir { add_name remove_name write };
+allow hal_secure_element_default vendor_data_file:file { append create getattr open read unlink write };
+allow hal_secure_element_default vendor_mot_nfc_prop:file { getattr map open read };
+allow init hal_secure_element_default:process transition;

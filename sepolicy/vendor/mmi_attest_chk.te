@@ -1,0 +1,18 @@
+type mmi_attest_chk, domain;
+init_daemon_domain(mmi_attest_chk)
+
+allow init mmi_attest_chk:process transition;
+allow mmi_attest_chk init:unix_stream_socket { connectto };
+allow mmi_attest_chk kmsg_device:chr_file { append getattr ioctl lock map open read watch watch_reads write };
+allow mmi_attest_chk mmi_attest_chk_exec:file { entrypoint execute getattr map open read };
+allow mmi_attest_chk property_socket:sock_file { write };
+allow mmi_attest_chk self:qipcrtr_socket { create getattr read setopt write };
+allow mmi_attest_chk servicemanager:binder { call };
+allow mmi_attest_chk vendor_configs_file:dir { getattr ioctl lock open read search watch watch_reads };
+allow mmi_attest_chk vendor_configs_file:file { getattr ioctl lock map open read watch watch_reads };
+allow mmi_attest_chk vendor_configs_file:lnk_file { getattr ioctl lock map open read watch watch_reads };
+allow mmi_attest_chk vendor_file:file { execute_no_trans };
+allow mmi_attest_chk vendor_mot_init_prop:file { getattr map open read };
+allow mmi_attest_chk vendor_mot_init_prop:property_service { set };
+allow mmi_attest_chk vendor_shell_exec:file { getattr ioctl lock map open read watch watch_reads };
+allow mmi_attest_chk vendor_toolbox_exec:file { execute execute_no_trans getattr ioctl lock map open read watch watch_reads };

@@ -1,0 +1,5 @@
+
+allow init mtk_hal_mmagent:process transition;
+allow mtk_hal_mmagent apusys_device:chr_file { append getattr ioctl lock map open read watch watch_reads write };
+allow mtk_hal_mmagent ion_device:chr_file { append getattr ioctl lock map open read watch watch_reads write };
+allow mtk_hal_mmagent mtk_hal_mmagent_exec:file { entrypoint execute getattr map open read };

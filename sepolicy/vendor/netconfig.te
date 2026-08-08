@@ -1,0 +1,10 @@
+type netconfig, domain;
+init_daemon_domain(netconfig)
+
+allow init netconfig:process transition;
+allow netconfig netconfig_exec:file { entrypoint execute getattr map open read };
+allow netconfig self:capability { net_admin };
+allow netconfig self:netlink_kobject_uevent_socket { bind create getopt read setopt };
+allow netconfig self:udp_socket { create ioctl };
+allow netconfig sysfs_net:dir { getattr ioctl lock open read search watch watch_reads };
+allow netconfig sysfs_net:file { getattr ioctl lock map open read watch watch_reads };

@@ -1,0 +1,9 @@
+type hal_imagetuner_default, domain;
+init_daemon_domain(hal_imagetuner_default)
+
+allow hal_imagetuner_default dumpstate:binder { transfer };
+allow hal_imagetuner_default dumpstate:fd { use };
+allow hal_imagetuner_default dumpstate:fifo_file { write };
+allow hal_imagetuner_default hal_imagetuner_default_exec:file { entrypoint execute getattr map open read };
+allow hal_imagetuner_default hidl_memory_hwservice:hwservice_manager { find };
+allow init hal_imagetuner_default:process transition;

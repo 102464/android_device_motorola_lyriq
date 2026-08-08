@@ -1,0 +1,31 @@
+type aplogd, domain;
+init_daemon_domain(aplogd)
+
+allow aplogd aplog_data_file:dir { add_name create getattr ioctl lock open read remove_name rename reparent rmdir search setattr watch watch_reads write };
+allow aplogd aplog_data_file:file { append create getattr ioctl lock map open read rename setattr unlink watch watch_reads write };
+allow aplogd aplog_data_file:lnk_file { append create getattr ioctl lock map open read rename setattr unlink watch watch_reads write };
+allow aplogd aplogd_exec:file { entrypoint execute getattr map open read };
+allow aplogd init:unix_stream_socket { connectto };
+allow aplogd kernel:system { syslog_mod };
+allow aplogd log_prop:file { getattr map open read };
+allow aplogd log_prop:property_service { set };
+allow aplogd logd:unix_stream_socket { connectto };
+allow aplogd logd_socket:sock_file { write };
+allow aplogd logdr_socket:sock_file { write };
+allow aplogd mnt_user_file:dir { search };
+allow aplogd proc:dir { getattr ioctl lock open read search watch watch_reads };
+allow aplogd proc:file { getattr ioctl lock map open read watch watch_reads };
+allow aplogd proc:lnk_file { getattr ioctl lock map open read watch watch_reads };
+allow aplogd proc_bootinfo:file { getattr ioctl lock map open read watch watch_reads };
+allow aplogd property_socket:sock_file { write };
+allow aplogd sdcard_type:dir { add_name create getattr ioctl lock open read remove_name rename reparent rmdir search setattr watch watch_reads write };
+allow aplogd sdcard_type:file { append create getattr ioctl lock map open read rename setattr unlink watch watch_reads write };
+allow aplogd self:capability { setgid setuid };
+allow aplogd self:capability2 { syslog };
+allow aplogd storage_file:dir { add_name create getattr ioctl lock open read remove_name rename reparent rmdir search setattr watch watch_reads write };
+allow aplogd storage_file:file { append create getattr ioctl lock map open read rename setattr unlink watch watch_reads write };
+allow aplogd vendor_dropbox_data_file:dir { add_name lock open remove_name search write };
+allow aplogd vendor_dropbox_data_file:file { append create getattr ioctl lock map open read rename setattr unlink watch watch_reads write };
+allow aplogd vendor_mot_aplogd_prop:file { getattr map open read };
+allow aplogd vendor_mot_aplogd_prop:property_service { set };
+allow init aplogd:process transition;

@@ -1,0 +1,8 @@
+
+allow hal_tee_default hal_tee_default_exec:file { entrypoint execute getattr map open read };
+allow hal_tee_default mobicore_tui_device:chr_file { append getattr ioctl lock map open read watch watch_reads write };
+allow hal_tee_default mobicore_user_device:chr_file { append getattr ioctl lock map open read watch watch_reads write };
+allow hal_tee_default system_app:fd { use };
+allow hal_tee_default teeregistryd_app:fd { use };
+allow hal_tee_default untrusted_app_all:fd { use };
+allow init hal_tee_default:process transition;

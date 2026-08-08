@@ -1,0 +1,34 @@
+# lyriq custom FOD services:
+# - lyriq_fod_gesture: shell script writing touch gesture modes for FOD
+# - lyriq_fod_panel: relays vendor.fod.hbm to the Moto display panel HAL
+
+# hal_moto_panel attribute is declared in hal_moto_panel_default.te
+# (sorts before this file)
+
+type lyriq_fod_gesture, domain;
+type lyriq_fod_gesture_exec, exec_type, file_type, vendor_file_type;
+init_daemon_domain(lyriq_fod_gesture)
+
+# shell script: interpreter + toybox applets stay in-domain
+allow lyriq_fod_gesture lyriq_fod_gesture_exec:file { entrypoint execute getattr map open read };
+allow lyriq_fod_gesture vendor_shell_exec:file { getattr ioctl lock map open read watch watch_reads };
+allow lyriq_fod_gesture vendor_file:file { execute_no_trans };
+allow lyriq_fod_gesture vendor_toolbox_exec:file { execute execute_no_trans getattr ioctl lock map open read watch watch_reads };
+
+# /sys/class/touchscreen/primary/gesture (generic sysfs label)
+allow lyriq_fod_gesture sysfs:dir { getattr ioctl lock open read search watch watch_reads };
+allow lyriq_fod_gesture sysfs:file { getattr ioctl lock map open read setattr watch watch_reads write };
+
+type lyriq_fod_panel, domain;
+type lyriq_fod_panel_exec, exec_type, file_type, vendor_file_type;
+init_daemon_domain(lyriq_fod_panel)
+hal_client_domain(lyriq_fod_panel, hal_moto_panel)
+binder_use(lyriq_fod_panel)
+
+allow lyriq_fod_panel servicemanager:binder { call transfer };
+allow lyriq_fod_panel servicemanager:fd { use };
+
+# watch vendor.fod.hbm (mapped to vendor_lyriq_fod_prop in property_contexts);
+# property files must not be ioctl/locked
+vendor_public_prop(vendor_lyriq_fod_prop)
+allow lyriq_fod_panel vendor_lyriq_fod_prop:file { getattr map open read };

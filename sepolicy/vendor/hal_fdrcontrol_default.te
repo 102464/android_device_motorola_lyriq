@@ -1,0 +1,8 @@
+type hal_fdrcontrol_default, domain;
+init_daemon_domain(hal_fdrcontrol_default)
+
+allow hal_fdrcontrol_default hal_fdrcontrol_default_exec:file { entrypoint execute getattr map open read };
+allow hal_fdrcontrol_default motobox_exec:file { execute getattr map open read };
+allow hal_fdrcontrol_default vendor_misc_writer:process { rlimitinh siginh };
+allow hal_fdrcontrol_default vendor_misc_writer:process { transition };
+allow init hal_fdrcontrol_default:process transition;

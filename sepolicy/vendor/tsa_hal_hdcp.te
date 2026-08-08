@@ -1,0 +1,13 @@
+type tsa_hal_hdcp, domain;
+init_daemon_domain(tsa_hal_hdcp)
+
+allow init tsa_hal_hdcp:process transition;
+allow tsa_hal_hdcp mnt_vendor_file:dir { getattr search };
+allow tsa_hal_hdcp mobicore_user_device:chr_file { append getattr ioctl lock map open read watch watch_reads write };
+allow tsa_hal_hdcp mobicore_vendor_file:file { lock };
+allow tsa_hal_hdcp mtk_hal_c2:fd { use };
+allow tsa_hal_hdcp persist_data_file:dir { search };
+allow tsa_hal_hdcp persist_data_file:file { append getattr ioctl lock map open read watch watch_reads write };
+allow tsa_hal_hdcp tsa_hal_hdcp_exec:file { entrypoint execute getattr map open read };
+allow tsa_hal_hdcp vndbinder_device:chr_file { append getattr ioctl lock map open read watch watch_reads write };
+allow tsa_hal_hdcp vndservicemanager:binder { call transfer };

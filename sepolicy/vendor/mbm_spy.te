@@ -1,0 +1,13 @@
+type mbm_spy, domain;
+init_daemon_domain(mbm_spy)
+
+allow init mbm_spy:process transition;
+allow mbm_spy block_device:dir { search };
+allow mbm_spy mbm_spy_exec:file { entrypoint execute getattr map open read };
+allow mbm_spy proc:dir { getattr ioctl lock open read search watch watch_reads };
+allow mbm_spy proc:file { getattr ioctl lock map open read watch watch_reads };
+allow mbm_spy proc:lnk_file { getattr ioctl lock map open read watch watch_reads };
+allow mbm_spy proc_bootinfo:file { getattr ioctl lock map open read watch watch_reads };
+allow mbm_spy proc_version:file { getattr ioctl lock map open read watch watch_reads };
+allow mbm_spy rtc_device:chr_file { getattr ioctl lock map open read watch watch_reads };
+allow mbm_spy utags_block_device:blk_file { append getattr ioctl lock map open read watch watch_reads write };

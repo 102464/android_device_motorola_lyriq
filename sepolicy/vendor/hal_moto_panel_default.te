@@ -1,0 +1,28 @@
+type hal_moto_panel_default, domain;
+init_daemon_domain(hal_moto_panel_default)
+hal_attribute(moto_panel)
+hal_server_domain(hal_moto_panel_default, hal_moto_panel)
+
+type hal_moto_panel_aidl_service, service_manager_type;
+# hal_attribute_service() without the userdebug-only neverallow
+# (dumpstate must be able to find the service for bugreports)
+allow hal_moto_panel_client hal_moto_panel_aidl_service:service_manager find;
+add_service(hal_moto_panel_server, hal_moto_panel_aidl_service)
+
+allow hal_moto_panel_default dri_device:chr_file { append getattr ioctl lock map open read watch watch_reads write };
+allow hal_moto_panel_default dumpstate:binder { transfer };
+allow hal_moto_panel_default dumpstate:fd { use };
+allow hal_moto_panel_default dumpstate:fifo_file { write };
+allow hal_moto_panel_default gpu_device:dir { search };
+allow hal_moto_panel_default hal_moto_panel_default_exec:file { entrypoint execute getattr map open read };
+allow hal_moto_panel_default init:unix_stream_socket { connectto };
+allow hal_moto_panel_default property_socket:sock_file { write };
+allow hal_moto_panel_default sysfs_drm:dir { getattr ioctl lock open read search watch watch_reads };
+allow hal_moto_panel_default sysfs_drm:file { getattr ioctl lock map open read watch watch_reads };
+allow hal_moto_panel_default sysfs_drm:lnk_file { getattr ioctl lock map open read watch watch_reads };
+allow hal_moto_panel_default sysfs_graphics:dir { getattr ioctl lock open read search watch watch_reads };
+allow hal_moto_panel_default sysfs_graphics:file { append getattr ioctl lock map open read watch watch_reads write };
+allow hal_moto_panel_default sysfs_graphics:lnk_file { read };
+allow hal_moto_panel_default vendor_mot_paramfile_prop:file { getattr map open read };
+allow hal_moto_panel_default vendor_mot_paramfile_prop:property_service { set };
+allow init hal_moto_panel_default:process transition;

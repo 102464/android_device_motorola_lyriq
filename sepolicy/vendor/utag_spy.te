@@ -1,0 +1,7 @@
+type utag_spy, domain;
+init_daemon_domain(utag_spy)
+
+allow init utag_spy:process transition;
+allow utag_spy proc_hwconf:dir { search };
+allow utag_spy proc_hwconf:file { append getattr ioctl lock map open read watch watch_reads write };
+allow utag_spy utag_spy_exec:file { entrypoint execute getattr map open read };

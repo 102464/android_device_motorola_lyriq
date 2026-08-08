@@ -1,0 +1,7 @@
+
+allow hal_health_storage_default hal_health_storage_default_exec:file { entrypoint execute getattr map open read };
+allow hal_health_storage_default sysfs_scsi_devices_0000:file { append getattr ioctl lock map open read watch watch_reads write };
+allow hal_health_storage_default sysfs_scsi_devices_hid:file { append getattr ioctl lock map open read watch watch_reads write };
+allow hal_health_storage_default sysfs_sk_devices_gc_status:file { append getattr ioctl lock map open read watch watch_reads write };
+allow hal_health_storage_default sysfs_ufs_info:file { getattr ioctl lock map open read watch watch_reads };
+allow init hal_health_storage_default:process transition;

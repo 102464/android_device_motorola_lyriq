@@ -1,0 +1,25 @@
+type init_usb, domain;
+init_daemon_domain(init_usb)
+
+allow init init_usb:process transition;
+allow init_usb configfs:dir { search };
+allow init_usb configfs:file { append lock map open write };
+allow init_usb init:unix_stream_socket { connectto };
+allow init_usb init_usb_exec:file { entrypoint execute getattr map open read };
+allow init_usb kmsg_device:chr_file { append lock map open write };
+allow init_usb property_socket:sock_file { write };
+allow init_usb self:capability { chown fowner };
+allow init_usb sysfs:file { append lock map open setattr write };
+allow init_usb sysfs_android_usb:dir { search };
+allow init_usb sysfs_android_usb:file { append getattr ioctl lock map open read watch watch_reads write };
+allow init_usb vendor_mot_boot_prop:file { getattr map open read };
+allow init_usb vendor_mot_factory_prop:file { getattr map open read };
+allow init_usb vendor_mot_factory_prop:property_service { set };
+allow init_usb vendor_mot_init_prop:file { getattr map open read };
+allow init_usb vendor_mot_init_prop:property_service { set };
+allow init_usb vendor_mot_tcmd_ctrl_adb_prop:file { getattr map open read };
+allow init_usb vendor_mot_tcmd_prop:file { getattr map open read };
+allow init_usb vendor_mtk_usb_prop:file { getattr map open read };
+allow init_usb vendor_mtk_usb_prop:property_service { set };
+allow init_usb vendor_shell_exec:file { getattr ioctl lock map open read watch watch_reads };
+allow init_usb vendor_toolbox_exec:file { execute execute_no_trans getattr ioctl lock map open read watch watch_reads };

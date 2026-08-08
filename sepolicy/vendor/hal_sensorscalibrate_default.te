@@ -1,0 +1,9 @@
+type hal_sensorscalibrate_default, domain;
+init_daemon_domain(hal_sensorscalibrate_default)
+
+allow hal_sensorscalibrate_default hal_sensorscalibrate_default_exec:file { entrypoint execute getattr map open read };
+allow hal_sensorscalibrate_default hf_manager_device:chr_file { ioctl open read write };
+allow hal_sensorscalibrate_default sysfs_sensor:dir { getattr ioctl lock open read search watch watch_reads };
+allow hal_sensorscalibrate_default sysfs_sensor:file { append getattr ioctl lock map open read watch watch_reads write };
+allow hal_sensorscalibrate_default sysfs_situproxcal_file:file { append lock map open write };
+allow init hal_sensorscalibrate_default:process transition;

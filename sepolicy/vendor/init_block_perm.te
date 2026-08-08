@@ -1,0 +1,17 @@
+type init_block_perm, domain;
+init_daemon_domain(init_block_perm)
+
+allow init init_block_perm:process transition;
+allow init_block_perm bllogs_block_device:blk_file { getattr setattr };
+allow init_block_perm block_device:dir { search };
+allow init_block_perm cid_block_device:blk_file { getattr setattr };
+allow init_block_perm clogo_block_device:blk_file { getattr setattr };
+allow init_block_perm init_block_perm_exec:file { entrypoint execute getattr map open read };
+allow init_block_perm kpan_block_device:blk_file { getattr setattr };
+allow init_block_perm modem_hob_block_device:blk_file { getattr setattr };
+allow init_block_perm psylogs_block_device:blk_file { getattr setattr };
+allow init_block_perm self:capability { chown fowner };
+allow init_block_perm utags_block_device:blk_file { getattr setattr };
+allow init_block_perm vendor_file:file { execute_no_trans };
+allow init_block_perm vendor_shell_exec:file { getattr ioctl lock map open read watch watch_reads };
+allow init_block_perm vendor_toolbox_exec:file { execute execute_no_trans getattr ioctl lock map open read watch watch_reads };
