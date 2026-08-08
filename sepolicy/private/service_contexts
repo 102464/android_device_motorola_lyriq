@@ -1,0 +1,2 @@
+motoexttelephony                          u:object_r:mot_radio_service:s0
+motoextims                                u:object_r:mot_radio_service:s0

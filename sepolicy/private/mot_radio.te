@@ -1,0 +1,9 @@
+# Moto radio ext services (motoexttelephony/motoextims), added by the phone
+# process (radio domain). Mirrors stock system_ext policy; needed for
+# enforcing so the phone process can publish them.
+type mot_radio_service, service_manager_type;
+allow radio mot_radio_service:service_manager { add find };
+allow system_server mot_radio_service:service_manager find;
+allow system_app mot_radio_service:service_manager find;
+allow priv_app mot_radio_service:service_manager find;
+allow platform_app mot_radio_service:service_manager find;

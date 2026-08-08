@@ -9,6 +9,9 @@ KERNEL_PATH := device/motorola/lyriq-kernel
 BOARD_VENDOR_SEPOLICY_DIRS += \
     $(DEVICE_PATH)/sepolicy/vendor
 
+SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += \
+    $(DEVICE_PATH)/sepolicy/private
+
 # A/B
 AB_OTA_PARTITIONS := \
     boot \
