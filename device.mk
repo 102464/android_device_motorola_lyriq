@@ -100,6 +100,27 @@ PRODUCT_PACKAGES += \
     audioclient-types-aidl-cpp.vendor \
     MtkInCallService
 
+# AIDL effect libraries for audio_effects_config.xml
+PRODUCT_PACKAGES += \
+    libaecsw \
+    libagc1sw \
+    libagc2sw \
+    libbassboostsw \
+    libbundleaidl \
+    libdownmixaidl \
+    libdynamicsprocessingaidl \
+    libequalizersw \
+    libextensioneffect \
+    libhapticgeneratoraidl \
+    libloudnessenhanceraidl \
+    libnssw \
+    libpreprocessingaidl \
+    libpresetreverbsw \
+    libreverbaidl \
+    libvirtualizersw \
+    libvisualizeraidl \
+    libvolumesw
+
 PRODUCT_COPY_FILES += \
     $(call find-copy-subdir-files,*,$(LOCAL_PATH)/audio/,$(TARGET_COPY_OUT_VENDOR)/etc)
 
@@ -168,8 +189,9 @@ PRODUCT_PACKAGES += \
     android.hardware.usb-service.mediatek \
     android.hardware.usb.gadget-service.mediatek
 
-# Device-specific resource overlays (IMS package binding, 120Hz peak refresh,
-# edge-back gesture inset, eUICC slot declaration)
+# Device-specific resource overlays (IMS package binding, 144Hz peak refresh,
+# display cutout, status bar and rounded corner dimens, edge-back gesture
+# inset, eUICC slot declaration)
 DEVICE_PACKAGE_OVERLAYS += $(DEVICE_PATH)/overlay
 
 # Static RRO over AOSP CarrierConfig: converted stock carrier database
