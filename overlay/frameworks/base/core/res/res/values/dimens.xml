@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Status bar must cover the 106px-tall punch-hole cutout. Values from
+         stock MotoFrameworkResOverlayDeviceConfigLyriq.apk;
+         status_bar_padding_top_portrait from the product RRO (higher
+         priority than the vendor RRO's 20px). AOSP default is 24dp. -->
+    <dimen name="status_bar_height">106px</dimen>
+    <dimen name="status_bar_height_portrait">106px</dimen>
+    <dimen name="status_bar_height_landscape">24dp</dimen>
+    <dimen name="status_bar_padding_top_portrait">5px</dimen>
+
+    <!-- Panel rounded corners. Stock Moto SystemUI fork uses
+         real_rounded_corner_radius=80px; AOSP draws sharp corners without
+         these. -->
+    <dimen name="rounded_corner_radius">80px</dimen>
+    <dimen name="rounded_corner_content_padding">24px</dimen>
+</resources>

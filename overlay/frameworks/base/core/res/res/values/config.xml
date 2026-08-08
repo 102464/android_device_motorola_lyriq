@@ -1,10 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Panel supports 1080x2400@144 (HWC reports up to 144Hz). AOSP default
+    <!-- Panel supports 1080x2400@120 (HWC reports up to 120Hz). AOSP default
          peak is 60Hz, which caps the display at 60FPS (logcat-win-4:
          DisplayModeController falls back to fps=60.00 Hz). -->
-    <integer name="config_defaultPeakRefreshRate">144</integer>
-    <integer name="config_defaultRefreshRate">144</integer>
+    <integer name="config_defaultPeakRefreshRate">120</integer>
+    <integer name="config_defaultRefreshRate">120</integer>
+
+    <!-- Anti-flicker: this OLED is visibly dimmer at 60Hz, and the brightness
+         jump is perceptible when adaptive refresh drops to 60Hz at low
+         brightness. Below these thresholds, lock the panel at 90Hz instead.
+         Values from stock MotoFrameworkResOverlayDeviceConfigLyriq.apk. -->
+    <integer name="config_defaultRefreshRateInZone">90</integer>
+    <integer-array name="config_brightnessThresholdsOfPeakRefreshRate">
+        <item>77</item>
+        <item>62</item>
+    </integer-array>
+    <integer-array name="config_ambientThresholdsOfPeakRefreshRate">
+        <item>70</item>
+        <item>-1</item>
+    </integer-array>
+
+    <!-- Panel brightness calibration from stock (same RRO). AOSP default is a
+         linear backlight mapping with auto-brightness disabled. -->
+    <bool name="config_automatic_brightness_available">true</bool>
+    <integer-array name="config_autoBrightnessLevels">
+        <item>2</item>
+        <item>4</item>
+        <item>5</item>
+        <item>10</item>
+        <item>40</item>
+        <item>100</item>
+        <item>325</item>
+        <item>1250</item>
+        <item>3500</item>
+        <item>5500</item>
+        <item>10000</item>
+        <item>50000</item>
+        <item>100000</item>
+    </integer-array>
+    <array name="config_autoBrightnessDisplayValuesNits">
+        <item>3</item>
+        <item>7</item>
+        <item>10</item>
+        <item>12</item>
+        <item>24</item>
+        <item>82</item>
+        <item>96</item>
+        <item>130</item>
+        <item>192</item>
+        <item>252</item>
+        <item>500</item>
+        <item>700</item>
+        <item>800</item>
+        <item>1000</item>
+    </array>
+    <integer-array name="config_screenBrightnessBacklight">
+        <item>9</item>
+        <item>27</item>
+        <item>33</item>
+        <item>37</item>
+        <item>52</item>
+        <item>98</item>
+        <item>107</item>
+        <item>124</item>
+        <item>141</item>
+        <item>160</item>
+        <item>219</item>
+        <item>233</item>
+        <item>241</item>
+        <item>255</item>
+    </integer-array>
+    <array name="config_screenBrightnessNits">
+        <item>3</item>
+        <item>7</item>
+        <item>10</item>
+        <item>12</item>
+        <item>24</item>
+        <item>95</item>
+        <item>111</item>
+        <item>149</item>
+        <item>192</item>
+        <item>252</item>
+        <item>500</item>
+        <item>700</item>
+        <item>800</item>
+        <item>1000</item>
+    </array>
+    <item name="config_screenBrightnessSettingDefaultFloat" format="float" type="dimen">0.38189</item>
+    <item name="config_screenBrightnessSettingMinimumFloat" format="float" type="dimen">0.034188</item>
+    <item name="config_screenBrightnessDimFloat" format="float" type="dimen">0.034188</item>
+    <integer name="config_screenBrightnessSettingDefault">98</integer>
+    <integer name="config_autoBrightnessBrighteningLightDebounce">500</integer>
+    <integer name="config_autoBrightnessDarkeningLightDebounce">500</integer>
 
     <!-- Enable the software navigation bar. AOSP default is false. -->
     <bool name="config_showNavigationBar">true</bool>
