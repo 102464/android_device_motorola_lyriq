@@ -405,3 +405,7 @@ vendor.mtk.vdec.decode.error.handle.mode=3
 vendor.mtk.vdec.waitkeyframeforplay=11
 vendor.performance.frs.tz_name=mtktsAP
 vendor.usb.use_ffs_mtp=1
+
+# FOD is driven by the framework (touch forwarding + panel HBM via
+# IDisplayPanel); read by FingerprintProvider
+ro.vendor.fod.framework_managed=true

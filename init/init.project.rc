@@ -72,11 +72,3 @@ service vendor.lyriq-fod-gesture /vendor/bin/init.lyriq.fod_gesture.sh
     group system
     shutdown critical
     oneshot
-
-# panel HBM for the goodix optical sensor via the stock Moto display panel
-# HAL (setMode HIGH_BRIGHT_FOD/NORMAL); toggled by the framework via vendor.fod.hbm
-service vendor.lyriq-fod-panel /vendor/bin/lyriq.fod.panel
-    class late_start
-    user system
-    group system
-    shutdown critical

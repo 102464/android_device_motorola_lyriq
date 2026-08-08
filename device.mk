@@ -172,7 +172,6 @@ PRODUCT_PACKAGES += \
     init.mtkgki.rc \
     init.project.rc \
     init.lyriq.fod_gesture.sh \
-    lyriq.fod.panel \
     init.sensor_2_0.rc \
     ueventd.mt6893.rc
 
