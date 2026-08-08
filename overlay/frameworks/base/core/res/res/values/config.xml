@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Panel supports 1080x2400@120 (HWC reports up to 120Hz). AOSP default
+    <!-- Panel supports 1080x2400@120 (HWC reports up to 144Hz). AOSP default
          peak is 60Hz, which caps the display at 60FPS (logcat-win-4:
          DisplayModeController falls back to fps=60.00 Hz). -->
     <integer name="config_defaultPeakRefreshRate">120</integer>
@@ -88,6 +88,10 @@
     </array>
     <item name="config_screenBrightnessSettingDefaultFloat" format="float" type="dimen">0.38189</item>
     <item name="config_screenBrightnessSettingMinimumFloat" format="float" type="dimen">0.034188</item>
+    <!-- QPR2 reads min/max as a pair: if MaximumFloat stays at the AOSP default
+         (-2=invalid), MinimumFloat is discarded too and both fall back to the
+         legacy ints (min 10/255), shifting the whole brightness curve. -->
+    <item name="config_screenBrightnessSettingMaximumFloat" format="float" type="dimen">1.0</item>
     <item name="config_screenBrightnessDimFloat" format="float" type="dimen">0.034188</item>
     <integer name="config_screenBrightnessSettingDefault">98</integer>
     <integer name="config_autoBrightnessBrighteningLightDebounce">500</integer>
@@ -121,4 +125,9 @@
     <integer-array name="non_removable_euicc_slots">
         <item>1</item>
     </integer-array>
+
+    <!-- The UDFPS vote forces the panel to its max rate (144Hz); the mid-touch
+         mode switch glitches the in-cell touch IC and kills the press. Stock
+         pins 120Hz during FOD instead. -->
+    <bool name="config_ignoreUdfpsVote">true</bool>
 </resources>
