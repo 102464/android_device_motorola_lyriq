@@ -58,6 +58,7 @@ vendor/lib64/libcvsd_mtk.so
 vendor/lib64/libdapparamstorage.so
 vendor/lib64/libdeccfg.so
 vendor/lib64/libdlbdsservice.so
+vendor/lib64/libdlbpreg.so
 vendor/lib64/libdmshal.so
 vendor/lib64/libmbrainSDKv.so
 vendor/lib64/libmsbc_mtk.so
@@ -78,6 +79,10 @@ vendor/lib64/vendor.dolby.dms-V1-ndk.so
 vendor/lib64/vendor.dolby.hardware.dms@2.0.so
 vendor/lib64/vendor.mediatek.hardware.audio-V1-ndk.so
 vendor/lib64/vendor.mediatek.hardware.audio@6.1.so
+# Dolby AIDL effect libraries (referenced by audio_effects_config.xml)
+vendor/lib64/soundfx/libdlbvolaidl.so
+vendor/lib64/soundfx/libswdapaidl.so
+vendor/lib64/soundfx/libswgamedapaidl.so
 vendor/etc/audio_device.xml
 vendor/etc/audio_effects.xml
 vendor/etc/audio_effects_config.xml
@@ -1293,6 +1298,14 @@ vendor/lib64/libmvpu_wrapper.so
 vendor/lib64/libswtcc.so
 vendor/lib64/libthha.so
 vendor/lib64/libtranslator_utils.so
+vendor/bin/v3avpud
+vendor/etc/init/v3avpud.rc
+vendor/lib/libaedv.so
+vendor/lib/libgz_uree.so
+vendor/lib/libvcodec_oal.so
+vendor/lib/libvcodec_utility_v3a.so
+vendor/lib/libvcodecdrv_v3a.so
+vendor/lib/libvpudv3a_vcodec.so
 vendor/lib64/libvcodec_oal.so
 vendor/lib64/libvcodec_utility_v3a.so
 vendor/lib64/libvcodecdrv_v3a.so
