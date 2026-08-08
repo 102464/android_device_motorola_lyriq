@@ -29,12 +29,14 @@ vendor/lib64/hw/audio.primary.mt6893.so
 vendor/lib64/hw/motorola.hardware.audio.radar2-impl.so
 vendor/lib64/hw/sound_trigger.primary.default.so
 vendor/lib64/hw/vendor.mediatek.hardware.audio-impl.so
+vendor/lib/lib_iir.so
 vendor/lib64/lib_iir.so
 vendor/lib64/libaualgo_arp_wrapper.so
 vendor/lib64/libaualgo_azp_wrapper.so
 vendor/lib64/libaualgo_foundation.so
 vendor/lib64/libaudio_aidl_conversion_common_ndk.so:vendor/lib64/libaudio_aidl_conversion_common_ndk_prebuilt.so;FIX_SONAME
 vendor/lib64/libaudiocompensationfilter_vendor.so
+vendor/lib/libaudiocompensationfilterc.so
 vendor/lib64/libaudiocompensationfilterc.so
 vendor/lib64/libaudiocomponentengine_vendor.so
 vendor/lib64/libaudiocomponentenginec.so
@@ -42,13 +44,18 @@ vendor/lib/libaudiocustparam_vendor.so
 vendor/lib64/libaudiocustparam_vendor.so
 vendor/lib64/libaudiodcrflt_vendor.so
 vendor/lib64/libaudiofmtconv.so
+vendor/lib/libaudioloudc.so
 vendor/lib64/libaudioloudc.so
 vendor/lib64/libaudio_param_parser-vnd.so
 vendor/lib64/libaudiopolicyconfigxml_mtk_vendor.so
 vendor/lib/libaudioprimarydevicehalifclient.so
 vendor/lib64/libaudioprimarydevicehalifclient.so
 vendor/lib64/libaudiotoolkit_vendor.so
+vendor/lib/libaurisysdemo.so
 vendor/lib64/libaurisysdemo.so
+vendor/lib/libawinicsmartpaparse.so
+vendor/lib64/libawinicsmartpaparse.so
+vendor/lib/libbessound_hd_mtk_vendor.so
 vendor/lib64/libbessound_hd_mtk_vendor.so
 vendor/lib64/libblisrc32_vendor.so
 vendor/lib64/libcodec2_soft_ac4dec.so
@@ -66,11 +73,18 @@ vendor/lib/libmtk_drvb.so
 vendor/lib64/libmtk_drvb.so
 vendor/lib64/libmtklimiter_vendor.so
 vendor/lib64/libmtkshifter_vendor.so
+vendor/lib/libMtkSpeechEnh.so
 vendor/lib64/libMtkSpeechEnh.so
+vendor/lib/libMtkSpeechEnh_swb.so
+vendor/lib64/libMtkSpeechEnh_swb.so
+vendor/lib/libmtkspparser.so
 vendor/lib64/libmtkspparser.so
+vendor/lib/libmtkspparser_swb.so
+vendor/lib64/libmtkspparser_swb.so
 vendor/lib64/libnxp_extamp_intf.so
 vendor/lib64/librt_extamp_intf.so
 vendor/lib64/libspeech_enh_lib.so;FIX_SONAME
+vendor/lib/libspeechparser_vendor.so
 vendor/lib64/libspeechparser_vendor.so
 vendor/lib64/libtinycompress.so
 vendor/lib64/libvow_comp_test.so
@@ -1024,6 +1038,7 @@ vendor/lib64/egl/libMEOW_qt.so
 vendor/lib64/egl/libMEOW_trace.so
 vendor/lib64/hw/android.hardware.graphics.allocator-V2-mediatek.so
 vendor/lib64/hw/hwcomposer.mt6893.so
+vendor/lib/hw/mapper.mediatek.so
 vendor/lib64/hw/mapper.mediatek.so
 vendor/lib64/hw/vendor.mediatek.hardware.pq_aidl-impl.so
 vendor/lib64/hw/vulkan.mali.so
@@ -1238,6 +1253,16 @@ system_ext/framework/mediatek-framework.jar:system/framework/mediatek-framework.
 system_ext/framework/mediatek-ims-base.jar:system/framework/mediatek-ims-base.jar;BOOT_JAR
 system/framework/moto-telephony.jar
 system/etc/permissions/moto-telephony.xml
+
+# Moto Edge Lights（通知侧屏亮灯）+ MotorolaSettings 存储
+# MotoLights 依赖 moto-settings/moto-core_services 共享库（uses-library）
+system/framework/moto-core_services.jar
+system/etc/permissions/moto-core_services.xml
+system/framework/moto-settings.jar
+system/etc/permissions/moto-settings.xml
+system_ext/priv-app/MotorolaSettingsProvider/MotorolaSettingsProvider.apk
+product/priv-app/MotoLights/MotoLights.apk
+product/etc/permissions/privapp-permissions-com.motorola.motolights.core.xml
 system_ext/priv-app/ImsService/ImsService.apk
 system_ext/priv-app/RcsUaService/RcsUaService.apk
 system_ext/framework/com.mediatek.ims.rcsua.jar
@@ -1777,6 +1802,7 @@ vendor/firmware/aw882xx_acf.bin
 
 # Widevine
 vendor/lib64/liboemcrypto.so
+vendor/lib64/liblog_vendor.so
 vendor/lib64/liburee_meta_drmkeyinstall.so
 vendor/apex/com.google.android.widevine.nonupdatable.apex
 
@@ -2202,7 +2228,7 @@ vendor/odm/etc/vintf/manifest_dn.xml;EXTRACT_ONLY
 
 # VINTF manifests
 # vendor/etc/vintf/manifest/android.hardware.drm-service.clearkey.xml - provided by AOSP clearkey package
-# android.hardware.health-service.example.xml - provided by source-built android.hardware.health-service.mediatek
+# android.hardware.health-service.example.xml - provided by source-built android.hardware.health-service.lyriq
 # android.hardware.usb-aidl-service.mediatek.xml - provided by source-built android.hardware.usb-service.mediatek
 # android.hardware.usb.gadget-aidl-service.mediatek.xml - provided by source-built android.hardware.usb.gadget-service.mediatek
 vendor/etc/vintf/manifest/CommandService.xml;EXTRACT_ONLY
