@@ -1,0 +1,7 @@
+# lyriq additions for mtk_hal_camera (domain declared in device/mediatek)
+
+allow mtk_hal_camera sysfs_therm:dir { search };
+allow mtk_hal_camera sysfs_therm:file { getattr open read };
+
+# IATMs AIDL service registration (stock service_contexts)
+allow mtk_hal_camera mtk_hal_atms_service:service_manager { add find };

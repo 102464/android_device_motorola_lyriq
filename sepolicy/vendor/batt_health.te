@@ -30,3 +30,4 @@ allow batt_health vendor_sysfs_usb_supply:dir { getattr ioctl lock open read sea
 allow batt_health vendor_sysfs_usb_supply:file { getattr ioctl lock map open read watch watch_reads };
 allow batt_health vendor_sysfs_usb_supply:lnk_file { getattr ioctl lock map open read watch watch_reads };
 allow init batt_health:process transition;
+allow batt_health mnt_vendor_file:dir { search };

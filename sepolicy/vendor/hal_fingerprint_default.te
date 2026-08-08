@@ -36,3 +36,5 @@ allow hal_fingerprint_default vendor_mtk_camera_prop:property_service { set };
 allow hal_fingerprint_default virtual_fingerprint_hal_prop:file { getattr map open read };
 allow hal_fingerprint_default virtual_fingerprint_hal_prop:property_service { set };
 allow init hal_fingerprint_default:process transition;
+allow hal_fingerprint_default fps_data_file:file { append create getattr open read unlink write };
+add_service(hal_fingerprint_server, hal_fingerprint_test_service)

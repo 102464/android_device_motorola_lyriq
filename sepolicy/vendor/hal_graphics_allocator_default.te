@@ -13,3 +13,6 @@ allow hal_graphics_allocator_default mobicore_user_device:chr_file { append geta
 allow hal_graphics_allocator_default proc_ged:file { getattr ioctl lock map open read watch watch_reads };
 allow hal_graphics_allocator_default sw_sync_device:chr_file { append getattr ioctl lock map open read watch watch_reads write };
 allow init hal_graphics_allocator_default:process transition;
+
+# allocator memfd passed to clients over binder (stock parity)
+allow { hal_graphics_allocator_client -isolated_app_all } hal_graphics_allocator_default_tmpfs:file { append getattr ioctl lock map open read watch watch_reads write };

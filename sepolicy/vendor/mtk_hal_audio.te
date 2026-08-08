@@ -1,5 +1,7 @@
 type mtk_hal_audio, domain;
 init_daemon_domain(mtk_hal_audio)
+hal_server_domain(mtk_hal_audio, hal_audio)
+hal_client_domain(mtk_hal_audio, hal_power)
 
 allow init mtk_hal_audio:process transition;
 allow mtk_hal_audio adsp_device:chr_file { append getattr ioctl lock map open read watch watch_reads write };
