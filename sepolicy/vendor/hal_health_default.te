@@ -1,0 +1,6 @@
+# lyriq additions for hal_health_default (domain declared in system/sepolicy)
+# LyriqHealth reads charger/power_supply nodes (stock parity)
+
+allow hal_health_default vendor_sysfs_battery_supply:dir { getattr open read search };
+allow hal_health_default vendor_sysfs_battery_supply:file { getattr open read };
+allow hal_health_default vendor_sysfs_battery_supply:lnk_file { read };
