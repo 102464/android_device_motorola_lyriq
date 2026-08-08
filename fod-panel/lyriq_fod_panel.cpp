@@ -1,4 +1,4 @@
-// Watches sys.fod.hbm (set by the framework on UDFPS pointer events) and
+// Watches vendor.fod.hbm (set by the framework on UDFPS pointer events) and
 // toggles panel HBM through the stock Moto display panel HAL, mirroring
 // stock: finger down -> setMode(HIGH_BRIGHT_FOD), finger up -> setMode(NORMAL).
 
@@ -20,7 +20,7 @@
 #define TXN_SET_MODE 5
 #define PANEL_MODE_NORMAL 0
 #define PANEL_MODE_HIGH_BRIGHT_FOD 4
-#define HBM_PROP "sys.fod.hbm"
+#define HBM_PROP "vendor.fod.hbm"
 
 // Client-only stubs; AIBinder_Class_define rejects null callbacks.
 static void* panelOnCreate(void*) { return nullptr; }
