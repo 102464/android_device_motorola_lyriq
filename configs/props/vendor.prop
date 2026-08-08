@@ -153,6 +153,10 @@ ro.surface_flinger.protected_contents=true
 ro.surface_flinger.set_idle_timer_ms=250
 ro.surface_flinger.set_touch_timer_ms=1000
 ro.surface_flinger.use_color_management=true
+# HWC AOD gate (unset on stock = AOD disabled)
+ro.vendor.mtk_aod_support=1
+# WMS layer patch for Moto edge-lights overlay window type
+ro.vendor.moto.edge_lights=1
 ro.surface_flinger.use_smart_90_for_video=true
 ro.telephony.iwlan_operation_mode=AP-assisted
 ro.telephony.sim.count=2
