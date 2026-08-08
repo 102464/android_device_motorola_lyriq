@@ -139,6 +139,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Dynamic Partitions
 PRODUCT_USE_DYNAMIC_PARTITIONS := true
 
+# Vendor linker config (Widevine L1: liboemcrypto provideLibs, same as stock linker.config.pb)
+PRODUCT_VENDOR_LINKER_CONFIG_FRAGMENTS += device/motorola/lyriq/configs/linker/vendor-linker.config.json
+
 # API
 PRODUCT_SHIPPING_API_LEVEL := 33
 BOARD_SHIPPING_API_LEVEL := 30
