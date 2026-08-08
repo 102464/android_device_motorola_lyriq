@@ -105,6 +105,8 @@ blob_fixups: blob_fixups_user_type = {
     (
         'vendor/bin/hw/android.hardware.audio.service-aidl.mediatek',
         'vendor/lib64/hw/android.hardware.soundtrigger3-impl.so',
+        'vendor/lib64/soundfx/libswdapaidl.so',
+        'vendor/lib64/soundfx/libswgamedapaidl.so',
     ): blob_fixup()
         .replace_needed('libaudio_aidl_conversion_common_ndk.so', 'libaudio_aidl_conversion_common_ndk_prebuilt.so'),
     'vendor/lib64/android.hardware.audio.core-impl-mediatek.so': blob_fixup()
@@ -168,6 +170,18 @@ blob_fixups: blob_fixups_user_type = {
         .clear_symbol_version('AHardwareBuffer_describe')
         .clear_symbol_version('AHardwareBuffer_lock')
         .clear_symbol_version('AHardwareBuffer_unlock'),
+    # 32-bit c2 service calls sysinfo in its error path; minijail RET_TRAPs
+    # unlisted syscalls (SIGSYS loop).
+    'vendor/etc/seccomp_policy/android.hardware.media.c2@1.2-mediatek-seccomp-policy': blob_fixup()
+        .add_line_if_missing('sysinfo: 1'),
+    # 32-bit libvcodec_oal.so references __aeabi_memcpy/__aeabi_memset/
+    # __gnu_Unwind_Find_exidx with @LIBC_PRIVATE; the unversioned libc vendor
+    # variant cannot satisfy the versioned refs at check time. Runtime libc.so
+    # carries LIBC_PRIVATE, so clearing the version node is safe.
+    'vendor/lib/libvcodec_oal.so': blob_fixup()
+        .clear_symbol_version('__aeabi_memcpy')
+        .clear_symbol_version('__aeabi_memset')
+        .clear_symbol_version('__gnu_Unwind_Find_exidx'),
 
 }  # fmt: skip
 
