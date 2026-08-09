@@ -1,0 +1,12 @@
+# Moto system services (motsettings, moto_ext_telephony.registry, etc.),
+# added by system_server. Mirrors stock system_ext policy.
+# system_server_service attribute allows system_server to add them.
+type mot_system_service, system_server_service, service_manager_type;
+
+allow audioserver mot_system_service:service_manager find;
+allow cameraserver mot_system_service:service_manager find;
+allow platform_app mot_system_service:service_manager find;
+allow priv_app mot_system_service:service_manager find;
+allow radio mot_system_service:service_manager find;
+# no motoappdomain in this tree; Moto apps run as system_app here
+allow system_app mot_system_service:service_manager find;

@@ -1,0 +1,13 @@
+# audio parameter parser service (system_ext), mirrors stock system_ext policy
+type audio_vendor_parameter_parser, domain, coredomain, binderservicedomain;
+type audio_vendor_parameter_parser_exec, exec_type, file_type, system_file_type;
+init_daemon_domain(audio_vendor_parameter_parser)
+
+type audio_vendor_parameter_parser_service, service_manager_type;
+allow audio_vendor_parameter_parser audio_vendor_parameter_parser_service:service_manager { add find };
+allow audioserver audio_vendor_parameter_parser_service:service_manager find;
+allow system_app audio_vendor_parameter_parser_service:service_manager find;
+
+allow audio_vendor_parameter_parser audioserver:binder { transfer };
+allow audio_vendor_parameter_parser servicemanager:binder { call transfer };
+allow audio_vendor_parameter_parser servicemanager:fd { use };

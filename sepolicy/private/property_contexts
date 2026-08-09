@@ -1,0 +1,3 @@
+# init.mmi.rc 将 ro.vendor.mot.hw.rkp_csr_uploaded 复制到 ro.rkp.csr_uploaded;
+# 原厂标签 rkp_config_prop 是 plat 私有类型, 用全域可读且 vendor_init 可写的 exported_default_prop 替代
+ro.rkp.csr_uploaded u:object_r:exported_default_prop:s0 exact int
