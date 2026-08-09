@@ -27,6 +27,9 @@
     <bool name="config_dozeAfterScreenOff">true</bool>
     <bool name="config_dozeAlwaysOnDisplayAvailable">true</bool>
     <bool name="config_dozeAlwaysOnEnabled">false</bool>
+    <!-- Lift-to-check pulse: sensors.mt6893.so provides pick_up_gesture
+         (stock leaves this off; user-toggleable in ambient display settings) -->
+    <bool name="config_dozePulsePickup">true</bool>
     <integer name="config_screenBrightnessDoze">17</integer>
     <bool name="config_powerDecoupleAutoSuspendModeFromDisplay">true</bool>
     <bool name="config_powerDecoupleInteractiveModeFromDisplay">true</bool>
@@ -124,6 +127,17 @@
     <bool name="config_device_volte_available">true</bool>
     <bool name="config_device_vt_available">true</bool>
     <bool name="config_device_wfc_ims_available">true</bool>
+
+    <!-- The stock ImsService.apk hardcodes stock's compile-time IDs for
+         config_device_volte_available (0x01110159) and
+         config_device_wfc_ims_available (0x0111015c). On bp1a these IDs resolve
+         to the two dreams configs below, whose AOSP defaults are false, so the
+         blob decides VoLTE/WFC are unsupported and never sends AT+EIAREG=1;
+         IMS PDN never activates and calls fail (logcat-bp1a: ImsConfigUtils
+         getBooleanDeviceConfig value=false). Force them true; side effect is
+         limited to screen saver (dreams) behaviour. -->
+    <bool name="config_dreamsDisabledByAmbientModeSuppressionConfig">true</bool>
+    <bool name="config_dreamsOnlyEnabledForDockUser">true</bool>
 
     <!-- Default to gesture navigation (mode=2). AOSP default is 0 (3-button).
          Without this overlay the device boots into 3-button mode and the edge
