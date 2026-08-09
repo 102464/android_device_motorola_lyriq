@@ -57,3 +57,8 @@ allow mtk_hal_mbrain sysfs_zram:file { getattr ioctl lock map open read watch wa
 allow mtk_hal_mbrain sysfs_zram:lnk_file { getattr ioctl lock map open read watch watch_reads };
 allow mtk_hal_mbrain vendor_mtk_mbrain_support_prop:file { getattr map open read };
 allow mtk_hal_mbrain vendor_mtk_mbrain_support_prop:property_service { set };
+hal_attribute(mtk_mbrain)
+hal_server_domain(mtk_hal_mbrain, hal_mtk_mbrain)
+allow hal_mtk_mbrain_client mtk_hal_mbrain_service:service_manager find;
+add_service(hal_mtk_mbrain_server, mtk_hal_mbrain_service)
+binder_call(hal_mtk_mbrain_server, servicemanager)

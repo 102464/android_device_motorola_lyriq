@@ -5,3 +5,8 @@ allow init mtkpower_applist:process transition;
 allow mtkpower_applist mtkpower_applist_exec:file { entrypoint execute getattr map open read };
 allow mtkpower_applist proc_perfmgr:dir { getattr ioctl lock open read search watch watch_reads };
 allow mtkpower_applist proc_perfmgr:file { append getattr ioctl lock map open read watch watch_reads write };
+hal_attribute(mtk_applist)
+hal_server_domain(mtkpower_applist, hal_mtk_applist)
+allow hal_mtk_applist_client mtk_hal_applist_service:service_manager find;
+add_service(hal_mtk_applist_server, mtk_hal_applist_service)
+binder_call(hal_mtk_applist_server, servicemanager)

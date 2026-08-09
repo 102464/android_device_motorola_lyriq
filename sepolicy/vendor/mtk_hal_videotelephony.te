@@ -8,3 +8,8 @@ allow mtk_hal_videotelephony rild:unix_stream_socket { connectto };
 allow mtk_hal_videotelephony rild_oem_socket:sock_file { write };
 allow mtk_hal_videotelephony servicemanager:binder { call transfer };
 allow mtk_hal_videotelephony volte_imsvt1_socket:sock_file { append lock map open write };
+hal_attribute(mtk_videotelephony)
+hal_server_domain(mtk_hal_videotelephony, hal_mtk_videotelephony)
+allow hal_mtk_videotelephony_client mtk_hal_videotelephony_service:service_manager find;
+add_service(hal_mtk_videotelephony_server, mtk_hal_videotelephony_service)
+binder_call(hal_mtk_videotelephony_server, servicemanager)

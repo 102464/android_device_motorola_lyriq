@@ -21,3 +21,10 @@ allow mtk_lbs_service sysfs_ccci:file { getattr ioctl lock map open read watch w
 allow mtk_lbs_service sysfs_wwan_fsm_state:file { getattr ioctl lock map open read watch watch_reads };
 allow mtk_lbs_service vendor_mtk_lbs_prop:file { getattr map open read };
 allow mtk_lbs_service vendor_mtk_lbs_prop:property_service { set };
+
+hal_server_domain(mtk_lbs_service, hal_mtk_lbs)
+allow hal_mtk_lbs_client mtk_hal_lbs_service:service_manager find;
+add_service(hal_mtk_lbs_server, mtk_hal_lbs_service)
+binder_call(hal_mtk_lbs_server, servicemanager)
+allow mtk_lbs_service vendor_mtk_lbs_prop:file { getattr map open read };
+allow mtk_lbs_service vendor_mtk_lbs_prop:property_service { set };

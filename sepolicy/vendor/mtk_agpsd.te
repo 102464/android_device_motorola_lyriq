@@ -1,0 +1,3 @@
+# lyriq additions for mtk_agpsd (domain declared in device/mediatek)
+allow mtk_agpsd vendor_mtk_lbs_prop:file { getattr map open read };
+allow hal_gnss vendor_mtk_lbs_prop:file { getattr map open read };

@@ -134,3 +134,7 @@ allow mtk_hal_audio vendor_mtk_audiohal_prop:file { getattr map open read };
 allow mtk_hal_audio vendor_mtk_audiohal_prop:property_service { set };
 allow mtk_hal_audio vendor_mtk_bt_perf_prop:file { getattr map open read };
 allow mtk_hal_audio vow_device:chr_file { append getattr ioctl lock map open read watch watch_reads write };
+allow system_app mtk_hal_audio:binder { call transfer };
+allow servicemanager mtk_hal_audio:binder { call transfer };
+# stock grants hal_audio_default; lyriq audio HAL runs in mtk_hal_audio
+allow mtk_hal_audio vendor_mot_dolby_prop:file { getattr map open read };

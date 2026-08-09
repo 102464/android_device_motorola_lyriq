@@ -6,3 +6,8 @@ allow hal_mothealth_default dumpstate:fd { use };
 allow hal_mothealth_default dumpstate:fifo_file { write };
 allow hal_mothealth_default hal_mothealth_default_exec:file { entrypoint execute getattr map open read };
 allow init hal_mothealth_default:process transition;
+hal_attribute(mothealth)
+hal_server_domain(hal_mothealth_default, hal_mothealth)
+allow hal_mothealth_client hal_mothealth_aidl_service:service_manager find;
+add_service(hal_mothealth_server, hal_mothealth_aidl_service)
+binder_call(hal_mothealth_server, servicemanager)

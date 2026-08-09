@@ -1,0 +1,3 @@
+# stock parity: mnld 查找 mbrain 服务
+allow mnld mtk_hal_mbrain_service:service_manager find;
+allow mnld servicemanager:binder call;

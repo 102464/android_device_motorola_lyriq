@@ -1,0 +1,2 @@
+# lyriq additions for vpud_native (domain declared in device/mediatek)
+hal_client_domain(vpud_native, hal_mtk_power)

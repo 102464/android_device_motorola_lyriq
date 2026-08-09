@@ -6,3 +6,8 @@ allow hal_fdrcontrol_default motobox_exec:file { execute getattr map open read }
 allow hal_fdrcontrol_default vendor_misc_writer:process { rlimitinh siginh };
 allow hal_fdrcontrol_default vendor_misc_writer:process { transition };
 allow init hal_fdrcontrol_default:process transition;
+hal_attribute(fdrcontrol)
+hal_server_domain(hal_fdrcontrol_default, hal_fdrcontrol)
+allow hal_fdrcontrol_client hal_fdrcontrol_aidl_service:service_manager find;
+add_service(hal_fdrcontrol_server, hal_fdrcontrol_aidl_service)
+binder_call(hal_fdrcontrol_server, servicemanager)

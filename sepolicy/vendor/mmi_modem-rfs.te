@@ -13,3 +13,4 @@ allow mmi_modem-rfs panic_data_file:file { append create getattr ioctl lock map 
 allow mmi_modem-rfs self:capability { chown fowner fsetid };
 allow mmi_modem-rfs vendor_file:file { execute_no_trans };
 allow mmi_modem-rfs vendor_toolbox_exec:file { execute_no_trans };
+allow mmi_modem-rfs mnt_vendor_file:dir { search };

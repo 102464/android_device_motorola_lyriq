@@ -7,3 +7,8 @@ allow hal_imagetuner_default dumpstate:fifo_file { write };
 allow hal_imagetuner_default hal_imagetuner_default_exec:file { entrypoint execute getattr map open read };
 allow hal_imagetuner_default hidl_memory_hwservice:hwservice_manager { find };
 allow init hal_imagetuner_default:process transition;
+hal_attribute(imagetuner)
+hal_server_domain(hal_imagetuner_default, hal_imagetuner)
+allow hal_imagetuner_client hal_imagetuner_aidl_service:service_manager find;
+add_service(hal_imagetuner_server, hal_imagetuner_aidl_service)
+binder_call(hal_imagetuner_server, servicemanager)

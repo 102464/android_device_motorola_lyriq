@@ -5,3 +5,15 @@ allow mtk_hal_camera sysfs_therm:file { getattr open read };
 
 # IATMs AIDL service registration (stock service_contexts)
 allow mtk_hal_camera mtk_hal_atms_service:service_manager { add find };
+
+allow mtk_hal_camera persist_camera_file:dir { search };
+allow mtk_hal_camera persist_camera_file:file { getattr open read setattr };
+allow mtk_hal_camera persist_data_file:dir { search };
+allow hal_camera imager_data_file:dir { add_name getattr ioctl lock open read remove_name search watch watch_reads write };
+allow hal_camera imager_data_file:file { append getattr ioctl lock map open read watch watch_reads write };
+allow mtk_hal_camera mtk_hal_bgs_service:service_manager { add find };
+allow mtk_hal_camera mtk_hal_isphal_service:service_manager { add find };
+allow mtk_hal_camera mtk_hal_postproc_service:service_manager { add find };
+
+hal_client_domain(mtk_hal_camera, hal_mtk_power)
+allow mtk_hal_camera fwk_sensor_service:service_manager { find };

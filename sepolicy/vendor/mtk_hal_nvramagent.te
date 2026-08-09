@@ -32,3 +32,8 @@ allow mtk_hal_nvramagent sysfs_boot_mode:file { getattr ioctl lock map open read
 allow mtk_hal_nvramagent sysfs_ccci:dir { search };
 allow mtk_hal_nvramagent sysfs_ccci:file { getattr ioctl lock map open read watch watch_reads };
 allow mtk_hal_nvramagent vendor_mtk_rat_config_prop:file { getattr map open read };
+
+hal_server_domain(mtk_hal_nvramagent, hal_mtk_nvramagent)
+allow hal_mtk_nvramagent_client mtk_hal_nvramagent_service:service_manager find;
+add_service(hal_mtk_nvramagent_server, mtk_hal_nvramagent_service)
+binder_call(hal_mtk_nvramagent_server, servicemanager)

@@ -1,0 +1,2 @@
+# stock parity: Moto 设置应用读取 zram 统计
+allow system_app sysfs_zram:file { getattr open read };

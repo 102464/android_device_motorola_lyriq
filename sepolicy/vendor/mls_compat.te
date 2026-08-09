@@ -1,0 +1,6 @@
+# Stock parity: MLS attribute assignments (stock CIL has them, AOSP/MTK base lacks them)
+# 缺失后果: app (s0:c512,c768) 写 gralloc memfd (s0) 被 mlsconstrain file write 的 l1 eq l2 拒绝
+typeattribute hal_graphics_allocator_default_tmpfs mlstrustedobject;
+typeattribute apusys_device mlstrustedobject;
+typeattribute mtk_hal_power mlstrustedsubject;
+typeattribute eara_io mlstrustedsubject;

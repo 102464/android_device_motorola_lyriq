@@ -211,3 +211,9 @@ allow mtk_hal_power vendor_mtk_webp_enhancement_prop:file { getattr map open rea
 allow mtk_hal_power vendor_mtk_webp_enhancement_prop:property_service { set };
 allow mtk_hal_power vpud_native:dir { getattr ioctl lock open read search watch watch_reads };
 allow mtk_hal_power vpud_native:file { append getattr ioctl lock map open read watch watch_reads write };
+
+hal_server_domain(mtk_hal_power, hal_mtk_power)
+hal_client_domain(mtk_hal_power, hal_mtk_mbrain)
+allow hal_mtk_power_client mtk_hal_power_service:service_manager find;
+add_service(hal_mtk_power_server, mtk_hal_power_service)
+binder_call(hal_mtk_power_server, servicemanager)

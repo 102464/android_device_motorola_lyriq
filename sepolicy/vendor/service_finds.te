@@ -1,0 +1,4 @@
+# cross-domain service find rules (stock parity)
+allow radio mtk_hal_rcs_ua_service:service_manager find;
+allow surfaceflinger mtk_hal_pq_service:service_manager find;
+allow system_server hal_moto_panel_default:binder { call transfer };

@@ -1,0 +1,3 @@
+# lyriq additions for hal_keymint_default (domain declared in system/sepolicy)
+allow hal_keymint_default tkcore_protect_data_file:dir { search };
+allow hal_keymint_default tkcore_protect_data_file:file { getattr ioctl lock map open read watch watch_reads };

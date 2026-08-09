@@ -1,0 +1,4 @@
+# lyriq additions for vtservice (domain declared in device/mediatek)
+hal_client_domain(vtservice, hal_mtk_videotelephony)
+binder_call(vtservice, mtk_hal_videotelephony)
+allow vtservice mtk_hal_videotelephony:fd { use };

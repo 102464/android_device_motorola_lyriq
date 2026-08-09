@@ -1,0 +1,3 @@
+# lyriq additions for hal_nfc_default (domain declared in device/mediatek)
+allow hal_nfc_default vendor_mot_nfc_prop:file { getattr map open read };
+allow hal_nfc_default vendor_mot_nfc_prop:property_service { set };

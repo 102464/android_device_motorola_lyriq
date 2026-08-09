@@ -4,3 +4,5 @@ allow hal_graphics_composer_default sysfs_leds:dir { search };
 
 # composer extension AIDL service registration (stock service_contexts)
 add_service(hal_graphics_composer_server, mtk_hal_composer_ext_service)
+allow hal_graphics_composer_default sysfs_leds:dir { getattr ioctl lock open read search watch watch_reads };
+allow hal_graphics_composer_default sysfs_leds:file { append getattr ioctl lock map open read watch watch_reads write };

@@ -46,3 +46,4 @@ allow mtk_hal_bluetooth system_suspend_server:fd { use };
 allow mtk_hal_bluetooth uhid_device:chr_file { append getattr ioctl lock map open read watch watch_reads write };
 allow mtk_hal_bluetooth vendor_mtk_wmt_prop:file { getattr map open read };
 allow mtk_hal_bluetooth vendor_mtk_wmt_prop:property_service { set };
+allow system_app mtk_hal_bluetooth:binder { call transfer };

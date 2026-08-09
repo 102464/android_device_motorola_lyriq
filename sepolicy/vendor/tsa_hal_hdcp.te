@@ -11,3 +11,8 @@ allow tsa_hal_hdcp persist_data_file:file { append getattr ioctl lock map open r
 allow tsa_hal_hdcp tsa_hal_hdcp_exec:file { entrypoint execute getattr map open read };
 allow tsa_hal_hdcp vndbinder_device:chr_file { append getattr ioctl lock map open read watch watch_reads write };
 allow tsa_hal_hdcp vndservicemanager:binder { call transfer };
+hal_attribute(tsa_hdcp)
+hal_server_domain(tsa_hal_hdcp, hal_tsa_hdcp)
+allow hal_tsa_hdcp_client tsa_hal_hdcp_service:service_manager find;
+add_service(hal_tsa_hdcp_server, tsa_hal_hdcp_service)
+binder_call(hal_tsa_hdcp_server, servicemanager)

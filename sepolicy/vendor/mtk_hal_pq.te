@@ -32,3 +32,4 @@ allow mtk_hal_pq vendor_mtk_pq_prop:property_service { set };
 allow mtk_hal_pq vendor_mtk_pq_ro_prop:file { getattr map open read };
 allow mtk_hal_pq vendor_mtk_ufs_prop:file { getattr map open read };
 allow mtk_hal_pq mtk_hal_pq_service:service_manager { add find };
+allow hal_mtk_pq_client mtk_hal_pq_service:service_manager find;

@@ -21,3 +21,7 @@ allow lyriq_fod_gesture sysfs:file { getattr ioctl lock map open read setattr wa
 
 # panel HBM is toggled by FingerprintProvider via IDisplayPanel.setMode
 hal_client_domain(system_server, hal_moto_panel)
+
+# gesture script writes touch modes under /sys/class/touchscreen
+allow lyriq_fod_gesture sysfs_touchclass:dir search;
+allow lyriq_fod_gesture sysfs_touchclass:file { getattr open write };

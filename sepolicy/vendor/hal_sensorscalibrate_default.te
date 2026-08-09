@@ -7,3 +7,8 @@ allow hal_sensorscalibrate_default sysfs_sensor:dir { getattr ioctl lock open re
 allow hal_sensorscalibrate_default sysfs_sensor:file { append getattr ioctl lock map open read watch watch_reads write };
 allow hal_sensorscalibrate_default sysfs_situproxcal_file:file { append lock map open write };
 allow init hal_sensorscalibrate_default:process transition;
+hal_attribute(sensorscalibrate)
+hal_server_domain(hal_sensorscalibrate_default, hal_sensorscalibrate)
+allow hal_sensorscalibrate_client hal_sensorscalibrate_service:service_manager find;
+add_service(hal_sensorscalibrate_server, hal_sensorscalibrate_service)
+binder_call(hal_sensorscalibrate_server, servicemanager)

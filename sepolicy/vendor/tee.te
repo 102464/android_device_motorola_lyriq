@@ -64,3 +64,8 @@ allow tee vendor_mtk_trustkernel_tee_prop:file { getattr map open read };
 allow tee vendor_mtk_trustkernel_tee_prop:property_service { set };
 allow tee vendor_mtk_ufs_prop:file { getattr map open read };
 allow tee vendor_mtk_ufs_prop:property_service { set };
+
+hal_server_domain(hal_tee_default, hal_tee)
+allow hal_tee_client hal_tee_service:service_manager find;
+add_service(hal_tee_server, hal_tee_service)
+binder_call(hal_tee_server, servicemanager)

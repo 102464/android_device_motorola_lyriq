@@ -1,0 +1,3 @@
+# lyriq additions for fuelgauged_nvram (domain declared in device/mediatek)
+allow fuelgauged_nvram sysfs_dt_firmware_android:dir { search };
+allow fuelgauged_nvram sysfs_dt_firmware_android:file { getattr open read };

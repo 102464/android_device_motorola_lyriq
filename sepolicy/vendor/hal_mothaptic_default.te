@@ -4,3 +4,13 @@ init_daemon_domain(hal_mothaptic_default)
 allow hal_mothaptic_default dumpstate:binder { transfer };
 allow hal_mothaptic_default hal_mothaptic_default_exec:file { entrypoint execute getattr map open read };
 allow init hal_mothaptic_default:process transition;
+hal_attribute(mothaptic)
+hal_server_domain(hal_mothaptic_default, hal_mothaptic)
+allow hal_mothaptic_client hal_mothaptic_aidl_service:service_manager find;
+add_service(hal_mothaptic_server, hal_mothaptic_aidl_service)
+binder_call(hal_mothaptic_server, servicemanager)
+
+# stock parity (hal_mothaptic_server attribute rules)
+allow hal_mothaptic_server sysfs_leds:dir { getattr ioctl lock open read search watch watch_reads };
+allow hal_mothaptic_server sysfs_leds:file { append getattr ioctl lock map open read watch watch_reads write };
+allow hal_mothaptic_server sysfs_leds:lnk_file { getattr ioctl lock map open read watch watch_reads };

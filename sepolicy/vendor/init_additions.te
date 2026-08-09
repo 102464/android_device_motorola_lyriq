@@ -1,0 +1,2 @@
+# lyriq additions for init
+allow init mnt_product_file:dir { mounton };

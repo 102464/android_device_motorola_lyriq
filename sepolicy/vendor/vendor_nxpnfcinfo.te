@@ -1,0 +1,10 @@
+# ported from stock CIL (round-2)
+type vendor_nxpnfcinfo, domain;
+type vendor_nxpnfcinfo_exec, exec_type, file_type, vendor_file_type;
+init_daemon_domain(vendor_nxpnfcinfo)
+
+allow vendor_nxpnfcinfo nfc_device:chr_file { append getattr ioctl lock map open read watch watch_reads write };
+allow vendor_nxpnfcinfo vendor_mot_nfc_prop:file { getattr map open read };
+allow vendor_nxpnfcinfo vendor_mot_nfc_prop:property_service { set };
+allow vendor_nxpnfcinfo init:unix_stream_socket connectto;
+allow vendor_nxpnfcinfo property_socket:sock_file write;

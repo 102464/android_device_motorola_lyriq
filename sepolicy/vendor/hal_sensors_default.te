@@ -1,0 +1,4 @@
+# lyriq additions for hal_sensors_default (domain declared in system/sepolicy)
+allow hal_sensors_default sysfs_mtk_nanohub_algo_params:file { open read write };
+binder_call(hal_sensors_default, system_server)
+allow hal_sensors_default system_server:fd { use };

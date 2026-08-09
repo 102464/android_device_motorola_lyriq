@@ -7,3 +7,14 @@ allow hal_motwlc_default dumpstate:fifo_file { write };
 allow hal_motwlc_default hal_motwlc_default_exec:file { entrypoint execute getattr map open read };
 allow hal_motwlc_default sysfs:file { read };
 allow init hal_motwlc_default:process transition;
+hal_attribute(motwlc)
+hal_server_domain(hal_motwlc_default, hal_motwlc)
+allow hal_motwlc_client hal_motwlc_aidl_service:service_manager find;
+add_service(hal_motwlc_server, hal_motwlc_aidl_service)
+binder_call(hal_motwlc_server, servicemanager)
+
+# stock parity (hal_motwlc_server attribute rules)
+allow hal_motwlc_server sysfs_wls_dev:dir { getattr ioctl lock open read search watch watch_reads };
+allow hal_motwlc_server sysfs_wls_dev:file { append getattr ioctl lock map open read watch watch_reads write };
+allow hal_motwlc_server vendor_sysfs_battery_supply:dir search;
+allow hal_motwlc_server vendor_sysfs_battery_supply:lnk_file read;

@@ -1,0 +1,3 @@
+# hal attribute declarations used across multiple .te files
+# (typeattribute resolves inline; declarations must sort before users)
+hal_attribute(mtk_power)
