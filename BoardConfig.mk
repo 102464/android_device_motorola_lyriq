@@ -6,6 +6,9 @@
 DEVICE_PATH := device/motorola/lyriq
 KERNEL_PATH := device/motorola/lyriq-kernel
 
+# SELinux (MTK declarations must precede lyriq rules that reference them)
+include device/mediatek/sepolicy_vndr/SEPolicy.mk
+
 BOARD_VENDOR_SEPOLICY_DIRS += \
     $(DEVICE_PATH)/sepolicy/vendor
 
@@ -201,9 +204,6 @@ TARGET_USERIMAGES_USE_F2FS := true
 # SPL
 BOOT_SECURITY_PATCH := 2026-04-01
 VENDOR_SECURITY_PATCH := 2026-04-01
-
-# SELinux
-include device/mediatek/sepolicy_vndr/SEPolicy.mk
 
 # Verified Boot
 BOARD_AVB_ENABLE := true
