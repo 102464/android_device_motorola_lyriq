@@ -1,0 +1,34 @@
+# Stock parity: mot_core_property_type attribute and read access
+attribute mot_core_property_type;
+
+typeattribute vendor_hw_gabutton_prop mot_core_property_type;
+typeattribute vendor_mot_aplogd_prop mot_core_property_type;
+typeattribute vendor_mot_atvc_prop mot_core_property_type;
+typeattribute vendor_mot_boot_prop mot_core_property_type;
+typeattribute vendor_mot_camera_aux_prop mot_core_property_type;
+typeattribute vendor_mot_cqa_log_prop mot_core_property_type;
+typeattribute vendor_mot_dtvhw_prop mot_core_property_type;
+typeattribute vendor_mot_factory_prop mot_core_property_type;
+typeattribute vendor_mot_fingerprint_prop mot_core_property_type;
+typeattribute vendor_mot_hab_prop mot_core_property_type;
+typeattribute vendor_mot_hw_prop mot_core_property_type;
+typeattribute vendor_mot_init_prop mot_core_property_type;
+typeattribute vendor_mot_kern_prot_prop mot_core_property_type;
+typeattribute vendor_mot_ota_tuning_valid mot_core_property_type;
+typeattribute vendor_mot_reboot_prop mot_core_property_type;
+typeattribute vendor_mot_sxf_prop mot_core_property_type;
+typeattribute vendor_mot_sys_prop mot_core_property_type;
+typeattribute vendor_mot_tcmd_prop mot_core_property_type;
+typeattribute vendor_mot_touchscreen_prop mot_core_property_type;
+
+# Stock parity: base_typeattr_339 = domain - {untrusted_app_all ephemeral_app isolated_app}
+# Nearly all domains read the kernel-lockdown status property.
+allow { domain -untrusted_app_all -ephemeral_app -isolated_app } vendor_mot_kern_prot_prop:file { getattr map open read };
+
+allow rild mot_core_property_type:file { read getattr map open };
+allow system_server mot_core_property_type:file { read getattr map open };
+allow mbm_spy mot_core_property_type:file { read getattr map open };
+allow platform_app mot_core_property_type:file { read getattr map open };
+allow priv_app mot_core_property_type:file { read getattr map open };
+# Intentional: Moto apps run in system_app domain
+allow system_app mot_core_property_type:file { read getattr map open };

@@ -94,3 +94,4 @@ vendor.trustonic.alps.alps_device::IAlps    u:object_r:alpsdevice_service:s0
 vendor.trustonic.tee.ITee/default    u:object_r:hal_tee_service:s0
 vendor.trustonic.tui.ITui/default    u:object_r:hal_tee_service:s0
 vendor.tsa.hdcp.IHDCPInterface/default    u:object_r:tsa_hal_hdcp_service:s0
+# vendor.nxp.nxpnfc_aidl.INxpNfc/default uses hal_nfc_service from MTK tree

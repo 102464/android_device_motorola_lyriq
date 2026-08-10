@@ -1,0 +1,65 @@
+# Stock parity: missing property type attributes discovered via avtab diff.
+# stock_types.te declarations were missing attributes that stock CIL assigns.
+
+# === mtk_core_property_type ===
+# MTK tree has get_prop(domain, mtk_core_property_type) granting all domains
+# read access. Types missing this attribute cannot be read by WiFi HAL, wpa,
+# conninfra_loader, etc. -> WiFi chip init failure (NIC capability parse error).
+typeattribute vendor_mtk_service_wifi_nvram_prop mtk_core_property_type;
+typeattribute vendor_mtk_service_connxo_nvram_prop mtk_core_property_type;
+typeattribute vendor_mtk_lbs_prop mtk_core_property_type;
+typeattribute vendor_mtk_input_prop mtk_core_property_type;
+typeattribute vendor_mtk_dc_call_prop mtk_core_property_type;
+typeattribute vendor_mtk_jxnpslog_prop mtk_core_property_type;
+typeattribute vendor_mtk_debugsf_mstylus_forceon_prop mtk_core_property_type;
+typeattribute vendor_mtk_boostfwk_checkpoint_prop mtk_core_property_type;
+typeattribute vendor_mtk_boostfwk_frame_decision_prop mtk_core_property_type;
+typeattribute vendor_mtk_boostfwk_sbb_touch_duration_prop mtk_core_property_type;
+typeattribute vendor_mtk_boostfwk_scroll_duration_h_prop mtk_core_property_type;
+typeattribute vendor_mtk_boostfwk_scroll_duration_v_prop mtk_core_property_type;
+typeattribute vendor_mtk_boostfwk_scroll_floor_prop mtk_core_property_type;
+
+# === vendor_restricted_property_type ===
+# Required for coredomain read neverallow exemption (property.te:184).
+typeattribute vendor_mtk_boostfwk_checkpoint_prop vendor_restricted_property_type;
+typeattribute vendor_mtk_boostfwk_frame_decision_prop vendor_restricted_property_type;
+typeattribute vendor_mtk_boostfwk_sbb_touch_duration_prop vendor_restricted_property_type;
+typeattribute vendor_mtk_boostfwk_scroll_duration_h_prop vendor_restricted_property_type;
+typeattribute vendor_mtk_boostfwk_scroll_duration_v_prop vendor_restricted_property_type;
+typeattribute vendor_mtk_boostfwk_scroll_floor_prop vendor_restricted_property_type;
+typeattribute vendor_mtk_lbs_prop vendor_restricted_property_type;
+typeattribute vendor_mtk_c2_gpu_fmt_prop vendor_restricted_property_type;
+typeattribute vendor_mtk_ise_prop vendor_restricted_property_type;
+typeattribute vendor_mtk_mnld_vote_prop vendor_restricted_property_type;
+typeattribute vendor_mtk_ufs_prop vendor_restricted_property_type;
+typeattribute vendor_mtk_webp_enhancement_prop vendor_restricted_property_type;
+typeattribute vendor_mot_nfc_prop vendor_restricted_property_type;
+typeattribute vendor_mot_paramfile_prop vendor_restricted_property_type;
+typeattribute vendor_mot_product_prop vendor_restricted_property_type;
+typeattribute vendor_mot_tcmd_ctrl_adb_prop vendor_restricted_property_type;
+typeattribute vendor_mot_tl_bak_prop vendor_restricted_property_type;
+typeattribute vendor_mot_var_prop vendor_restricted_property_type;
+
+# === vendor_internal_property_type ===
+typeattribute vendor_camera_debug_prop vendor_internal_property_type;
+typeattribute vendor_goodix_prop vendor_internal_property_type;
+typeattribute vendor_mot_ctl_bl_logs_prop vendor_internal_property_type;
+typeattribute vendor_mot_ctl_thermal_com_prop vendor_internal_property_type;
+typeattribute vendor_mot_ctl_thermal_engine_prop vendor_internal_property_type;
+typeattribute vendor_mot_ctl_wlan_logging_prop vendor_internal_property_type;
+typeattribute vendor_mot_graphic_composer_prop vendor_internal_property_type;
+typeattribute vendor_mot_hw_boardversion_prop vendor_internal_property_type;
+typeattribute vendor_mot_ril_dbg_prop vendor_internal_property_type;
+typeattribute vendor_mtk_applist_prop vendor_internal_property_type;
+typeattribute vendor_mtk_mdl_coll_restart_type_prop vendor_internal_property_type;
+typeattribute vendor_mtk_powerhal_prop vendor_internal_property_type;
+typeattribute vendor_sensors_prop vendor_internal_property_type;
+typeattribute vendor_trustonic_prop vendor_internal_property_type;
+typeattribute vendor_wifi_prop vendor_internal_property_type;
+
+# === Stock broad allow-domain read rules for Moto public props ===
+# Stock grants all domains read access to these 4 Moto props.
+allow domain vendor_mot_product_prop:file { getattr map open read };
+allow domain vendor_mot_var_prop:file { getattr map open read };
+allow domain vendor_mot_public_default_prop:file { getattr map open read };
+allow domain vendor_mot_tl_bak_prop:file { getattr map open read };
