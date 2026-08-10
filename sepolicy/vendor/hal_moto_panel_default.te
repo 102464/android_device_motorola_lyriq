@@ -8,6 +8,11 @@ type hal_moto_panel_aidl_service, service_manager_type;
 # (dumpstate must be able to find the service for bugreports)
 allow hal_moto_panel_client hal_moto_panel_aidl_service:service_manager find;
 add_service(hal_moto_panel_server, hal_moto_panel_aidl_service)
+# Stock parity: addService needs direct servicemanager access
+allow hal_moto_panel_default servicemanager:binder { call transfer };
+allow hal_moto_panel_default servicemanager:fd { use };
+# Framework FOD patch: client-to-server binder call
+binder_call(hal_moto_panel_client, hal_moto_panel_server)
 
 allow hal_moto_panel_default dri_device:chr_file { append getattr ioctl lock map open read watch watch_reads write };
 allow hal_moto_panel_default dumpstate:binder { transfer };

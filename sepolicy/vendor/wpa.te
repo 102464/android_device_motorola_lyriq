@@ -1,0 +1,4 @@
+# Stock parity: wpa_supplicant property set and rild socket
+allow wpa init:unix_stream_socket connectto;
+allow wpa property_socket:sock_file write;
+allow wpa rild:unix_dgram_socket sendto;

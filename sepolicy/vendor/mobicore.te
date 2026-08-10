@@ -9,3 +9,7 @@ allow mobicore persist_mobicore_data_file:dir { add_name create getattr ioctl lo
 allow mobicore persist_mobicore_data_file:file { append create getattr ioctl lock map open read rename setattr unlink watch watch_reads write };
 allow mobicore vendor_trustonic_prop:file { getattr map open read };
 allow mobicore vendor_trustonic_prop:property_service { set };
+# stock parity
+allow mobicore mobicore_data_file:lnk_file { read };
+allow mobicore rild:unix_stream_socket { connectto };
+allow mobicore rild_oem_socket:sock_file { write };

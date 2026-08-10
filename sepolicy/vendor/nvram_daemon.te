@@ -1,0 +1,8 @@
+# Stock parity: nvram firmware link reads
+allow nvram_daemon proc_bootconfig:lnk_file { getattr ioctl lock map open read watch watch_reads };
+allow nvram_daemon proc_cmdline:lnk_file { getattr ioctl lock map open read watch watch_reads };
+allow nvram_daemon sysfs_dt_firmware_android:lnk_file { getattr ioctl lock map open read watch watch_reads };
+
+# Stock parity: proc bootconfig/cmdline directory access
+allow nvram_daemon proc_bootconfig:dir { ioctl lock open read search watch watch_reads };
+allow nvram_daemon proc_cmdline:dir { ioctl lock open read search watch watch_reads };

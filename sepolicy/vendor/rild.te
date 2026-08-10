@@ -1,0 +1,35 @@
+# Stock parity rules for rild
+allow rild fsg_file:file { getattr ioctl lock map open read watch watch_reads };
+allow rild fsg_file:lnk_file { getattr ioctl lock map open read watch watch_reads };
+allow rild hob_device:chr_file { append getattr ioctl lock map open read watch watch_reads write };
+allow rild hostapd_data_file:dir { getattr ioctl lock open read search watch watch_reads };
+allow rild hostapd_data_file:file { getattr ioctl lock map open read watch watch_reads };
+allow rild input_device:chr_file { getattr ioctl lock map open read watch watch_reads };
+allow rild input_device:dir { getattr ioctl lock open read search watch watch_reads };
+allow rild modem_hob_block_device:blk_file { append getattr ioctl lock map open read watch watch_reads write };
+allow rild mtk_hal_netdagent_server:binder { transfer };
+allow rild mtk_hal_netdagent_server:fd { use };
+allow rild mtk_hal_netdagent_service:service_manager { find };
+allow rild mtk_wwan_device:chr_file { append getattr ioctl lock open read watch watch_reads write };
+allow rild proc_bootinfo:file { getattr ioctl lock map open read watch watch_reads };
+allow rild system_server:binder { call transfer };
+allow rild system_server:fd { use };
+allow rild vendor_file:file { execute_no_trans lock };
+# RCS status property
+allow rild vendor_mtk_service_rcs_prop:property_service set;
+
+# Stock parity: modem data, fsg partition, thermal, modem-audio link
+allow rild vendor_mtk_service_rcs_prop:file { getattr map open read };
+allow rild fsg_file:dir { getattr ioctl lock open read search watch watch_reads };
+allow rild mtk_radio_data_file:dir { getattr ioctl lock watch watch_reads };
+allow rild mtk_radio_data_file:file { append ioctl map rename setattr watch watch_reads };
+allow rild sysfs_thermal:dir { getattr ioctl lock open read search watch watch_reads };
+allow rild sysfs_thermal:file { getattr ioctl lock map open read watch watch_reads };
+allow rild mtk_hal_audio:binder { call transfer };
+allow rild mtk_hal_audio:fd use;
+allow rild system_app:fd use;
+allow rild mnt_vendor_file:dir { getattr ioctl lock open read search watch watch_reads };
+
+# Stock parity: eSIM management UI binder
+allow rild priv_app:binder { call transfer };
+allow rild priv_app:fd use;

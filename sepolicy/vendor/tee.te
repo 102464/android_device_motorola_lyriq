@@ -22,6 +22,8 @@ allow tee property_socket:sock_file { write };
 allow tee protect_f_data_file:dir { search };
 allow tee rpmb_device:blk_file { append getattr ioctl lock map open read watch watch_reads write };
 allow tee rpmb_device:chr_file { append getattr ioctl lock map open read watch watch_reads write };
+# Stock parity: lyriq rpmb uses SG_IO ioctls outside the MTK allowxperm set
+allowxperm tee rpmb_device:chr_file ioctl { 0x2200-0x22ff };
 allow tee self:cap2_userns { block_suspend };
 allow tee self:cap_userns { dac_override };
 allow tee self:capability { dac_override };

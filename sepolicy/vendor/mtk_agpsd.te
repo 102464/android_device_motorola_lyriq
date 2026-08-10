@@ -1,3 +1,11 @@
 # lyriq additions for mtk_agpsd (domain declared in device/mediatek)
 allow mtk_agpsd vendor_mtk_lbs_prop:file { getattr map open read };
 allow hal_gnss vendor_mtk_lbs_prop:file { getattr map open read };
+
+# Stock parity: assisted-GNSS data sockets
+allow mtk_agpsd agnss_proxy:unix_dgram_socket sendto;
+allow mtk_agpsd mtk_lbs_service:unix_dgram_socket sendto;
+
+# Stock parity: APM service + servicemanager fd
+allow mtk_agpsd mtk_hal_apm_service:service_manager find;
+allow mtk_agpsd servicemanager:fd use;

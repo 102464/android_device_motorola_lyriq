@@ -1,0 +1,34 @@
+# Stock parity rules for radio
+allow radio cache_file:file { append create getattr ioctl lock map open read rename setattr unlink watch watch_reads write };
+allow radio cache_private_backup_file:dir { add_name getattr ioctl lock open read remove_name search watch watch_reads write };
+allow radio cache_private_backup_file:file { append create getattr ioctl lock map open read rename setattr unlink watch watch_reads write };
+allow radio cache_recovery_file:dir { add_name getattr ioctl lock open read remove_name search watch watch_reads write };
+allow radio cache_recovery_file:file { append create getattr ioctl lock map open read rename setattr unlink watch watch_reads write };
+allow radio mnt_product_file:dir { search };
+allow radio mtk_hal_atci_service:service_manager { find };
+allow radio mtk_hal_audio:binder { call transfer };
+allow radio mtk_hal_mdm_service:service_manager { find };
+allow radio priv_app:tcp_socket { read write };
+allow radio recovery_service:service_manager { find };
+allow radio system_app:unix_stream_socket { connectto };
+
+# Stock parity: alpsdevice service + cache files
+allow radio alpsdevice_service:service_manager find;
+allow radio cache_backup_file:dir { add_name ioctl lock open read remove_name search watch watch_reads write };
+allow radio cache_backup_file:file { append create ioctl lock open rename setattr unlink watch watch_reads };
+allow radio cache_file:dir { add_name create ioctl lock open read remove_name rename reparent rmdir search setattr watch watch_reads write };
+
+# Stock parity: MTK HAL binder calls
+allow radio mtk_hal_gpuserv:binder { call transfer };
+allow radio mtk_hal_gpuserv:fd use;
+allow radio mtk_hal_gpuserv_service:binder { call transfer };
+allow radio mtk_hal_gpuserv_service:fd use;
+allow radio mtk_hal_gpuserv_service:service_manager find;
+allow radio mtk_hal_mbrain:binder { call transfer };
+allow radio mtk_hal_mbrain:fd use;
+allow radio mtk_hal_mbrain_service:binder { call transfer };
+allow radio mtk_hal_mbrain_service:fd use;
+allow radio mtk_hal_mbrain_service:service_manager find;
+allow radio mtk_hal_mms_service:binder { call transfer };
+allow radio mtk_hal_mms_service:fd use;
+allow radio mtk_hal_mms_service:service_manager find;

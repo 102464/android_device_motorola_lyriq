@@ -1,3 +1,16 @@
-# stock parity: mnld 查找 mbrain 服务
+# Stock parity: mbrain service lookup
 allow mnld mtk_hal_mbrain_service:service_manager find;
 allow mnld servicemanager:binder call;
+
+# Stock parity: modem log device nodes and notification sockets
+allow mnld ccci_device:chr_file { append getattr ioctl lock open read watch watch_reads write };
+allow mnld gsm0710muxd_device:chr_file { append getattr ioctl lock open read watch watch_reads write };
+allow mnld hf_manager_device:chr_file { append getattr ioctl lock open read watch watch_reads write };
+allow mnld sysfs_ccci:dir search;
+allow mnld sysfs_ccci:file { getattr ioctl lock map open read watch watch_reads };
+allow mnld factory:unix_dgram_socket sendto;
+allow mnld meta_tst:unix_dgram_socket sendto;
+allow mnld mtk_lbs_service:unix_dgram_socket sendto;
+allow mnld fwk_sensor_service:service_manager find;
+allow mnld hidl_manager_hwservice:hwservice_manager find;
+allow mnld servicemanager:binder transfer;

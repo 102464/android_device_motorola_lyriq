@@ -1,0 +1,3 @@
+# Stock parity: MTK nvram readiness property reads
+allow wlan_assistant vendor_mtk_service_connxo_nvram_prop:file { getattr map open read };
+allow wlan_assistant vendor_mtk_service_wifi_nvram_prop:file { getattr map open read };

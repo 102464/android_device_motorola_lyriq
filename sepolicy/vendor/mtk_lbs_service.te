@@ -13,6 +13,10 @@ allow mtk_lbs_service mnld:unix_dgram_socket { sendto };
 allow mtk_lbs_service mtk_agpsd:unix_dgram_socket { sendto };
 allow mtk_lbs_service mtk_agpsd:unix_stream_socket { connectto };
 allow mtk_lbs_service mtk_lbs_service_exec:file { entrypoint execute getattr map open read };
+
+# Stock parity: GNSS HAL binder (GPS)
+allow mtk_lbs_service mtk_hal_gnss:binder { call transfer };
+allow mtk_lbs_service mtk_hal_gnss:fd use;
 allow mtk_lbs_service mtk_wwan_device:chr_file { append getattr ioctl lock open read watch watch_reads write };
 allow mtk_lbs_service property_socket:sock_file { write };
 allow mtk_lbs_service self:netlink_kobject_uevent_socket { append bind connect create getattr getopt lock map read setattr setopt shutdown write };

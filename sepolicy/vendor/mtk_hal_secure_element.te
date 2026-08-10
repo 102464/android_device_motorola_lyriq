@@ -1,0 +1,5 @@
+# Stock parity: MTK SE HAL property set chain and vendor mount access
+allow mtk_hal_secure_element init:unix_stream_socket connectto;
+allow mtk_hal_secure_element property_socket:sock_file write;
+allow mtk_hal_secure_element vendor_mot_secure_element_prop:property_service set;
+allow mtk_hal_secure_element mnt_vendor_file:dir search;

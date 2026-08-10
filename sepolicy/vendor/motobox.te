@@ -1,0 +1,6 @@
+# Stock parity: vendor daemons run motobox applets (e.g. init.oem.hw.sh
+# sets ro.vendor.hw.* via `motobox expat`). Stock grants this via
+# base_typeattr_364 = domain - {coredomain halserverdomain vendor_init mediacodec}.
+allow { domain -coredomain -halserverdomain -vendor_init -mediacodec } motobox_exec:file {
+    getattr ioctl lock map open read watch watch_reads execute execute_no_trans
+};

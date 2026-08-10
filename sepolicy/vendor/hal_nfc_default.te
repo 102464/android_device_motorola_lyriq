@@ -1,3 +1,9 @@
 # lyriq additions for hal_nfc_default (domain declared in device/mediatek)
 allow hal_nfc_default vendor_mot_nfc_prop:file { getattr map open read };
 allow hal_nfc_default vendor_mot_nfc_prop:property_service { set };
+
+# NXP extension service uses hal_nfc_service (MTK tree), add+find auto-granted
+# by hal_attribute_service(hal_nfc, hal_nfc_service) via hal_nfc_server attribute.
+
+# Stock parity: NFC -> eSE fd sharing (binder_call auto-covered by hal_client_domain)
+allow hal_nfc_default hal_secure_element_default:fd use;
