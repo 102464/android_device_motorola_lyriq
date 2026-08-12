@@ -11,6 +11,8 @@ allow mtk_hal_camera persist_camera_file:file { getattr open read setattr };
 allow mtk_hal_camera persist_data_file:dir { search };
 allow hal_camera imager_data_file:dir { add_name getattr ioctl lock open read remove_name search watch watch_reads write };
 allow hal_camera imager_data_file:file { append getattr ioctl lock map open read watch watch_reads write };
+allow hal_camera imager_metadata_file:dir { add_name getattr ioctl lock open read remove_name search watch watch_reads write };
+allow hal_camera imager_metadata_file:file { append create getattr ioctl lock map open read rename setattr unlink watch watch_reads write };
 allow mtk_hal_camera mtk_hal_bgs_service:service_manager { add find };
 allow mtk_hal_camera mtk_hal_isphal_service:service_manager { add find };
 allow mtk_hal_camera mtk_hal_postproc_service:service_manager { add find };

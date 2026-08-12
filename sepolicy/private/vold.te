@@ -1,0 +1,2 @@
+# Stock parity: vold scans /mnt/product (stock vendor_sepolicy.cil)
+allow vold mnt_product_file:dir search;

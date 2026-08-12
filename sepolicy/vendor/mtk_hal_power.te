@@ -61,6 +61,7 @@ allow mtk_hal_power proc_cpuidle:dir { getattr ioctl lock open read search watch
 allow mtk_hal_power proc_cpuidle:file { append getattr ioctl lock map open read watch watch_reads write };
 allow mtk_hal_power proc_cpumgr:dir { getattr ioctl lock open read search watch watch_reads };
 allow mtk_hal_power proc_cpumgr:file { append getattr ioctl lock map open read watch watch_reads write };
+allowxperm mtk_hal_power proc_cpumgr:file ioctl { 0x6702-0x6707 0x6709 };
 allow mtk_hal_power proc_cpuqosmgr:dir { getattr ioctl lock open read search watch watch_reads };
 allow mtk_hal_power proc_cpuqosmgr:file { append getattr ioctl lock map open read watch watch_reads write };
 allow mtk_hal_power proc_dbg_slbc:dir { getattr ioctl lock open read search watch watch_reads };

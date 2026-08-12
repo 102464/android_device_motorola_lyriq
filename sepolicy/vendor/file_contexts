@@ -10,6 +10,7 @@
 /data/vendor/log/gnss(/.*)?  u:object_r:gnss_data_file:s0
 /data/vendor/mbrain(/.*)?  u:object_r:data_vendor_mbrain:s0
 /data/vendor/misc/imager(/.*)?  u:object_r:imager_data_file:s0
+/data/vendor/misc/imager/metadata(/.*)?  u:object_r:imager_metadata_file:s0
 /data/vendor/power_supply_logger(/.*)?  u:object_r:aplog_data_file:s0
 /data/vendor/tee(/.*)?  u:object_r:tee_data_file:s0
 /data/vendor_de/meta/mddb(/.*)?  u:object_r:mddb_data_file:s0

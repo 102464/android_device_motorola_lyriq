@@ -21,6 +21,7 @@ type hob_device, dev_type;
 type hwrev_data_file, data_file_type, file_type, mlstrustedobject;
 type i2c_device, dev_type;
 type imager_data_file, data_file_type, file_type, mlstrustedobject;
+type imager_metadata_file, data_file_type, file_type, mlstrustedobject;
 type kpan_block_device, dev_type;
 type kpgather, file_type;
 type kpgather_exec, exec_type, file_type, vendor_file_type;

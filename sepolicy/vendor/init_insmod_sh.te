@@ -1,0 +1,4 @@
+# Stock parity: init.insmod.sh modprobe loads system_dlkm modules
+allow init_insmod_sh system_dlkm_file:dir { ioctl read getattr lock open watch watch_reads search };
+allow init_insmod_sh system_dlkm_file:file { ioctl read getattr lock map open watch watch_reads };
+allow init_insmod_sh system_dlkm_file:system module_load;
