@@ -695,4 +695,3 @@
 /vendor/operator/app(/.*)?  u:object_r:vendor_app_file:s0
 /vendor/bin/nxpnfcinfo    u:object_r:vendor_nxpnfcinfo_exec:s0
 /vendor/bin/init\.lyriq\.fod_gesture\.sh    u:object_r:lyriq_fod_gesture_exec:s0
-/metadata/lyriq_boot_trace(/.*)?  u:object_r:lyriq_boot_trace_file:s0
