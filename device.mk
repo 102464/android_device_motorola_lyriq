@@ -93,6 +93,10 @@ PRODUCT_AAPT_PREF_CONFIG := xxhdpi
 # Audio
 $(call soong_config_set,android_hardware_audio,run_64bit,true)
 
+# USB: lyriq ships the full stock init.mt6893.usb.rc; disable the generic
+# mediatek gadget rc to avoid a duplicate module/install.
+$(call soong_config_set,mediatek_gadget,use_custom_usb_gadget_rc,true)
+
 PRODUCT_PACKAGES += \
     android.hardware.audio.common-util \
     libalsautils \

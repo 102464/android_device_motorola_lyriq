@@ -54,9 +54,12 @@ blob_fixups: blob_fixups_user_type = {
     'system_ext/bin/hw/motorola.hardware.tcmdaidl-service': blob_fixup()
         .remove_needed('libandroidicu.so'),
     'vendor/bin/hw/wpa_supplicant': blob_fixup()
+        # Android 16: source module links V5. Stock blob needs V3; all 26
+        # strong UND symbols resolve in stock V3 exports and V3->V5 api
+        # dumps have zero removals (verified 2026-08-14).
         .replace_needed(
             'android.hardware.wifi.supplicant-V3-ndk.so',
-            'android.hardware.wifi.supplicant-V4-ndk.so',
+            'android.hardware.wifi.supplicant-V5-ndk.so',
         ),
     'vendor/bin/hw/hostapd': blob_fixup()
         .replace_needed(
@@ -65,9 +68,12 @@ blob_fixups: blob_fixups_user_type = {
         )
         .remove_needed('android.hardware.wifi.common-V1-ndk.so'),
     'vendor/bin/hw/android.hardware.wifi-service-lazy': blob_fixup()
+        # Android 16: source module links V4. Stock blob needs V2; all 36
+        # AIDL strong UND symbols resolve in stock V2 exports and V2->V4
+        # api dumps have zero removals (verified 2026-08-14).
         .replace_needed(
             'android.hardware.wifi-V2-ndk.so',
-            'android.hardware.wifi-V3-ndk.so',
+            'android.hardware.wifi-V4-ndk.so',
         ),
     'vendor/lib64/libmtkcam_hal_aidl_common.so': blob_fixup()
         .replace_needed('android.hardware.camera.common-V2-ndk.so', 'android.hardware.camera.common-V1-ndk.so'),

@@ -4,4 +4,5 @@
 #
 
 PRODUCT_MAKEFILES := \
+    $(LOCAL_DIR)/custom_lyriq.mk \
     $(LOCAL_DIR)/lineage_lyriq.mk
