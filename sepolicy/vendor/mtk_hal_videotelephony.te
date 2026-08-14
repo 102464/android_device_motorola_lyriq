@@ -1,6 +1,4 @@
-type mtk_hal_videotelephony, domain;
-init_daemon_domain(mtk_hal_videotelephony)
-
+# Domain declared by device/mediatek/sepolicy_vndr; keep extra rules only
 allow init mtk_hal_videotelephony:process transition;
 allow mtk_hal_videotelephony mtk_hal_videotelephony_exec:file { entrypoint execute getattr map open read };
 allow mtk_hal_videotelephony mtkrild:unix_stream_socket { connectto };
@@ -8,8 +6,7 @@ allow mtk_hal_videotelephony rild:unix_stream_socket { connectto };
 allow mtk_hal_videotelephony rild_oem_socket:sock_file { write };
 allow mtk_hal_videotelephony servicemanager:binder { call transfer };
 allow mtk_hal_videotelephony volte_imsvt1_socket:sock_file { append lock map open write };
-hal_attribute(mtk_videotelephony)
-hal_server_domain(mtk_hal_videotelephony, hal_mtk_videotelephony)
+# hal_mtk_videotelephony attributes declared by MTK public attributes
 allow hal_mtk_videotelephony_client mtk_hal_videotelephony_service:service_manager find;
 add_service(hal_mtk_videotelephony_server, mtk_hal_videotelephony_service)
 binder_call(hal_mtk_videotelephony_server, servicemanager)

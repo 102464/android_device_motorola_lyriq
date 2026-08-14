@@ -21,14 +21,9 @@ allow radio cache_file:dir { add_name create ioctl lock open read remove_name re
 # Stock parity: MTK HAL binder calls
 allow radio mtk_hal_gpuserv:binder { call transfer };
 allow radio mtk_hal_gpuserv:fd use;
-allow radio mtk_hal_gpuserv_service:binder { call transfer };
-allow radio mtk_hal_gpuserv_service:fd use;
 allow radio mtk_hal_gpuserv_service:service_manager find;
 allow radio mtk_hal_mbrain:binder { call transfer };
 allow radio mtk_hal_mbrain:fd use;
-allow radio mtk_hal_mbrain_service:binder { call transfer };
-allow radio mtk_hal_mbrain_service:fd use;
 allow radio mtk_hal_mbrain_service:service_manager find;
-allow radio mtk_hal_mms_service:binder { call transfer };
 allow radio mtk_hal_mms_service:fd use;
 allow radio mtk_hal_mms_service:service_manager find;

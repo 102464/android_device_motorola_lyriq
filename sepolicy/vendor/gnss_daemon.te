@@ -21,7 +21,7 @@ allow gnss_daemon gps_ticksync_device:chr_file { append getattr ioctl lock open 
 allow gnss_daemon hf_manager_device:chr_file { append getattr ioctl lock open read watch watch_reads write };
 allow gnss_daemon init:unix_stream_socket { connectto };
 allow gnss_daemon metad:unix_dgram_socket { sendto };
-allow gnss_daemon mtk_hal_gnss:unix_dgram_socket { sendto };
+allow gnss_daemon hal_gnss_default:unix_dgram_socket { sendto };
 allow gnss_daemon mtk_lbs_service:unix_dgram_socket { sendto };
 allow gnss_daemon mtk_wwan_device:chr_file { append getattr ioctl lock open read watch watch_reads write };
 allow gnss_daemon netd:unix_stream_socket { connectto };

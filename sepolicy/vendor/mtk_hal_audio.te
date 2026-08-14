@@ -1,4 +1,6 @@
-type mtk_hal_audio, domain;
+# Moto audio HAL domain = MTK hal_audio_default (MTK neverallow requires
+# hal_audio_default to register mtk_hal_audio_service)
+typealias hal_audio_default alias mtk_hal_audio;
 init_daemon_domain(mtk_hal_audio)
 hal_server_domain(mtk_hal_audio, hal_audio)
 hal_client_domain(mtk_hal_audio, hal_power)

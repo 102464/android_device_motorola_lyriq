@@ -226,8 +226,6 @@
 /vendor/bin/hw/android\.hardware\.gatekeeper@1\.0-service\.beanpod\.lite  u:object_r:hal_gatekeeper_default_exec:s0
 /vendor/bin/hw/android\.hardware\.gatekeeper\.libSoftGatekeeper  u:object_r:hal_gatekeeper_default_exec:s0
 /vendor/bin/hw/android\.hardware\.gnss-service.example  u:object_r:hal_gnss_default_exec:s0
-/vendor/bin/hw/android\.hardware\.gnss-service\.mediatek  u:object_r:mtk_hal_gnss_exec:s0
-/vendor/bin/hw/android\.hardware\.gnss@2\.1-service-mediatek  u:object_r:mtk_hal_gnss_exec:s0
 /vendor/bin/hw/android\.hardware\.gnss@[0-9]\.[0-9]-service  u:object_r:hal_gnss_default_exec:s0
 /vendor/bin/hw/android\.hardware\.graphics\.allocator-V[0-9]+-service-mediatek  u:object_r:hal_graphics_allocator_default_exec:s0
 /vendor/bin/hw/android\.hardware\.graphics\.allocator-V[1-2]-service  u:object_r:hal_graphics_allocator_default_exec:s0
@@ -316,7 +314,6 @@
 /vendor/bin/hw/android\.hardware\.secure_element-service\.nxp  u:object_r:hal_secure_element_default_exec:s0
 /vendor/bin/hw/android\.hardware\.secure_element@1\.0-service  u:object_r:hal_secure_element_default_exec:s0
 /vendor/bin/hw/android\.hardware\.secure_element@1\.2-service-mediatek  u:object_r:mtk_hal_secure_element_exec:s0
-/vendor/bin/hw/android\.hardware\.secure_element@1\.2-service-st54spi  u:object_r:st54spi_hal_secure_element_exec:s0
 /vendor/bin/hw/android\.hardware\.secure_element\-service\.nxp  u:object_r:hal_secure_element_default_exec:s0
 /vendor/bin/hw/android\.hardware\.secure_element_snxxx@1\.2-service  u:object_r:hal_secure_element_default_exec:s0
 /vendor/bin/hw/android\.hardware\.security\.authgraph-service\.nonsecure  u:object_r:hal_authgraph_default_exec:s0

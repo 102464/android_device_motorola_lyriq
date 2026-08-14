@@ -9,7 +9,6 @@ allow rild input_device:dir { getattr ioctl lock open read search watch watch_re
 allow rild modem_hob_block_device:blk_file { append getattr ioctl lock map open read watch watch_reads write };
 allow rild mtk_hal_netdagent_server:binder { transfer };
 allow rild mtk_hal_netdagent_server:fd { use };
-allow rild mtk_hal_netdagent_service:service_manager { find };
 allow rild mtk_wwan_device:chr_file { append getattr ioctl lock open read watch watch_reads write };
 allow rild proc_bootinfo:file { getattr ioctl lock map open read watch watch_reads };
 allow rild system_server:binder { call transfer };

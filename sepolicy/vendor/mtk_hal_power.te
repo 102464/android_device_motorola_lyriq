@@ -39,7 +39,6 @@ allow mtk_hal_power mtk_hal_dfps:binder { call };
 allow mtk_hal_power mtk_hal_gpuserv:dir { getattr search };
 allow mtk_hal_power mtk_hal_gpuserv:file { getattr ioctl lock map open read watch watch_reads };
 allow mtk_hal_power mtk_hal_netdagent_hwservice:hwservice_manager { find };
-allow mtk_hal_power mtk_hal_netdagent_service:service_manager { find };
 allow mtk_hal_power mtk_hal_neuralnetworks:dir { getattr ioctl lock open read search watch watch_reads };
 allow mtk_hal_power mtk_hal_neuralnetworks:file { getattr ioctl lock map open read watch watch_reads };
 allow mtk_hal_power mtk_hal_nwk_opt:binder { call };
