@@ -128,11 +128,11 @@ DEVICE_PRODUCT_COMPATIBILITY_MATRIX_FILE += \
 
 # Stock ODM VINTF manifests
 ODM_MANIFEST_FILES += \
-    vendor/motorola/lyriq/proprietary/vendor/odm/etc/vintf/manifest_b.xml \
-    vendor/motorola/lyriq/proprietary/vendor/odm/etc/vintf/manifest_bn.xml \
-    vendor/motorola/lyriq/proprietary/vendor/odm/etc/vintf/manifest_d.xml \
-    vendor/motorola/lyriq/proprietary/vendor/odm/etc/vintf/manifest_de.xml \
-    vendor/motorola/lyriq/proprietary/vendor/odm/etc/vintf/manifest_dn.xml
+    vendor/motorola/lyriq/proprietary/odm/etc/vintf/manifest_b.xml \
+    vendor/motorola/lyriq/proprietary/odm/etc/vintf/manifest_bn.xml \
+    vendor/motorola/lyriq/proprietary/odm/etc/vintf/manifest_d.xml \
+    vendor/motorola/lyriq/proprietary/odm/etc/vintf/manifest_de.xml \
+    vendor/motorola/lyriq/proprietary/odm/etc/vintf/manifest_dn.xml
 
 # Stock vendor VINTF manifest fragments
 DEVICE_MANIFEST_FILE += \

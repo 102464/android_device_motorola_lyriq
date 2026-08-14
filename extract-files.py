@@ -125,6 +125,7 @@ blob_fixups: blob_fixups_user_type = {
         'vendor/lib64/librt_extamp_intf.so',
         'vendor/lib64/libsilkybrightnesscore.so'
     ): blob_fixup()
+        # libtinyxml2-v34 is provided by hardware/lineage/compat
         .replace_needed('libtinyxml2.so', 'libtinyxml2-v34.so'),
     (
         'vendor/lib64/egl/libGLES_mali.so',
@@ -145,9 +146,12 @@ blob_fixups: blob_fixups_user_type = {
         'vendor/lib/libgralloctypes.so',
         'vendor/lib/vendor.mediatek.hardware.pq_aidl-V2-ndk.so',
     ): blob_fixup()
-        .replace_needed('android.hardware.graphics.common-V5-ndk.so', 'android.hardware.graphics.common-V6-ndk.so'),
+        # Android 16: source libgralloctypes links V7; the blobs have no
+        # strong UND symbols against graphics.common (vestigial NEEDED),
+        # and V5->V7 api dumps have zero removals (verified 2026-08-14).
+        .replace_needed('android.hardware.graphics.common-V5-ndk.so', 'android.hardware.graphics.common-V7-ndk.so'),
     'vendor/lib64/vendor.mediatek.hardware.pq_aidl-V7-ndk.so': blob_fixup()
-        .replace_needed('android.hardware.graphics.common-V4-ndk.so', 'android.hardware.graphics.common-V6-ndk.so'),
+        .replace_needed('android.hardware.graphics.common-V4-ndk.so', 'android.hardware.graphics.common-V7-ndk.so'),
     # libneuralnetworks_sl_driver_mtk_legacy_prebuilt.so was linked against the
     # versioned NDK stub libnativewindow (symbols carry @LIBNATIVEWINDOW). The
     # AOSP LLNDK vendor variant libnativewindow.vendor.so is built unversioned

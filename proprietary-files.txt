@@ -162,7 +162,19 @@ vendor/etc/smartpa_param/AW_DSP.bin
 vendor/etc/smartpa_param_b/AW_DSP.bin
 vendor/etc/vintf/manifest/android.hardware.audio.effect.service-aidl.xml
 vendor/etc/vintf/manifest/android.hardware.audio.service-aidl.xml:vendor/etc/vintf/manifest/android.hardware.audio.service-aidl.mediatek.xml
+vendor/etc/vintf/manifest/CommandService.xml
+vendor/etc/vintf/manifest/dms-service.xml
+vendor/etc/vintf/manifest/manifest_apuware_apusys_aidl.xml
+vendor/etc/vintf/manifest/manifest_apuware_utils_aidl.xml
+vendor/etc/vintf/manifest/manifest_apuware_xrp_aidl.xml
+vendor/etc/vintf/manifest/manifest_rcs.xml
+vendor/etc/vintf/manifest/motorola.hardware.audio.radar2.xml
 vendor/etc/vintf/manifest/vendor.dolby.media.c2-default-service-dax.xml
+vendor/odm/etc/vintf/manifest_b.xml:odm/etc/vintf/manifest_b.xml
+vendor/odm/etc/vintf/manifest_bn.xml:odm/etc/vintf/manifest_bn.xml
+vendor/odm/etc/vintf/manifest_d.xml:odm/etc/vintf/manifest_d.xml
+vendor/odm/etc/vintf/manifest_de.xml:odm/etc/vintf/manifest_de.xml
+vendor/odm/etc/vintf/manifest_dn.xml:odm/etc/vintf/manifest_dn.xml
 vendor/lib/hw/audio.primary.mt6893.so
 vendor/lib/hw/motorola.hardware.audio.radar2-impl.so
 vendor/lib/libMtkSpeechEnh.so
@@ -1221,9 +1233,7 @@ product/priv-app/CarrierSettings/CarrierSettings.apk
 
 # Compatibility libraries
 vendor/lib/libnbaio_mono.so
-vendor/lib/libtinyxml2.so:vendor/lib/libtinyxml2-v34.so;FIX_SONAME
 vendor/lib64/libnbaio_mono.so
-vendor/lib64/libtinyxml2.so:vendor/lib64/libtinyxml2-v34.so;FIX_SONAME
 
 # Connectivity
 vendor/bin/conninfra_loader
@@ -1628,11 +1638,11 @@ vendor/etc/seccomp_policy/android.hardware.media.c2@1.2-extended-seccomp-policy
 vendor/etc/seccomp_policy/android.hardware.media.c2@1.2-mediatek-seccomp-policy
 vendor/etc/seccomp_policy/mediacodec.policy
 vendor/etc/seccomp_policy/mediaswcodec.policy
-vendor/lib/libcodec2_aidl.so;MODULE_SUFFIX=_vendor
+vendor/lib/libcodec2_aidl.so:vendor/lib/libcodec2_aidl_vendor.so
 vendor/lib/libcodec2_fsr.so
-vendor/lib/libcodec2_hidl@1.0.so;MODULE_SUFFIX=_vendor
-vendor/lib/libcodec2_hidl@1.1.so;MODULE_SUFFIX=_vendor
-vendor/lib/libcodec2_hidl@1.2.so;MODULE_SUFFIX=_vendor
+vendor/lib/libcodec2_hidl@1.0.so:vendor/lib/libcodec2_hidl@1.0_vendor.so
+vendor/lib/libcodec2_hidl@1.1.so:vendor/lib/libcodec2_hidl@1.1_vendor.so
+vendor/lib/libcodec2_hidl@1.2.so:vendor/lib/libcodec2_hidl@1.2_vendor.so
 vendor/lib/libcodec2_mtk_c2store.so
 vendor/lib/libcodec2_mtk_vdec.so
 vendor/lib/libcodec2_mtk_venc.so
@@ -1646,11 +1656,11 @@ vendor/lib/libvcodec_oal.so
 vendor/lib/libvcodec_utility_v3a.so
 vendor/lib/libvcodecdrv_v3a.so
 vendor/lib/libvpudv3a_vcodec.so
-vendor/lib64/libcodec2_aidl.so;MODULE_SUFFIX=_vendor
+vendor/lib64/libcodec2_aidl.so:vendor/lib64/libcodec2_aidl_vendor.so
 vendor/lib64/libcodec2_fsr.so
-vendor/lib64/libcodec2_hidl@1.0.so;MODULE_SUFFIX=_vendor
-vendor/lib64/libcodec2_hidl@1.1.so;MODULE_SUFFIX=_vendor
-vendor/lib64/libcodec2_hidl@1.2.so;MODULE_SUFFIX=_vendor
+vendor/lib64/libcodec2_hidl@1.0.so:vendor/lib64/libcodec2_hidl@1.0_vendor.so
+vendor/lib64/libcodec2_hidl@1.1.so:vendor/lib64/libcodec2_hidl@1.1_vendor.so
+vendor/lib64/libcodec2_hidl@1.2.so:vendor/lib64/libcodec2_hidl@1.2_vendor.so
 vendor/lib64/libcodec2_mtk_c2store.so
 vendor/lib64/libcodec2_mtk_vdec.so
 vendor/lib64/libcodec2_mtk_venc.so
@@ -1914,9 +1924,9 @@ vendor/lib/hw/vendor.mediatek.hardware.mtkpower-aidl-impl.so
 vendor/lib/libpower_timer.so
 vendor/lib/vendor.mediatek.hardware.mbrainj-V1-ndk.so
 vendor/lib/vendor.mediatek.hardware.mtkpower-V2-ndk.so;MODULE_SUFFIX=_vendor
-vendor/lib/vendor.mediatek.hardware.mtkpower@1.0.so;MODULE_SUFFIX=_vendor
-vendor/lib/vendor.mediatek.hardware.mtkpower@1.1.so;MODULE_SUFFIX=_vendor
-vendor/lib/vendor.mediatek.hardware.mtkpower@1.2.so;MODULE_SUFFIX=_vendor
+vendor/lib/vendor.mediatek.hardware.mtkpower@1.0.so:vendor/lib/vendor.mediatek.hardware.mtkpower@1.0_vendor.so
+vendor/lib/vendor.mediatek.hardware.mtkpower@1.1.so:vendor/lib/vendor.mediatek.hardware.mtkpower@1.1_vendor.so
+vendor/lib/vendor.mediatek.hardware.mtkpower@1.2.so:vendor/lib/vendor.mediatek.hardware.mtkpower@1.2_vendor.so
 vendor/lib/vendor.mediatek.hardware.mtkpower_applist-V2-ndk.so;MODULE_SUFFIX=_vendor
 vendor/lib64/android.hardware.power-service-mediatek.so
 vendor/lib64/hw/vendor.mediatek.hardware.mtkpower-aidl-impl.so
@@ -1928,9 +1938,9 @@ vendor/lib64/vendor.mediatek.hardware.mbrain-V6-ndk.so
 vendor/lib64/vendor.mediatek.hardware.mbrainj-V1-ndk.so
 vendor/lib64/vendor.mediatek.hardware.mtkpower-V1-ndk.so
 vendor/lib64/vendor.mediatek.hardware.mtkpower-V2-ndk.so;MODULE_SUFFIX=_vendor
-vendor/lib64/vendor.mediatek.hardware.mtkpower@1.0.so;MODULE_SUFFIX=_vendor
-vendor/lib64/vendor.mediatek.hardware.mtkpower@1.1.so;MODULE_SUFFIX=_vendor
-vendor/lib64/vendor.mediatek.hardware.mtkpower@1.2.so;MODULE_SUFFIX=_vendor
+vendor/lib64/vendor.mediatek.hardware.mtkpower@1.0.so:vendor/lib64/vendor.mediatek.hardware.mtkpower@1.0_vendor.so
+vendor/lib64/vendor.mediatek.hardware.mtkpower@1.1.so:vendor/lib64/vendor.mediatek.hardware.mtkpower@1.1_vendor.so
+vendor/lib64/vendor.mediatek.hardware.mtkpower@1.2.so:vendor/lib64/vendor.mediatek.hardware.mtkpower@1.2_vendor.so
 vendor/lib64/vendor.mediatek.hardware.mtkpower_applist-V2-ndk.so;MODULE_SUFFIX=_vendor
 vendor/lib64/vendor.mediatek.hardware.power@2.0.so
 
@@ -2037,7 +2047,7 @@ vendor/etc/init/android.hardware.sensors-service-multihal.rc
 vendor/etc/init/motorola.hardware.sensorscalibrate.service.rc
 vendor/etc/motorola/sensors/mot_sensor_settings.json
 vendor/etc/sensors/hals.conf
-vendor/etc/vintf/manifest/android.hardware.sensors-multihal.xml
+vendor/etc/vintf/manifest/android.hardware.sensors-multihal.xml:vendor/etc/vintf/manifest/android.hardware.sensors-multihal-mtk.xml
 vendor/etc/vintf/manifest/motorola.hardware.sensors.sensorscalibrate.xml
 vendor/firmware/remoteproc_scp
 vendor/lib/hw/sensors.dynamic_sensor_hal.so
