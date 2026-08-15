@@ -1,0 +1,18 @@
+# SELinux permissive gate (userdebug only).
+# neverallow * kernel:security setenforce forbids granting setenforce to any
+# domain, so /sys/fs/selinux/enforce can only be flipped from a permissive
+# domain. init execs /system/bin/sh in this domain from init.mt6893.rc
+# (early-init); the marker check and the enforce write are both done there.
+userdebug_or_eng(`
+  type lyriq_gate, domain;
+  permissive lyriq_gate;
+  allow init lyriq_gate:process transition;
+')
+
+# Gate marker under /metadata/lyriq_boot_trace, managed from an adb root shell.
+type lyriq_boot_trace_file, file_type;
+type_transition shell metadata_file:dir lyriq_boot_trace_file "lyriq_boot_trace";
+type_transition shell lyriq_boot_trace_file:file lyriq_boot_trace_file "selinux_permissive";
+allow shell metadata_file:dir { search write add_name remove_name };
+allow shell lyriq_boot_trace_file:dir { create getattr search open read write add_name remove_name rmdir setattr };
+allow shell lyriq_boot_trace_file:file { create open read write getattr setattr unlink };
