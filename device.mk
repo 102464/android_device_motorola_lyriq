@@ -22,6 +22,10 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 
 DEVICE_PATH := device/motorola/lyriq
 
+# adb authorized keys, installed to /product/etc/security/adb_keys and
+# exposed to adbd via the /adb_keys symlink (debuggable builds only).
+PRODUCT_ADB_KEYS := $(DEVICE_PATH)/init/lyriq_adb_keys
+
 # Recovery Boot control HAL for Virtual A/B
 PRODUCT_PACKAGES += \
     android.hardware.boot-service.default_recovery \
@@ -168,7 +172,6 @@ PRODUCT_PACKAGES += \
     init.connectivity.common.rc \
     init_conninfra.rc \
     init.insmod.sh \
-    lyriq_adb_keys \
     init.mmi.overlay.rc \
     init.mmi.rc \
     init.modem.rc \
@@ -210,6 +213,11 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     lyriq-telephony-shim \
     LyriqTelephonyInjectionOverlay
+
+# GraphicBufferSource shim: restores the A15 getHGraphicBufferProducer()
+# symbol removed by A16; loaded by the stock codec2 HIDL blobs
+PRODUCT_PACKAGES += \
+    libcodec2_gbs_shim
 
 # eSIM (eUICC on slot 1, stock product props)
 PRODUCT_PRODUCT_PROPERTIES += \
