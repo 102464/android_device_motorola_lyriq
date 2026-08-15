@@ -91,7 +91,10 @@ blob_fixups: blob_fixups_user_type = {
     # references V1-V2 symbols (verified via check_elf_file), so V5->V2 is
     # safe.
     'vendor/lib64/android.hardware.power-service-mediatek.so': blob_fixup()
-        .replace_needed('android.hardware.power-V5-ndk.so', 'android.hardware.power-V2-ndk.so'),
+        .replace_needed('android.hardware.power-V5-ndk.so', 'android.hardware.power-V2-ndk.so')
+        .replace_needed('vendor.mediatek.hardware.mtkpower@1.0.so', 'vendor.mediatek.hardware.mtkpower@1.0_vendor.so')
+        .replace_needed('vendor.mediatek.hardware.mtkpower@1.1.so', 'vendor.mediatek.hardware.mtkpower@1.1_vendor.so')
+        .replace_needed('vendor.mediatek.hardware.mtkpower@1.2.so', 'vendor.mediatek.hardware.mtkpower@1.2_vendor.so'),
     'vendor/bin/hw/vendor.mediatek.hardware.mtkpower-service.mediatek': blob_fixup()
         .replace_needed('android.hardware.power-V5-ndk.so', 'android.hardware.power-V2-ndk.so'),
     'vendor/bin/hw/android.hardware.sensors-service.multihal': blob_fixup()
@@ -116,11 +119,19 @@ blob_fixups: blob_fixups_user_type = {
     ): blob_fixup()
         .replace_needed('libaudio_aidl_conversion_common_ndk.so', 'libaudio_aidl_conversion_common_ndk_prebuilt.so'),
     'vendor/lib64/android.hardware.audio.core-impl-mediatek.so': blob_fixup()
-        .replace_needed('libaudio_aidl_conversion_common_ndk.so', 'libaudio_aidl_conversion_common_ndk_prebuilt.so'),
+        .replace_needed('libaudio_aidl_conversion_common_ndk.so', 'libaudio_aidl_conversion_common_ndk_prebuilt.so')
+        # Android 16 removed mutex_get_enable_flag() from libaudioutils; the
+        # hardware/lineage/compat shim returns kDefaultPriorityInheritance,
+        # matching the A15 aconfig flag (ENABLED) and A16's hardcoded value.
+        .add_needed('libaudioutils_shim.so'),
     (
         'vendor/lib64/hw/android.hardware.audio.effect.aidl-impl-mediatek.so',
+        'vendor/lib64/hw/audio.primary.mt6893.so',
+        'vendor/lib/hw/audio.primary.mt6893.so',
         'vendor/lib64/hw/hwcomposer.mt6893.so',
         'vendor/lib64/hw/vendor.mediatek.hardware.pq_aidl-impl.so',
+        'vendor/lib64/lib_power_applist.so',
+        'vendor/lib64/libpowerhal.so',
         'vendor/lib64/libpqxmlparser.so',
         'vendor/lib64/librt_extamp_intf.so',
         'vendor/lib64/libsilkybrightnesscore.so'
@@ -181,6 +192,86 @@ blob_fixups: blob_fixups_user_type = {
         .clear_symbol_version('AHardwareBuffer_describe')
         .clear_symbol_version('AHardwareBuffer_lock')
         .clear_symbol_version('AHardwareBuffer_unlock'),
+    # The vendor codec2 AIDL/HIDL libs are dst-renamed with a _vendor suffix
+    # to avoid the AOSP source modules' vendor install paths. Their SONAME is
+    # patched to match (FIX_SONAME in proprietary-files.txt), so rewrite the
+    # DT_NEEDED entries of every dependent to keep the MTK codec2 stack
+    # self-contained at runtime.
+    (
+        'vendor/lib/libcodec2_hidl@1.0_vendor.so',
+        'vendor/lib64/libcodec2_hidl@1.0_vendor.so',
+    ): blob_fixup()
+        # A16 removed GraphicBufferSource::getHGraphicBufferProducer() (the
+        # bufferqueue@2.0 flavor these A15 HIDL blobs import); load the
+        # device-tree shim that restores the symbol with A15 semantics.
+        .add_needed('libcodec2_gbs_shim.so'),
+    (
+        'vendor/lib/libcodec2_hidl@1.1_vendor.so',
+        'vendor/lib64/libcodec2_hidl@1.1_vendor.so',
+    ): blob_fixup()
+        .replace_needed('libcodec2_hidl@1.0.so', 'libcodec2_hidl@1.0_vendor.so')
+        .add_needed('libcodec2_gbs_shim.so'),
+    (
+        'vendor/lib/libcodec2_hidl@1.2_vendor.so',
+        'vendor/lib64/libcodec2_hidl@1.2_vendor.so',
+    ): blob_fixup()
+        .replace_needed('libcodec2_hidl@1.0.so', 'libcodec2_hidl@1.0_vendor.so')
+        .replace_needed('libcodec2_hidl@1.1.so', 'libcodec2_hidl@1.1_vendor.so')
+        .add_needed('libcodec2_gbs_shim.so'),
+    (
+        'vendor/lib/libcodec2_mtk_vdec.so',
+        'vendor/lib64/libcodec2_mtk_vdec.so',
+        'vendor/lib/libcodec2_mtk_venc.so',
+        'vendor/lib64/libcodec2_mtk_venc.so',
+        'vendor/bin/hw/android.hardware.media.c2-mediatek',
+        'vendor/bin/hw/android.hardware.media.c2-mediatek-64b',
+        'vendor/bin/hw/android.hardware.media.c2@1.2-mediatek',
+        'vendor/bin/hw/android.hardware.media.c2@1.2-mediatek-64b',
+        'vendor/bin/hw/vendor.dolby.media.c2-default-service-dax',
+    ): blob_fixup()
+        .replace_needed('libcodec2_aidl.so', 'libcodec2_aidl_vendor.so')
+        .replace_needed('libcodec2_hidl@1.0.so', 'libcodec2_hidl@1.0_vendor.so')
+        .replace_needed('libcodec2_hidl@1.1.so', 'libcodec2_hidl@1.1_vendor.so')
+        .replace_needed('libcodec2_hidl@1.2.so', 'libcodec2_hidl@1.2_vendor.so'),
+    # The vendor mtkpower@1.x HIDL libs are dst-renamed with a _vendor suffix
+    # to avoid the source-built interface modules' install paths
+    # (hardware/mediatek/interfaces). Their SONAME is patched to match
+    # (FIX_SONAME in proprietary-files.txt), so rewrite the DT_NEEDED entries
+    # of every dependent to keep the MTK power stack self-contained at runtime.
+    (
+        'vendor/lib/vendor.mediatek.hardware.mtkpower@1.1_vendor.so',
+        'vendor/lib64/vendor.mediatek.hardware.mtkpower@1.1_vendor.so',
+    ): blob_fixup()
+        .replace_needed('vendor.mediatek.hardware.mtkpower@1.0.so', 'vendor.mediatek.hardware.mtkpower@1.0_vendor.so'),
+    (
+        'vendor/lib/vendor.mediatek.hardware.mtkpower@1.2_vendor.so',
+        'vendor/lib64/vendor.mediatek.hardware.mtkpower@1.2_vendor.so',
+    ): blob_fixup()
+        .replace_needed('vendor.mediatek.hardware.mtkpower@1.0.so', 'vendor.mediatek.hardware.mtkpower@1.0_vendor.so')
+        .replace_needed('vendor.mediatek.hardware.mtkpower@1.1.so', 'vendor.mediatek.hardware.mtkpower@1.1_vendor.so'),
+    (
+        'vendor/lib/hw/audio.primary.mt6893.so',
+        'vendor/lib64/hw/audio.primary.mt6893.so',
+        'vendor/lib64/libcam.halisp.so',
+        'vendor/lib64/libmtkcam_pipelinemodel_session.so',
+        'vendor/lib64/libmtkcam_hwutils.so',
+        'vendor/lib64/libmtkcam_sysutils.so',
+        'vendor/lib64/libcam.isptuning.so',
+    ): blob_fixup()
+        .replace_needed('vendor.mediatek.hardware.mtkpower@1.0.so', 'vendor.mediatek.hardware.mtkpower@1.0_vendor.so'),
+    (
+        'vendor/lib/libmtkperf_client_vendor.so',
+        'vendor/lib64/libmtkperf_client_vendor.so',
+        'vendor/lib64/libpowerhal.so',
+    ): blob_fixup()
+        .replace_needed('vendor.mediatek.hardware.mtkpower@1.0.so', 'vendor.mediatek.hardware.mtkpower@1.0_vendor.so')
+        .replace_needed('vendor.mediatek.hardware.mtkpower@1.1.so', 'vendor.mediatek.hardware.mtkpower@1.1_vendor.so')
+        .replace_needed('vendor.mediatek.hardware.mtkpower@1.2.so', 'vendor.mediatek.hardware.mtkpower@1.2_vendor.so'),
+    'vendor/lib64/lib_power_applist.so': blob_fixup()
+        .replace_needed('vendor.mediatek.hardware.mtkpower@1.2.so', 'vendor.mediatek.hardware.mtkpower@1.2_vendor.so'),
+    'vendor/lib64/libpowerhalwrap_vendor.so': blob_fixup()
+        .replace_needed('vendor.mediatek.hardware.mtkpower@1.0.so', 'vendor.mediatek.hardware.mtkpower@1.0_vendor.so')
+        .replace_needed('vendor.mediatek.hardware.mtkpower@1.2.so', 'vendor.mediatek.hardware.mtkpower@1.2_vendor.so'),
     # 32-bit c2 service calls sysinfo in its error path; minijail RET_TRAPs
     # unlisted syscalls (SIGSYS loop).
     'vendor/etc/seccomp_policy/android.hardware.media.c2@1.2-mediatek-seccomp-policy': blob_fixup()
