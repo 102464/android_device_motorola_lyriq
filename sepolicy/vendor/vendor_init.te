@@ -37,6 +37,7 @@ allow vendor_init procfs_blockio:file { append lock map open write };
 allow vendor_init pstorefs:dir { mounton };
 allow vendor_init rootfs:dir { add_name create getattr ioctl lock open read remove_name rename reparent rmdir search setattr watch watch_reads write };
 allow vendor_init secure_element_device:chr_file { getattr };
+allow vendor_init nfc_device:chr_file { getattr };
 allow vendor_init tmpfs:dir { add_name create getattr ioctl lock open read remove_name rename reparent rmdir search setattr watch watch_reads write };
 allow vendor_init tmpfs:lnk_file { append create getattr ioctl lock map open read rename setattr unlink watch watch_reads write };
 allow vendor_init unlabeled:dir { getattr relabelfrom search setattr };
