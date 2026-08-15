@@ -2,13 +2,7 @@ ro.vendor.usb.  u:object_r:vendor_mtk_usb_prop:s0
 vendor.mtk.wwan.vote.location  u:object_r:vendor_mtk_mnld_vote_prop:s0
 vendor.vow.  u:object_r:vendor_mtk_audiohal_prop:s0
 vendor.audio.ultrasound  u:object_r:vendor_mtk_audiohal_prop:s0
-vendor.mtk.wwan.vote.speech  u:object_r:vendor_mtk_audiohal_prop:s0
 persist.vendor.radio.imsdisablesms  u:object_r:vendor_mtk_imstestmode_prop:s0
-ro.vendor.mtk_mipc_support  u:object_r:vendor_mtk_ril_mode_prop:s0
-persist.vendor.mtk_sim_switch_policy  u:object_r:vendor_mtk_default_prop:s0
-ro.vendor.arm.  u:object_r:vendor_mtk_gpu_prop:s0
-persist.vendor.debug.gpud.  u:object_r:vendor_mtk_gpu_prop:s0
-vendor.mali.  u:object_r:vendor_mtk_gpu_prop:s0
 vendor.bluetooth.lhdc_codec.supported  u:object_r:vendor_mtk_default_prop:s0
 vendor.mtk.c2.scenario.  u:object_r:vendor_mtk_video_prop:s0
 persist.vendor.bluetooth.broadcaster.tx_pwr  u:object_r:vendor_mtk_default_prop:s0
@@ -20,10 +14,7 @@ persist.vendor.bluetooth.connection_improve  u:object_r:vendor_mtk_default_prop:
 persist.vendor.bluetooth.mtk_bt_am_feature  u:object_r:vendor_mtk_default_prop:s0
 persist.vendor.bluetooth.mtk_bt_cp_feature  u:object_r:vendor_mtk_default_prop:s0
 persist.vendor.debug.hwc.  u:object_r:vendor_mtk_hwc_debug_log_prop:s0
-persist.vendor.mtk.vodata.enable  u:object_r:vendor_mtk_wfc_prop:s0
 persist.vendor.mtk.5gvowifi.force.enable  u:object_r:vendor_mtk_vonr_force_prop:s0
-ro.vendor.vt.  u:object_r:vendor_mtk_vendor_vt_prop:s0
-ro.vendor.vt_hevc_support  u:object_r:vendor_mtk_default_prop:s0
 vendor.boostfwk.rescue.checkpoint  u:object_r:vendor_mtk_boostfwk_checkpoint_prop:s0
 vendor.boostfwk.scroll.duration.h  u:object_r:vendor_mtk_boostfwk_scroll_duration_h_prop:s0
 vendor.boostfwk.scroll.duration.v  u:object_r:vendor_mtk_boostfwk_scroll_duration_v_prop:s0
@@ -31,7 +22,6 @@ vendor.boostfwk.sbb.touch.duration  u:object_r:vendor_mtk_boostfwk_sbb_touch_dur
 vendor.boostfwk.scroll.floor  u:object_r:vendor_mtk_boostfwk_scroll_floor_prop:s0
 vendor.boostfwk.frame.decision  u:object_r:vendor_mtk_boostfwk_frame_decision_prop:s0
 ro.vendor.videoainr.enable  u:object_r:vendor_mtk_camera_prop:s0
-ro.vendor.afbc.enable  u:object_r:vendor_mtk_camera_prop:s0
 persist.vendor.service.rcs.slot2  u:object_r:vendor_mtk_service_rcs_prop:s0
 persist.vendor.service.tag.rcs.slot2  u:object_r:vendor_mtk_service_rcs_prop:s0
 ro.vendor.mtk_mdmi_support  u:object_r:vendor_mtk_dmc_prop:s0
@@ -45,8 +35,6 @@ ro.vendor.mbrain.mode  u:object_r:vendor_mtk_mbrain_support_prop:s0
 vendor.mbrain.ready  u:object_r:vendor_mtk_mbrain_support_prop:s0
 vendor.mbrain.build.version  u:object_r:vendor_mtk_mbrain_support_prop:s0
 persist.vendor.mbrain.mode  u:object_r:vendor_mtk_mbrain_support_prop:s0
-vendor.agps.submarine.mode  u:object_r:vendor_mtk_lbs_prop:s0
-vendor.mtk.ise.  u:object_r:vendor_mtk_ise_prop:s0
 vendor.mtk.ufs.  u:object_r:vendor_mtk_ufs_prop:s0
 vendor.debug.forcibly_enable_mfrc  u:object_r:vendor_mtk_default_prop:s0
 vendor.mfrc.turnkey.enabled  u:object_r:vendor_mtk_default_prop:s0
@@ -153,8 +141,6 @@ persist.vendor.hwcomposer.boot_display_config.    u:object_r:vendor_mtk_hwc_boot
 persist.vendor.jxnps.log    u:object_r:vendor_mtk_jxnpslog_prop:s0
 persist.vendor.media.    u:object_r:vendor_mot_media_prop:s0
 persist.vendor.motosxf.enable    u:object_r:vendor_mot_sxf_prop:s0
-persist.vendor.mtk.dch.enable    u:object_r:vendor_mtk_dc_call_prop:s0
-persist.vendor.mtk_dc_call_capability    u:object_r:vendor_mtk_dc_call_prop:s0
 persist.vendor.radio.adb_log_on    u:object_r:vendor_mot_ril_dbg_prop:s0
 persist.vendor.spu.    u:object_r:vendor_mot_spu_prop:s0
 persist.vendor.sss.    u:object_r:vendor_mtk_smartpower_prop:s0
@@ -166,7 +152,6 @@ persist.vendor.sys.fp.dump_data    u:object_r:vendor_goodix_prop:s0
 persist.vendor.sys.motorola    u:object_r:vendor_mot_sys_prop:s0
 persist.vendor.tool.ipaddress    u:object_r:vendor_mtk_tool_ipaddr_prop:s0
 persist.vendor.verbose_logging_enabled    u:object_r:vendor_logging_prop:s0
-persist.vendor.wfc.cnop_vowifi    u:object_r:vendor_mtk_cnop_vowifi_prop:s0
 ro.boot.moto_kern_prot    u:object_r:vendor_mot_kern_prot_prop:s0
 ro.boot.nal_id    u:object_r:vendor_mot_unique_id_prop:s0
 ro.boot.perf_state    u:object_r:vendor_mtk_boot_perf_prop:s0
@@ -179,14 +164,11 @@ ro.vendor.build.motfactory    u:object_r:vendor_mot_public_default_prop:s0
 ro.vendor.dolby.    u:object_r:vendor_mot_dolby_prop:s0
 ro.vendor.input.    u:object_r:vendor_mtk_input_prop:s0
 ro.vendor.magt.    u:object_r:vendor_mtk_magt_prop:s0
-ro.vendor.mml.mtk_mml_support    u:object_r:vendor_mtk_mml_support_prop:s0
 ro.vendor.mtk_aov_app_support    u:object_r:vendor_mtk_aov_app_support_prop:s0
-ro.vendor.mtk_backlight_hwc_support    u:object_r:vendor_mtk_backlight_ro_prop:s0
 ro.vendor.mtk_flp_support    u:object_r:vendor_mtk_flp_prop:s0
 ro.vendor.mtk_geofence_support    u:object_r:vendor_mtk_geofence_prop:s0
 ro.vendor.mtk_hwc_dsi_switch    u:object_r:vendor_mtk_hwc_dsi_switch_prop:s0
 ro.vendor.sensors.mot_ltv    u:object_r:vendor_mot_public_default_prop:s0
-ro.vendor.trustonic.ready    u:object_r:vendor_trustonic_prop:s0
 vendor.applist.    u:object_r:vendor_mtk_applist_prop:s0
 vendor.camera.aux.logicalCamPackagelist    u:object_r:vendor_mot_camera_aux_prop:s0
 vendor.camera.aux.packagelist2    u:object_r:vendor_mot_camera_aux_prop:s0
@@ -196,7 +178,6 @@ vendor.camera.mot.jpegmaxscaleratio    u:object_r:vendor_mot_camera_aux_prop:s0
 vendor.debug.drm.    u:object_r:vendor_debug_drm_prop:s0
 vendor.debug.meta_daemon    u:object_r:vendor_mtk_meta_daemon_type_prop:s0
 vendor.debug.sf.dynamic_duration.    u:object_r:vendor_mtk_debug_sf_duration_prop:s0
-vendor.debug.sf.fbthint    u:object_r:vendor_mtk_hwc_buffer_hint_prop:s0
 vendor.debug.sf.kickidle.    u:object_r:vendor_mtk_debug_sf_kickidle_prop:s0
 vendor.debug.sf.mstylus.force_on    u:object_r:vendor_mtk_debugsf_mstylus_forceon_prop:s0
 vendor.dtv.hw.status    u:object_r:vendor_mot_dtvhw_prop:s0
@@ -213,10 +194,7 @@ vendor.mdl_coll.mtk.restart    u:object_r:vendor_mtk_mdl_coll_restart_type_prop:
 vendor.media.heif.highThreshold    u:object_r:vendor_mtk_heif_decode_prop:s0
 vendor.mot_ota_tuning.valid    u:object_r:vendor_mot_ota_tuning_valid:s0
 vendor.mtk.hwc.    u:object_r:vendor_mtk_hwc_prop:s0
-vendor.mtk.wwan.vote.airplane    u:object_r:vendor_mtk_ril_vote_prop:s0
-vendor.service.connxo_nvram.file    u:object_r:vendor_mtk_service_connxo_nvram_prop:s0
 vendor.service.nvram_load    u:object_r:vendor_mtk_service_nvram_load_prop:s0
-vendor.service.wifi_nvram    u:object_r:vendor_mtk_service_wifi_nvram_prop:s0
 vendor.spu.    u:object_r:vendor_mot_spu_prop:s0
 vendor.thermal.mode    u:object_r:vendor_mot_thermal_prop:s0
 vendor.wifi    u:object_r:vendor_wifi_prop:s0

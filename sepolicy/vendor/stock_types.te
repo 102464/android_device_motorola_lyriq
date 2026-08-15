@@ -211,27 +211,20 @@ type hal_motwlc_aidl_service, hal_service_type, service_manager_type;
 # hal_nxpnfc_aidl_service removed: uses hal_nfc_service from MTK tree
 type hal_powerext_service, hal_service_type, service_manager_type;
 type hal_sensorscalibrate_service, hal_service_type, service_manager_type;
-type mtk_hal_aov_service, hal_service_type, service_manager_type;
 type mtk_hal_apm_service, hal_service_type, service_manager_type;
 type mtk_hal_atci_service, hal_service_type, service_manager_type;
-type mtk_hal_atms_service, hal_service_type, service_manager_type;
 type mtk_hal_batching_service, hal_service_type, service_manager_type;
-type mtk_hal_bgs_service, hal_service_type, service_manager_type;
 type mtk_hal_clientapi_service, hal_service_type, service_manager_type;
 type mtk_hal_dmc_service, hal_service_type, service_manager_type;
 type mtk_hal_dplanner_service, hal_service_type, service_manager_type;
 type mtk_hal_hdcpwifidisplay_service, hal_service_type, service_manager_type;
 type mtk_hal_hdmi_service, hal_service_type, service_manager_type;
-type mtk_hal_isphal_service, hal_service_type, service_manager_type;
 type mtk_hal_jxnosfastswitch_service, hal_service_type, service_manager_type;
 type mtk_hal_mbrain_service, hal_service_type, service_manager_type;
 type mtk_hal_mdm_service, hal_service_type, service_manager_type;
 type mtk_hal_nwk_opt_service, hal_service_type, service_manager_type;
 type mtk_hal_omadm_service, hal_service_type, service_manager_type;
-type mtk_hal_postproc_service, hal_service_type, service_manager_type;
-type mtk_hal_power_service, hal_service_type, service_manager_type;
 type mtk_hal_rcs_ua_service, hal_service_type, service_manager_type;
-type mtk_hal_uievent_service, hal_service_type, service_manager_type;
 type tsa_hal_hdcp_service, hal_service_type, service_manager_type;
 type vendor_hal_goodix_aidl, hal_service_type, service_manager_type;
 
@@ -274,7 +267,6 @@ type vendor_mtk_flp_prop, property_type, vendor_property_type, vendor_restricted
 type vendor_mtk_geofence_prop, property_type, vendor_property_type, vendor_restricted_property_type;
 type vendor_mtk_heif_decode_prop, property_type, vendor_property_type, vendor_restricted_property_type;
 type vendor_mtk_hwc_boot_display_config_prop, property_type, vendor_property_type, vendor_restricted_property_type;
-type vendor_mtk_hwc_buffer_hint_prop, property_type, vendor_property_type, vendor_restricted_property_type;
 type vendor_mtk_hwc_dsi_switch_prop, property_type, vendor_property_type, vendor_restricted_property_type;
 type vendor_mtk_hwc_prop, property_type, vendor_property_type, vendor_restricted_property_type;
 type vendor_mtk_input_prop, property_type, vendor_property_type, vendor_restricted_property_type;

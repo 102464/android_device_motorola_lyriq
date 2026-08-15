@@ -55,7 +55,7 @@ allow hal_fingerprint_default charger_vendor:fd use;
 allow hal_fingerprint_default hal_moto_panel_default:binder { call transfer };
 allow hal_fingerprint_default hal_moto_panel_default:fd use;
 allow hal_fingerprint_default hal_moto_panel_aidl_service:service_manager find;
-allow hal_fingerprint_default mtk_hal_power_service:service_manager find;
+allow hal_fingerprint_default hal_power_service:service_manager find;
 allow hal_fingerprint_default merged_hal_service:binder { call transfer };
 allow hal_fingerprint_default merged_hal_service:fd use;
 allow hal_fingerprint_default tcmd:binder { call transfer };

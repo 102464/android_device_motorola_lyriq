@@ -214,6 +214,9 @@ allow mtk_hal_power vpud_native:file { append getattr ioctl lock map open read w
 
 hal_server_domain(mtk_hal_power, hal_mtk_power)
 hal_client_domain(mtk_hal_power, hal_mtk_mbrain)
-allow hal_mtk_power_client mtk_hal_power_service:service_manager find;
-add_service(hal_mtk_power_server, mtk_hal_power_service)
+# mtkpower service is labeled hal_power_service in the MTK tree
+allow hal_mtk_power_client hal_power_service:service_manager find;
+# plain allow: add_service() neverallow clashes with platform grants for
+# hal_power_default and merged_hal_service (both hal_power_server domains)
+allow hal_mtk_power_server hal_power_service:service_manager { add find };
 binder_call(hal_mtk_power_server, servicemanager)

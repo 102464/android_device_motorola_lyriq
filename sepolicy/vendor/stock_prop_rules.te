@@ -22,8 +22,9 @@ allow hal_graphics_composer_default vendor_mtk_debug_sf_kickidle_prop:file { get
 allow hal_graphics_composer_default vendor_mtk_debug_sf_kickidle_prop:property_service { set };
 allow hal_graphics_composer_default vendor_mtk_hwc_boot_display_config_prop:file { getattr map open read };
 allow hal_graphics_composer_default vendor_mtk_hwc_boot_display_config_prop:property_service { set };
-allow hal_graphics_composer_default vendor_mtk_hwc_buffer_hint_prop:file { getattr map open read };
-allow hal_graphics_composer_default vendor_mtk_hwc_buffer_hint_prop:property_service { set };
+# vendor.debug.sf.fbthint is labeled vendor_mtk_debug_sf_cpupolicy_prop in the MTK tree
+allow hal_graphics_composer_default vendor_mtk_debug_sf_cpupolicy_prop:file { getattr map open read };
+allow hal_graphics_composer_default vendor_mtk_debug_sf_cpupolicy_prop:property_service { set };
 allow hal_graphics_composer_default vendor_mtk_hwc_dsi_switch_prop:file { getattr map open read };
 allow hal_graphics_composer_default vendor_mtk_hwc_prop:file { getattr map open read };
 allow hal_graphics_composer_default vendor_mtk_mml_support_prop:file { getattr map open read };
@@ -72,7 +73,7 @@ allow rild vendor_mtk_ril_vote_prop:property_service { set };
 allow shell vendor_mot_hab_prop:file { getattr map open read };
 allow surfaceflinger vendor_mtk_debug_sf_duration_prop:file { getattr map open read };
 allow surfaceflinger vendor_mtk_debug_sf_kickidle_prop:file { getattr map open read };
-allow surfaceflinger vendor_mtk_hwc_buffer_hint_prop:file { getattr map open read };
+allow surfaceflinger vendor_mtk_debug_sf_cpupolicy_prop:file { getattr map open read };
 allow surfaceflinger vendor_mtk_hwc_dsi_switch_prop:file { getattr map open read };
 allow system_server vendor_mot_audio_fx_prop:file { getattr map open read };
 allow system_server vendor_mot_sxf_prop:file { getattr map open read };
