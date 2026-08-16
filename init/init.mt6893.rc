@@ -22,6 +22,15 @@ on early-init
     #   rm   /metadata/lyriq_boot_trace/selinux_permissive  # enforcing
     exec u:r:lyriq_gate:s0 -- /system/bin/sh -c "test -f /metadata/lyriq_boot_trace/selinux_permissive && echo 0 > /sys/fs/selinux/enforce"
 
+    # MGLRU gate: disable MGLRU only when the marker exists. kswapd0 hits a
+    # NULL write in lru_gen_rotate_memcg() (rotate on unhashed lruvec);
+    # writing 0 migrates folios back to the classic LRU at runtime.
+    # /sys/kernel/mm is created at postcore_initcall, so it exists here.
+    # Toggle from adb root:
+    #   touch /metadata/lyriq_boot_trace/mglru_disable  # MGLRU off
+    #   rm   /metadata/lyriq_boot_trace/mglru_disable  # MGLRU on
+    exec u:r:lyriq_gate:s0 -- /system/bin/sh -c "test -f /metadata/lyriq_boot_trace/mglru_disable && echo 0 > /sys/kernel/mm/lru_gen/enabled"
+
     # boot perf. tune
     write /proc/perfmgr/boost_ctrl/cpu_ctrl/boot_freq "0 0 0 0 0 0"
     write /sys/devices/platform/boot_dramboost/dramboost/dramboost 1

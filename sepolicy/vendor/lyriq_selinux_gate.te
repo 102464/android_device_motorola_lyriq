@@ -13,6 +13,7 @@ userdebug_or_eng(`
 type lyriq_boot_trace_file, file_type;
 type_transition shell metadata_file:dir lyriq_boot_trace_file "lyriq_boot_trace";
 type_transition shell lyriq_boot_trace_file:file lyriq_boot_trace_file "selinux_permissive";
+type_transition shell lyriq_boot_trace_file:file lyriq_boot_trace_file "mglru_disable";
 allow shell metadata_file:dir { search write add_name remove_name };
 allow shell lyriq_boot_trace_file:dir { create getattr search open read write add_name remove_name rmdir setattr };
 allow shell lyriq_boot_trace_file:file { create open read write getattr setattr unlink };
