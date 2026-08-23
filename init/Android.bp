@@ -16,6 +16,15 @@ sh_binary {
     vendor: true,
 }
 
+// Stock wifi HAL init script, exec path updated for the _v2 renamed blob.
+// Installs to vendor/etc/init like the stock-extracted one did.
+prebuilt_etc {
+    name: "android.hardware.wifi-service-lazy_v2.rc",
+    src: "android.hardware.wifi-service-lazy_v2.rc",
+    relative_install_path: "init",
+    vendor: true,
+}
+
 prebuilt_etc {
     name: "fstab.mt6893",
     src: "fstab.mt6893",

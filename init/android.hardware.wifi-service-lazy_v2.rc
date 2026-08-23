@@ -1,0 +1,11 @@
+# Same service as stock, but execs the extraction-renamed binary (_v2).
+# The rename keeps the auto-generated prebuilt module from merging with
+# the same-named AOSP source module (V4-ndk) in soong's aidl-version check.
+service vendor.wifi_hal_legacy /vendor/bin/hw/android.hardware.wifi-service-lazy_v2
+    interface aidl android.hardware.wifi.IWifi/default
+    oneshot
+    disabled
+    class hal
+    capabilities NET_ADMIN NET_RAW SYS_MODULE
+    user wifi
+    group wifi gps
