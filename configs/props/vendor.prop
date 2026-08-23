@@ -155,8 +155,6 @@ ro.surface_flinger.set_touch_timer_ms=1000
 ro.surface_flinger.use_color_management=true
 # HWC AOD gate (unset on stock = AOD disabled)
 ro.vendor.mtk_aod_support=1
-# WMS layer patch for Moto edge-lights overlay window type
-ro.vendor.moto.edge_lights=1
 ro.surface_flinger.use_smart_90_for_video=true
 ro.telephony.iwlan_operation_mode=AP-assisted
 ro.telephony.sim.count=2
@@ -369,7 +367,11 @@ vendor.boostfwk.scroll.interrupt.touchboost=1
 vendor.boostfwk.scroll.policy.mode=1
 vendor.boostfwk.version=2
 vendor.camera.aux.packagelist2=com.motorola.ccc,com.motorola.actions,com.mediatek.camera,com.android.settings
-vendor.camera.aux.packagelist=com.motorola.coresettingsext,com.motorola.camera3,com.motorola.motocit
+# frameworks/base hides camera ids >= 2 from apps not in this list
+# (Camera.shouldExposeAuxCamera). Whitelist: stock camera, Aperture,
+# LMC8.4 GCam. Dropped coresettingsext/motocit (not shipped) to fit the
+# 91-char prop limit.
+vendor.camera.aux.packagelist=com.motorola.camera3,org.lineageos.aperture,com.google.android.GoogleCameraLMCR18
 vendor.camera.mdp.cz.enable=1
 vendor.camera.mdp.dre.enable=1
 vendor.camera.mot.jpegmaxscaleratio=2.5
