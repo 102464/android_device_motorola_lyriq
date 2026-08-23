@@ -134,15 +134,17 @@ ODM_MANIFEST_FILES += \
     vendor/motorola/lyriq/proprietary/odm/etc/vintf/manifest_de.xml \
     vendor/motorola/lyriq/proprietary/odm/etc/vintf/manifest_dn.xml
 
-# Stock vendor VINTF manifest fragments
+# Stock vendor VINTF manifest fragments. Kept in the device tree and merged
+# into vendor/etc/vintf/manifest.xml only; installing them as fragment files
+# too would duplicate FqInstances and break VINTF parsing at runtime.
 DEVICE_MANIFEST_FILE += \
-    vendor/motorola/lyriq/proprietary/vendor/etc/vintf/manifest/CommandService.xml \
-    vendor/motorola/lyriq/proprietary/vendor/etc/vintf/manifest/dms-service.xml \
-    vendor/motorola/lyriq/proprietary/vendor/etc/vintf/manifest/manifest_apuware_apusys_aidl.xml \
-    vendor/motorola/lyriq/proprietary/vendor/etc/vintf/manifest/manifest_apuware_utils_aidl.xml \
-    vendor/motorola/lyriq/proprietary/vendor/etc/vintf/manifest/manifest_apuware_xrp_aidl.xml \
-    vendor/motorola/lyriq/proprietary/vendor/etc/vintf/manifest/manifest_rcs.xml \
-    vendor/motorola/lyriq/proprietary/vendor/etc/vintf/manifest/motorola.hardware.audio.radar2.xml
+    $(DEVICE_PATH)/configs/vintf/CommandService.xml \
+    $(DEVICE_PATH)/configs/vintf/dms-service.xml \
+    $(DEVICE_PATH)/configs/vintf/manifest_apuware_apusys_aidl.xml \
+    $(DEVICE_PATH)/configs/vintf/manifest_apuware_utils_aidl.xml \
+    $(DEVICE_PATH)/configs/vintf/manifest_apuware_xrp_aidl.xml \
+    $(DEVICE_PATH)/configs/vintf/manifest_rcs.xml \
+    $(DEVICE_PATH)/configs/vintf/motorola.hardware.audio.radar2.xml
 
 # Partitions
 BOARD_FLASH_BLOCK_SIZE := 262144 # (BOARD_KERNEL_PAGESIZE * 64)
