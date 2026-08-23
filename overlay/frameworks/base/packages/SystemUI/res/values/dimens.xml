@@ -3,4 +3,10 @@
     <!-- Display pixel pitch in micrometers (1080x2400, 6.55" ~= 402dpi);
          required by AOSP UdfpsOverlayInteractor to size the fingerprint icon -->
     <item name="pixel_pitch" format="float" type="dimen">63.18</item>
+
+    <!-- Stock pads status bar content 5px from the top so icons center on the
+         punch hole inside the 106px bar (framework dimen
+         status_bar_padding_top_portrait; the product RRO's 5px wins over the
+         vendor RRO's 20px). A16 reads this SystemUI dimen instead (default 0). -->
+    <dimen name="status_bar_padding_top">5px</dimen>
 </resources>
