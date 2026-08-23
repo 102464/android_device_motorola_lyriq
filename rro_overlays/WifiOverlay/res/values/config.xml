@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Values mirrored from stock vendor/overlay/WifiResOverlay.apk and
+         product/overlay/WifiResCommonOverlay.apk (verified to still exist in
+         A16 ServiceWifiResources; config_wifi_random_mac_oui was removed
+         upstream and is intentionally dropped). -->
+
+    <!-- Force 5 GHz STA support. Without this the framework derives band
+         support from regulatory-filtered HAL channel lists, which are empty
+         for 5 GHz until a country code is set, and Settings locks the hotspot
+         "Maximize compatibility" toggle on (2.4 GHz only) and grayed out. -->
+    <bool name="config_wifi5ghzSupport">true</bool>
+    <bool name="config_wifi11axSupportOverride">true</bool>
+
+    <!-- SoftAP capabilities from stock. -->
+    <bool name="config_wifi_softap_acs_supported">true</bool>
+    <bool name="config_wifi_softap_ieee80211ac_supported">true</bool>
+    <bool name="config_wifiSoftapIeee80211axSupported">true</bool>
+    <bool name="config_wifi_softap_sae_supported">true</bool>
+    <bool name="config_wifiSoftapOweSupported">false</bool>
+    <string name="config_wifiSoftap2gChannelList" translatable="false">1-13</string>
+    <string name="config_wifiSoftap5gChannelList" translatable="false">36,38,40,42,44,46,48,149,153,157,161,165</string>
+    <string name="config_wifiSoftap6gChannelList" translatable="false">5,21,37,53,69,85,101,117,133,149,165,181,197,213,229</string>
+
+    <!-- STA feature flags from stock. -->
+    <bool name="config_wifiSaeH2eSupported">true</bool>
+    <bool name="config_wifiDppAkmSupported">true</bool>
+    <bool name="config_wifi_fast_bss_transition_enabled">true</bool>
+    <bool name="config_wifi_background_scan_support">true</bool>
+    <bool name="config_wifi_connected_mac_randomization_supported">true</bool>
+    <bool name="config_wifi_p2p_mac_randomization_supported">true</bool>
+    <bool name="config_showConfirmationDialogForThirdPartyAppsEnablingWifi">true</bool>
+    <bool name="config_wifiLinkLayerAllRadiosStatsAggregationEnabled">true</bool>
+    <bool name="config_wifiNetworkCentricQosPolicyFeatureEnabled">true</bool>
+    <bool name="config_wifiAllowMultipleNetworksOnSameAwareNdi">true</bool>
+
+    <!-- Multi-STA concurrency policy from stock. -->
+    <bool name="config_wifiMultiStaLocalOnlyConcurrencyEnabled">false</bool>
+    <bool name="config_wifiMultiStaMultiInternetConcurrencyEnabled">true</bool>
+    <bool name="config_wifiMultiStaNetworkSwitchingMakeBeforeBreakEnabled">true</bool>
+    <bool name="config_wifiMultiStaRestrictedConcurrencyEnabled">false</bool>
+
+    <!-- Stock tuning values. -->
+    <integer name="config_wifiDelayDisconnectOnImsLostMs">1000</integer>
+    <integer name="config_wifiVerboseLoggingAlwaysOnLevel">1</integer>
+    <integer name="config_wifi_framework_wifi_score_bad_rssi_threshold_24GHz">-78</integer>
+    <integer name="config_wifi_framework_wifi_score_bad_rssi_threshold_5GHz">-78</integer>
+    <integer name="config_wifi_framework_wifi_score_entry_rssi_threshold_24GHz">-76</integer>
+    <integer name="config_wifi_framework_wifi_score_entry_rssi_threshold_5GHz">-76</integer>
+    <string name="config_wifi_tcp_buffers" translatable="false">1730560,3461120,6922240,524288,1048576,4525824</string>
+
+    <!-- Legacy GBK SSID decoding for Chinese routers (stock product RRO). -->
+    <string-array name="config_wifiCharsetsForSsidTranslation" translatable="false">
+        <item>"zh,GBK"</item>
+    </string-array>
+</resources>

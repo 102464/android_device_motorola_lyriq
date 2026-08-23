@@ -1,0 +1,13 @@
+// Static RRO over the WiFi service resources (com.android.wifi.resources,
+// packages/modules/Wifi/service/ServiceWifiResources). Stock ships the same
+// overlay as vendor/overlay/WifiResOverlay.apk (+ product/overlay/
+// WifiResCommonOverlay.apk); without it the framework falls back to HAL
+// channel queries, reports 5 GHz STA unsupported before a country code is
+// set, and Settings grays out the hotspot "Maximize compatibility" toggle
+// locked on (2.4 GHz only).
+runtime_resource_overlay {
+    name: "LyriqWifiOverlay",
+    manifest: "AndroidManifest.xml",
+    sdk_version: "current",
+    product_specific: true,
+}
