@@ -67,14 +67,12 @@ blob_fixups: blob_fixups_user_type = {
             'android.hardware.wifi.hostapd-V3-ndk.so',
         )
         .remove_needed('android.hardware.wifi.common-V1-ndk.so'),
-    'vendor/bin/hw/android.hardware.wifi-service-lazy': blob_fixup()
-        # Android 16: source module links V4. Stock blob needs V2; all 36
-        # AIDL strong UND symbols resolve in stock V2 exports and V2->V4
-        # api dumps have zero removals (verified 2026-08-14).
-        .replace_needed(
-            'android.hardware.wifi-V2-ndk.so',
-            'android.hardware.wifi-V4-ndk.so',
-        ),
+    # NOTE: vendor/bin/hw/android.hardware.wifi-service-lazy must keep its
+    # stock android.hardware.wifi-V2-ndk.so link (no fixup). The blob only
+    # implements the V2 IWifiChip surface; linking V3+/ToT ndk makes it
+    # report version >= 3, and the A16 framework then calls the V3-only
+    # createApOrBridgedApIfaceWithParams, which the blob cannot serve -
+    # SoftAP iface creation returns null and the hotspot never starts.
     'vendor/lib64/libmtkcam_hal_aidl_common.so': blob_fixup()
         .replace_needed('android.hardware.camera.common-V2-ndk.so', 'android.hardware.camera.common-V1-ndk.so'),
     # The stock firmware ships a proprietary android.hardware.power-service-
