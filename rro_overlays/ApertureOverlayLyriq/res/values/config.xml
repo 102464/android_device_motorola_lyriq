@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Show cameraId 2 (HI1336 ultrawide) as the rear 0.6x lens. Defaults
+         to false, leaving only the main camera selectable. -->
+    <bool name="config_enableAuxCameras">true</bool>
+
+    <!-- cameraId 3 is the MTK HAL LOGICAL_MULTI_CAMERA (physicalIds=[0,2]);
+         already ignored by Aperture's default config_ignoreLogicalAuxCameras.
+         cameraId 2 has BACKWARD_COMPATIBLE, so no config_backwardCompatibleCameraIds
+         entry is needed. -->
+</resources>

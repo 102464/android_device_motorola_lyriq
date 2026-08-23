@@ -1,0 +1,9 @@
+// Static RRO over the Aperture camera app (org.lineageos.aperture): enables
+// the aux camera selector so cameraId 2 (HI1336 ultrawide) shows up as the
+// rear 0.6x lens. Without it Aperture hides every ID except 0/1.
+runtime_resource_overlay {
+    name: "ApertureOverlayLyriq",
+    manifest: "AndroidManifest.xml",
+    sdk_version: "current",
+    product_specific: true,
+}
