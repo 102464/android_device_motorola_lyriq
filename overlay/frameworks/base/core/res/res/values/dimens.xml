@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Status bar must cover the 106px-tall punch-hole cutout. Values from
-         stock MotoFrameworkResOverlayDeviceConfigLyriq.apk;
-         status_bar_padding_top_portrait from the product RRO (higher
-         priority than the vendor RRO's 20px). AOSP default is 24dp. -->
+         stock MotoFrameworkResOverlayDeviceConfigLyriq.apk; AOSP default
+         is 24dp. The stock-only status_bar_padding_top_portrait dimen has no
+         A16 framework consumer; its equivalent lives in the SystemUI overlay. -->
     <dimen name="status_bar_height">106px</dimen>
     <dimen name="status_bar_height_portrait">106px</dimen>
     <dimen name="status_bar_height_landscape">24dp</dimen>
-    <dimen name="status_bar_padding_top_portrait">5px</dimen>
 
     <!-- Panel rounded corners. Stock Moto SystemUI fork uses
          real_rounded_corner_radius=80px; AOSP draws sharp corners without
          these. -->
     <dimen name="rounded_corner_radius">80px</dimen>
     <dimen name="rounded_corner_content_padding">24px</dimen>
+
+    <!-- The prebuilt Pixel launcher always owns the unified navbar/taskbar
+         window and sizes it (gesture nav) after this framework dimen
+         (taskbar_stashed_size aliases it). AOSP default 80dp makes a 200px
+         bottom region with the pill floating mid-air; shrink it to the
+         normal gesture bar height. Also bounds desktop-mode minimized task
+         height, which is unused on this phone. -->
+    <dimen name="task_height_of_minimized_mode">24dp</dimen>
 </resources>
