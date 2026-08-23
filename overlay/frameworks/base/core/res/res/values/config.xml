@@ -20,6 +20,14 @@
         <item>-1</item>
     </integer-array>
 
+    <!-- Center punch-hole cutout path from the stock RRO
+         (MotoFrameworkResOverlayDeviceConfigLyriq.apk). Without it the
+         framework reports no cutout, so SystemUI reserves no avoidance
+         area and right-side status bar content extends into the hole.
+         config_mainBuiltInDisplayCutoutRectApproximation defaults to this
+         same path; config_fillMainBuiltInDisplayCutout stays false. -->
+    <string name="config_mainBuiltInDisplayCutout" translatable="false">M 36,0 L -36,0 L -26,106 L 26,106 Z</string>
+
     <!-- Doze/AOD. Stock HWC gates doze behind ro.vendor.mtk_aod_support
          (unset on stock = AOD off); framework side mirrors the stock
          auto-generated RROs. -->
@@ -34,12 +42,6 @@
     <bool name="config_powerDecoupleAutoSuspendModeFromDisplay">true</bool>
     <bool name="config_powerDecoupleInteractiveModeFromDisplay">true</bool>
     <string name="config_displayLightSensorType" translatable="false">android.sensor.light</string>
-
-    <!-- Moto Edge Lights: feature flag read by MotoLights via
-         Resources.getSystem().getIdentifier; listener package gets
-         notification access by default (same mechanism as stock). -->
-    <bool name="config_moto_edge_light_supported">true</bool>
-    <string name="config_defaultListenerAccessPackages" translatable="false">com.motorola.motolights</string>
 
     <!-- Panel brightness calibration from stock (same RRO). AOSP default is a
          linear backlight mapping with auto-brightness disabled. -->
