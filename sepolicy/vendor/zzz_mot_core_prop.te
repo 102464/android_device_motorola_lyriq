@@ -23,7 +23,8 @@ typeattribute vendor_mot_touchscreen_prop mot_core_property_type;
 
 # Stock parity: base_typeattr_339 = domain - {untrusted_app_all ephemeral_app isolated_app}
 # Nearly all domains read the kernel-lockdown status property.
-allow { domain -untrusted_app_all -ephemeral_app -isolated_app } vendor_mot_kern_prot_prop:file { getattr map open read };
+# Use isolated_app_all: isolated_compute_app (A16) must stay excluded.
+allow { domain -untrusted_app_all -ephemeral_app -isolated_app_all } vendor_mot_kern_prot_prop:file { getattr map open read };
 
 allow rild mot_core_property_type:file { read getattr map open };
 allow system_server mot_core_property_type:file { read getattr map open };

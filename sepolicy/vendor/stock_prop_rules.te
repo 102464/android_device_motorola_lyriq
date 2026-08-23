@@ -149,4 +149,5 @@ allow vendor_init vendor_mot_boot_prop:file { getattr map open read };
 allow vendor_init vendor_mot_hw_prop:file { getattr map open read };
 
 # stock base_typeattr_339 = domain - untrusted_app_all - ephemeral_app - isolated_app
-allow { domain -ephemeral_app -isolated_app -untrusted_app_all } vendor_mot_unique_id_prop:file { getattr map open read };
+# Use isolated_app_all: isolated_compute_app (A16) must stay excluded.
+allow { domain -ephemeral_app -isolated_app_all -untrusted_app_all } vendor_mot_unique_id_prop:file { getattr map open read };
