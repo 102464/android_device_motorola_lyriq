@@ -1284,6 +1284,7 @@ vendor/lib/libion_mtk.so
 vendor/lib/libion_ulit.so
 vendor/lib/libmtkgpuserv.so
 vendor/lib/libmtkperf_client_vendor.so
+vendor/lib/libperfctl_vendor.so
 vendor/lib/libpqhdrmetaparser.so
 vendor/lib/libpqsharememory.so
 vendor/lib/libpqtuning.so
@@ -1334,6 +1335,7 @@ vendor/lib64/libion_mtk.so
 vendor/lib64/libion_ulit.so
 vendor/lib64/libmtkgpuserv.so
 vendor/lib64/libmtkperf_client_vendor.so
+vendor/lib64/libperfctl_vendor.so
 vendor/lib64/libpq_cust_base.so
 vendor/lib64/libpqframework.so
 vendor/lib64/libpqhdrmetaparser.so
@@ -1684,15 +1686,6 @@ system_ext/framework/mediatek-framework.jar:system/framework/mediatek-framework.
 vendor/bin/hw/android.hardware.memtrack-service.mediatek
 vendor/etc/init/memtrack-mediatek.rc
 vendor/etc/vintf/manifest/memtrack-mediatek.xml
-
-# Motorola apps
-product/etc/permissions/privapp-permissions-com.motorola.motolights.core.xml
-product/priv-app/MotoLights/MotoLights.apk
-system/etc/permissions/moto-core_services.xml
-system/etc/permissions/moto-settings.xml
-system/framework/moto-core_services.jar
-system/framework/moto-settings.jar
-system_ext/priv-app/MotorolaSettingsProvider/MotorolaSettingsProvider.apk
 
 # Motorola configs
 vendor/etc/motorola/12m/Factory_SW_Logo.jpg
@@ -2216,13 +2209,17 @@ vendor/lib64/motorola.hardware.haptic-V2-ndk.so
 
 # Wi-Fi
 vendor/bin/hostapd_cli
-vendor/bin/hw/android.hardware.wifi-service-lazy
+# Renamed at extraction (_v2 suffix): the auto-generated module would
+# otherwise merge with the same-named AOSP source module (links V4-ndk)
+# and trip soong's single-aidl-version check. The blob must stay on
+# android.hardware.wifi-V2-ndk (see extract-files.py note). The init rc
+# is shipped from the device tree with the updated exec path.
+vendor/bin/hw/android.hardware.wifi-service-lazy:vendor/bin/hw/android.hardware.wifi-service-lazy_v2
 vendor/bin/hw/hostapd
 vendor/bin/hw/motorola.hardware.sarwifi-srv
 vendor/bin/hw/wpa_supplicant
 vendor/bin/wifi_dump
 vendor/bin/wlan_assistant
-vendor/etc/init/android.hardware.wifi-service-lazy.rc
 vendor/etc/init/android.hardware.wifi.supplicant-service.rc
 vendor/etc/init/hostapd.android.rc
 vendor/etc/init/init.wlan_drv.rc
