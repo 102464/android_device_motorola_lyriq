@@ -14,6 +14,14 @@ PRODUCT_HIDL_ENABLED := true
 # when the build is not tagged test-keys.
 PRODUCT_DEFAULT_DEV_CERTIFICATE := vendor/lineage-priv/keys/releasekey
 
+# config.mk only points MAINLINE_BLUETOOTH_SEPOLICY_DEV_CERTIFICATES at the
+# release keys for com.google.android.bt; with AOSP com.android.bt it falls
+# back to the AOSP default dir, so the BT signer in mac_permissions.xml
+# mismatches the APEX key and com.android.bluetooth stays in the zygote
+# domain (SELinux denials on bluetooth_data_file -> "Bluetooth keeps
+# stopping"). Point it at the release bluetooth key explicitly.
+PRODUCT_MAINLINE_BLUETOOTH_SEPOLICY_DEV_CERTIFICATES := vendor/lineage-priv/keys
+
 # Inherit from those products. Most specific first.
 $(call inherit-product, $(SRC_TARGET_DIR)/product/core_64_bit.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
