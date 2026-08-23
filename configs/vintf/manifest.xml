@@ -242,6 +242,6 @@
         <fqname>IHostapd/default</fqname>
     </hal>
     <sepolicy>
-        <version>202404</version>
+        <version>202504</version>
     </sepolicy>
 </manifest>
