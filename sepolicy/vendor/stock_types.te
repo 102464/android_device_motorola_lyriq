@@ -8,7 +8,7 @@ type cid_block_device, dev_type;
 type clogo_block_device, dev_type;
 type data_vendor_mbrain, data_file_type, file_type;
 type dbvc_data_file, data_file_type, file_type;
-type dmabuf_mtk_slc_heap_device, dev_type;
+type dmabuf_mtk_slc_heap_device, dev_type, dmabuf_heap_device_type;
 type fps_data_file, data_file_type, file_type, mlstrustedobject;
 type frs_socket, file_type;
 type fsg_file, fs_type;
