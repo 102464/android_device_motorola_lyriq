@@ -168,6 +168,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     fstab.mt6893 \
     fstab.mt6893.vendor_ramdisk \
+    android.hardware.wifi-service-lazy_v2.rc \
     init.connectivity.rc \
     init.connectivity.common.rc \
     init_conninfra.rc \
@@ -208,11 +209,22 @@ DEVICE_PACKAGE_OVERLAYS += $(DEVICE_PATH)/overlay
 PRODUCT_PACKAGES += \
     LyriqCarrierConfigOverlay
 
+# Static RRO over the WiFi service resources: stock WifiResOverlay parity
+# (forces 5 GHz STA support so the hotspot "Maximize compatibility" toggle
+# is not locked on/grayed out, SoftAP ACS/11ac/11ax, multi-STA, GBK SSID)
+PRODUCT_PACKAGES += \
+    LyriqWifiOverlay
+
 # Telephony injection shim: plain AOSP components + MotoOemRIL companion
 # (mtkfusionrild add-on channel, required for eSIM slot reporting)
 PRODUCT_PACKAGES += \
     lyriq-telephony-shim \
     LyriqTelephonyInjectionOverlay
+
+# Static RRO over the Aperture camera app: enables the aux camera selector
+# (HI1336 ultrawide as rear 0.6x lens)
+PRODUCT_PACKAGES += \
+    ApertureOverlayLyriq
 
 # GraphicBufferSource shim: restores the A15 getHGraphicBufferProducer()
 # symbol removed by A16; loaded by the stock codec2 HIDL blobs
