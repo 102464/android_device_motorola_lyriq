@@ -5,13 +5,13 @@ usage() {
     cat <<'EOF'
 Usage: bash device/motorola/lyriq/tools/package-dsu.sh [--check] [product-out] [output.zip]
 
-Build a DSU package for the current lineage_lyriq product. The archive contains
+Build a DSU package for the current custom_lyriq product. The archive contains
 only the six dynamic partitions that belong to the product and places them at
 the ZIP root, as required by DynamicSystemInstallationService.
 
 --check       Validate the input images without creating an archive.
 product-out   Defaults to $ANDROID_PRODUCT_OUT, or out/target/product/lyriq.
-output.zip    Defaults to <product-out>/lineage_lyriq-dsu.zip.
+output.zip    Defaults to <product-out>/pixelos_lyriq-dsu.zip.
 EOF
 }
 
@@ -35,7 +35,7 @@ script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 android_root="$(cd -- "$script_dir/../../../.." && pwd)"
 default_product_out="$android_root/out/target/product/lyriq"
 product_out="${1:-${ANDROID_PRODUCT_OUT:-$default_product_out}}"
-output_path="${2:-$product_out/lineage_lyriq-dsu.zip}"
+output_path="${2:-$product_out/pixelos_lyriq-dsu.zip}"
 
 readonly -a images=(
     system.img
