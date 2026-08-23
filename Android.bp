@@ -5,3 +5,19 @@
 
 soong_namespace {
 }
+
+// Restores GraphicBufferSource::getHGraphicBufferProducer() (A15 name,
+// bufferqueue@2.0 flavor) removed by Android 16; injected into the codec2
+// HIDL blobs via extract-files.py add_needed.
+cc_library_shared {
+    name: "libcodec2_gbs_shim",
+    vendor: true,
+    srcs: ["libshims/GraphicBufferSource.cpp"],
+    shared_libs: [
+        "android.hardware.graphics.bufferqueue@2.0",
+        "libgui",
+        "libhidlbase",
+        "libstagefright_bufferqueue_helper",
+        "libutils",
+    ],
+}
