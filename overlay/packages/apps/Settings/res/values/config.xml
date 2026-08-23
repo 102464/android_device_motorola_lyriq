@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- UDFPS enroll screen tuning. The goodix HAL reports the sensor at
+         (540, 2164) r=91px on the 1080x2400 panel - very close to the bottom
+         edge. AOSP sizes the enrollment progress ring at
+         sensorRadius + config_udfpsEnrollProgressBar (default 280px, tuned
+         for Pixels whose sensor sits ~400px higher), which pushes the ring
+         135px past the bottom of the screen. 120px keeps the ring fully
+         on screen (bottom edge lands 25px above the panel edge). -->
+    <integer name="config_udfpsEnrollProgressBar">120</integer>
+
+    <!-- Use the legacy UDFPS enroll UI: the "skip" (以后再说) button moves from
+         the bottom footer bar (which the sensor-anchored enroll view overlaps
+         on this low-mounted sensor) to a side button at the lower start
+         corner. -->
+    <bool name="config_useLegacyUdfpsUi">true</bool>
+</resources>
