@@ -164,7 +164,6 @@ PRODUCT_PACKAGES += \
     init.connectivity.common.rc \
     init_conninfra.rc \
     init.insmod.sh \
-    lyriq_adb_keys \
     init.mmi.overlay.rc \
     init.mmi.rc \
     init.modem.rc \
