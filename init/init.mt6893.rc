@@ -14,22 +14,6 @@ import /vendor/etc/init/hw/init.modem.rc
 
 on early-init
     write /proc/bootprof "INIT:early-init"
-    # SELinux gate: permissive only when the marker exists. No domain may be
-    # granted setenforce (neverallow * kernel:security setenforce), so the
-    # check runs in the permissive lyriq_gate domain. Toggle from adb root:
-    #   mkdir /metadata/lyriq_boot_trace
-    #   touch /metadata/lyriq_boot_trace/selinux_permissive  # permissive
-    #   rm   /metadata/lyriq_boot_trace/selinux_permissive  # enforcing
-    exec u:r:lyriq_gate:s0 -- /system/bin/sh -c "test -f /metadata/lyriq_boot_trace/selinux_permissive && echo 0 > /sys/fs/selinux/enforce"
-
-    # MGLRU gate: disable MGLRU only when the marker exists. kswapd0 hits a
-    # NULL write in lru_gen_rotate_memcg() (rotate on unhashed lruvec);
-    # writing 0 migrates folios back to the classic LRU at runtime.
-    # /sys/kernel/mm is created at postcore_initcall, so it exists here.
-    # Toggle from adb root:
-    #   touch /metadata/lyriq_boot_trace/mglru_disable  # MGLRU off
-    #   rm   /metadata/lyriq_boot_trace/mglru_disable  # MGLRU on
-    exec u:r:lyriq_gate:s0 -- /system/bin/sh -c "test -f /metadata/lyriq_boot_trace/mglru_disable && echo 0 > /sys/kernel/mm/lru_gen/enabled"
 
     # boot perf. tune
     write /proc/perfmgr/boost_ctrl/cpu_ctrl/boot_freq "0 0 0 0 0 0"
@@ -231,18 +215,6 @@ on post-fs
 
 on post-fs-data
     write /proc/bootprof "INIT:post-fs-data"
-    # Force ADB at early boot.
-    # persist.vendor.usb.config is required because vendor.mmi-usb-sh
-    # (late_start) rewrites the USB property chain from it, defaulting
-    # to mtp on ro.boot.secure_hardware=1 devices.
-    # adb-only, NOT mtp,adb: ffs.mtp's MtpServer only runs after
-    # system_server starts; before that its desc_ready stays 0 and
-    # ffs_func_bind fails the whole gadget composition with -ENODEV,
-    # taking ffs.adb down with it.
-    setprop persist.vendor.usb.config adb
-    setprop persist.vendor.mot.usb.config adb
-    setprop persist.sys.usb.config adb
-    setprop sys.usb.config adb
     wait_for_prop vendor.all.modules.ready 1
     write /proc/bootprof "modprobe: Load_Module_DONE"
 

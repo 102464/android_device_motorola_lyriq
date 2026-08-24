@@ -22,10 +22,6 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 
 DEVICE_PATH := device/motorola/lyriq
 
-# adb authorized keys, installed to /product/etc/security/adb_keys and
-# exposed to adbd via the /adb_keys symlink (debuggable builds only).
-PRODUCT_ADB_KEYS := $(DEVICE_PATH)/init/lyriq_adb_keys
-
 # Recovery Boot control HAL for Virtual A/B
 PRODUCT_PACKAGES += \
     android.hardware.boot-service.default_recovery \
