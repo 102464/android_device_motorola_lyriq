@@ -9,7 +9,7 @@
          on screen (bottom edge lands 25px above the panel edge). -->
     <integer name="config_udfpsEnrollProgressBar">120</integer>
 
-    <!-- Use the legacy UDFPS enroll UI: the "skip" (以后再说) button moves from
+     <!-- Use the legacy UDFPS enroll UI: the "skip" button moves from
          the bottom footer bar (which the sensor-anchored enroll view overlaps
          on this low-mounted sensor) to a side button at the lower start
          corner. -->

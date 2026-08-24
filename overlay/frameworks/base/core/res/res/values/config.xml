@@ -155,7 +155,8 @@
     <!-- Slot 1 is the eUICC (non-removable). AOSP15 determines eSIM slots via
          this array (UiccSlot.isSlotRemovable); ro.telephony.esim_slot_id is a
          Moto prop not consumed by AOSP. Without it slot 1 is treated as a
-         physical SIM slot ("关于本机显示两张实体 SIM 卡"). -->
+         physical SIM slot (the Settings app then shows two physical SIM
+         entries). -->
     <integer-array name="non_removable_euicc_slots">
         <item>1</item>
     </integer-array>
