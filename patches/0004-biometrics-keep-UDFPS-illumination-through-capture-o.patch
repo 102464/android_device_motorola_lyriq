@@ -1,0 +1,74 @@
+From 361be22d3cffa84db99d430739e59f7701d495d6 Mon Sep 17 00:00:00 2001
+From: 102464 <pxesrv@outlook.com>
+Date: Sat, 8 Aug 2026 09:55:35 +0000
+Subject: [PATCH 4/9] biometrics: keep UDFPS illumination through capture on 
+ lyriq
+
+The goodix TA starts capturing ~20ms after onUiReady, before the
+illumination dot reaches the panel, and AOSP tears the dot down on
+ACQUIRED_INSUFFICIENT, so every frame stays too dark to enroll.
+Gated by ro.vendor.fod.framework_managed: delay dispatchOnUiReady by
+100ms and only tear down illumination on ACQUIRED_GOOD.
+
+Change-Id: I5eb75d401b77a91738897d5bb9d494b8d323882c
+---
+ .../biometrics/BiometricFingerprintConstants.java    |  5 +++++
+ .../android/systemui/biometrics/UdfpsController.java | 12 ++++++++++++
+ 2 files changed, 17 insertions(+)
+
+diff --git a/core/java/android/hardware/biometrics/BiometricFingerprintConstants.java b/core/java/android/hardware/biometrics/BiometricFingerprintConstants.java
+index 6682b367e977..5cdec7ee81f3 100644
+--- a/core/java/android/hardware/biometrics/BiometricFingerprintConstants.java
++++ b/core/java/android/hardware/biometrics/BiometricFingerprintConstants.java
+@@ -336,6 +336,11 @@ public interface BiometricFingerprintConstants {
+      * to the user, can cause long term display burn-in, and can drain the battery faster.
+      */
+     static boolean shouldDisableUdfpsDisplayMode(@FingerprintAcquired int acquiredInfo) {
++        // lyriq: the goodix optical sensor may take several frames per sample;
++        // keep the illumination until pointer up
++        if (android.os.SystemProperties.getBoolean("ro.vendor.fod.framework_managed", false)) {
++            return acquiredInfo == FINGERPRINT_ACQUIRED_GOOD;
++        }
+         switch (acquiredInfo) {
+             case FINGERPRINT_ACQUIRED_START:
+                 // Keep the UDFPS mode because the authentication just began.
+diff --git a/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsController.java b/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsController.java
+index c906e6594132..6c6294cac6f1 100644
+--- a/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsController.java
++++ b/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsController.java
+@@ -50,6 +50,7 @@ import android.os.CancellationSignal;
+ import android.os.Handler;
+ import android.os.Looper;
+ import android.os.PowerManager;
++import android.os.SystemProperties;
+ import android.os.Trace;
+ import android.os.VibrationAttributes;
+ import android.os.VibrationEffect;
+@@ -148,6 +149,11 @@ import javax.inject.Inject;
+ @SysUISingleton
+ public class UdfpsController implements DozeReceiver, Dumpable {
+     private static final String TAG = "UdfpsController";
++
++    // lyriq: delay onUiReady so the illumination dot is on screen before the
++    // goodix TA starts capturing; 0 keeps stock timing (other devices)
++    private static final long FOD_DELAY_UI_READY_MS =
++            SystemProperties.getBoolean("ro.vendor.fod.framework_managed", false) ? 100 : 0;
+     private static final long AOD_SEND_FINGER_UP_DELAY_MILLIS = 1000;
+ 
+     private static final long MIN_UNCHANGED_INTERACTION_LOG_INTERVAL = 50;
+@@ -1117,6 +1123,12 @@ public class UdfpsController implements DozeReceiver, Dumpable {
+         if (isOptical() && view instanceof UdfpsTouchOverlay udfpsView) {
+             if (mIgnoreRefreshRate) {
+                 dispatchOnUiReady(requestId);
++            } else if (FOD_DELAY_UI_READY_MS > 0) {
++                // lyriq: the goodix TA captures ~20ms after onUiReady; give the
++                // illumination dot time to actually reach the panel first
++                udfpsView.configureDisplay(
++                        () -> mFgExecutor.executeDelayed(
++                                () -> dispatchOnUiReady(requestId), FOD_DELAY_UI_READY_MS));
+             } else {
+                 udfpsView.configureDisplay(() -> dispatchOnUiReady(requestId));
+             }
+-- 
+2.43.0
+

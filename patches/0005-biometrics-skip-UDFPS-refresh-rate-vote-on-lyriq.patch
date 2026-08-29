@@ -1,0 +1,85 @@
+From 36054421fc63fdd865d3c40154b1320c66a9b931 Mon Sep 17 00:00:00 2001
+From: 102464 <pxesrv@outlook.com>
+Date: Sat, 8 Aug 2026 12:58:02 +0000
+Subject: [PATCH 5/9] biometrics: skip UDFPS refresh-rate vote on lyriq
+
+The vote switches the panel 120->144Hz mid-press; the mode switch
+retriggers overlay params and redraws the UDFPS overlay, firing a
+spurious onPointerUp that killed panel HBM and the illumination dot
+(config_ignoreUdfpsVote=true on lyriq). Keep drawing the dot via
+configureDisplay while skipping the vote. Gated by
+ro.vendor.fod.framework_managed.
+
+Change-Id: I66ed3eb11402e16aa30482b8a013cdc0b011b59f
+---
+ .../systemui/biometrics/UdfpsController.java    | 10 +++++++---
+ .../systemui/biometrics/UdfpsDisplayMode.kt     | 17 ++++++++++++++++-
+ 2 files changed, 23 insertions(+), 4 deletions(-)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsController.java b/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsController.java
+index 6c6294cac6f1..024816502866 100644
+--- a/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsController.java
++++ b/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsController.java
+@@ -1121,11 +1121,15 @@ public class UdfpsController implements DozeReceiver, Dumpable {
+ 
+         final View view = mOverlay.getTouchOverlay();
+         if (isOptical() && view instanceof UdfpsTouchOverlay udfpsView) {
+-            if (mIgnoreRefreshRate) {
++            // lyriq: the goodix TA captures ~20ms after onUiReady; give the
++            // illumination dot time to actually reach the panel first.
++            // config_ignoreUdfpsVote is set on lyriq (the vote switches the
++            // panel to 144Hz and glitches the touch IC mid-press), but the
++            // dot still needs configureDisplay, so don't take the plain
++            // ignore-refresh-rate path here.
++            if (mIgnoreRefreshRate && FOD_DELAY_UI_READY_MS == 0) {
+                 dispatchOnUiReady(requestId);
+             } else if (FOD_DELAY_UI_READY_MS > 0) {
+-                // lyriq: the goodix TA captures ~20ms after onUiReady; give the
+-                // illumination dot time to actually reach the panel first
+                 udfpsView.configureDisplay(
+                         () -> mFgExecutor.executeDelayed(
+                                 () -> dispatchOnUiReady(requestId), FOD_DELAY_UI_READY_MS));
+diff --git a/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsDisplayMode.kt b/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsDisplayMode.kt
+index 670a8e6389af..9d3aedd64d53 100644
+--- a/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsDisplayMode.kt
++++ b/packages/SystemUI/src/com/android/systemui/biometrics/UdfpsDisplayMode.kt
+@@ -18,11 +18,18 @@ package com.android.systemui.biometrics
+ 
+ import android.content.Context
+ import android.os.RemoteException
++import android.os.SystemProperties
+ import android.os.Trace
+ import com.android.systemui.util.concurrency.Execution
+ 
+ private const val TAG = "UdfpsDisplayMode"
+ 
++// lyriq: the UDFPS vote switches the panel to its max rate (144Hz) which
++// glitches the touch IC mid-press; skip it but still run the callback so the
++// illumination dot is drawn
++private val FOD_SKIP_REFRESH_VOTE =
++        SystemProperties.getBoolean("ro.vendor.fod.framework_managed", false)
++
+ /**
+  * UdfpsDisplayMode configures the display for optimal UDFPS operation. For example, sets the
+  * display refresh rate that's optimal for UDFPS.
+@@ -46,8 +53,16 @@ constructor(
+             logger.e(TAG, "enable | already requested")
+             return
+         }
+-        if (authController.udfpsRefreshRateCallback == null) {
++        val callback = authController.udfpsRefreshRateCallback
++        if (callback == null) {
+             logger.e(TAG, "enable | mDisplayManagerCallback is null")
++            if (FOD_SKIP_REFRESH_VOTE) {
++                onEnabled?.run() ?: logger.w(TAG, "enable | onEnabled is null")
++            }
++            return
++        }
++        if (FOD_SKIP_REFRESH_VOTE) {
++            onEnabled?.run() ?: logger.w(TAG, "enable | onEnabled is null")
+             return
+         }
+ 
+-- 
+2.43.0
+

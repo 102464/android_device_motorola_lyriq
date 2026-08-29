@@ -1,0 +1,123 @@
+From e5e23e8408cb9606bb995edf3a588a77dacc5e6e Mon Sep 17 00:00:00 2001
+From: 102464 <pxesrv@outlook.com>
+Date: Tue, 4 Aug 2026 18:31:05 +0000
+Subject: [PATCH 7/9] telephony: hook ext telephony classes and Moto
+ ext-service compat
+
+Add an injectable makeExtTelephonyClasses() call after defaults are
+made (mirrors the stock MtkTelephonyComponentFactory hook) so vendor
+factories can bring up MtkMotoExtTelephonyService, and provide the
+PhoneFactory entry points the Moto ext-telephony jar links against.
+
+Change-Id: I7a6953a10e18e68f076344957921d1f2aa90c797
+---
+ Android.bp                                      | 10 ++++++++++
+ .../msim/PreferredNetworkSwitcher.java          | 17 +++++++++++++++++
+ .../internal/telephony/PhoneFactory.java        | 17 +++++++++++++++++
+ .../telephony/TelephonyComponentFactory.java    |  5 +++++
+ 4 files changed, 49 insertions(+)
+ create mode 100644 moto-stubs/java/com/motorola/android/internal/telephony/msim/PreferredNetworkSwitcher.java
+
+diff --git a/Android.bp b/Android.bp
+index 558b2dd8ee..081675f3b6 100644
+--- a/Android.bp
++++ b/Android.bp
+@@ -56,6 +56,15 @@ filegroup {
+     srcs: ["jarjar-rules-shared.txt"],
+ }
+ 
++// Compile-only stubs for the Moto ext-telephony ABI. Never shipped in
++// telephony-common (vendor packages are not allowed on the bootclasspath);
++// the methods that reference them never load the types at runtime.
++java_library {
++    name: "telephony-moto-ext-stubs",
++    installable: false,
++    srcs: ["moto-stubs/java/**/*.java"],
++}
++
+ java_library {
+     name: "telephony-common",
+     installable: true,
+@@ -75,6 +84,7 @@ java_library {
+     jarjar_rules: ":jarjar-rules-shared",
+ 
+     libs: [
++        "telephony-moto-ext-stubs",
+         "android.hardware.radio-V1.0-java",
+         "android.hardware.radio-V1.1-java",
+         "android.hardware.radio-V1.2-java",
+diff --git a/moto-stubs/java/com/motorola/android/internal/telephony/msim/PreferredNetworkSwitcher.java b/moto-stubs/java/com/motorola/android/internal/telephony/msim/PreferredNetworkSwitcher.java
+new file mode 100644
+index 0000000000..7b2b77554a
+--- /dev/null
++++ b/moto-stubs/java/com/motorola/android/internal/telephony/msim/PreferredNetworkSwitcher.java
+@@ -0,0 +1,17 @@
++/*
++ * SPDX-FileCopyrightText: The LineageOS Project
++ * SPDX-License-Identifier: Apache-2.0
++ */
++
++package com.motorola.android.internal.telephony.msim;
++
++/**
++ * Compile-only stub for the Moto ext-telephony ABI. mtk-moto-telephony-ext
++ * resolves PhoneFactory#getPreferredNetworkSwitcher() against this exact
++ * signature; the real implementation only exists in Moto frameworks and is
++ * never instantiated on AOSP (the factory returns null, so the type is
++ * never loaded at runtime). Not shipped in telephony-common: vendor packages
++ * are not allowed on the bootclasspath.
++ */
++public class PreferredNetworkSwitcher {
++}
+diff --git a/src/java/com/android/internal/telephony/PhoneFactory.java b/src/java/com/android/internal/telephony/PhoneFactory.java
+index 38dccc582a..3ceb4346ba 100644
+--- a/src/java/com/android/internal/telephony/PhoneFactory.java
++++ b/src/java/com/android/internal/telephony/PhoneFactory.java
+@@ -237,6 +237,11 @@ public class PhoneFactory {
+ 
+                 sMadeDefaults = true;
+ 
++                // Vendor hook for extended telephony services (default no-op).
++                TelephonyComponentFactory.getInstance()
++                        .inject(RIL.class.getName())
++                        .makeExtTelephonyClasses(context, sPhones, sCommandsInterfaces);
++
+                 // Only bring up IMS if the device supports having an IMS stack.
+                 if (context.getPackageManager().hasSystemFeature(
+                         PackageManager.FEATURE_TELEPHONY_IMS)) {
+@@ -402,6 +407,18 @@ public class PhoneFactory {
+         return SubscriptionManagerService.getInstance().getDefaultSubId();
+     }
+ 
++    /* Moto ext-telephony compat: no preferred network switcher on AOSP. */
++    public static com.motorola.android.internal.telephony.msim.PreferredNetworkSwitcher
++            getPreferredNetworkSwitcher() {
++        return null;
++    }
++
++    /* Moto ext-telephony compat: no operator-restriction table, use default data sub. */
++    public static int getOperatorPreferredDataSubIdWithRestriction(
++            int restrictionType, String carrier) {
++        return getDefaultSubscription();
++    }
++
+     /* Returns User SMS Prompt property,  enabled or not */
+     public static boolean isSMSPromptEnabled() {
+         boolean prompt = false;
+diff --git a/src/java/com/android/internal/telephony/TelephonyComponentFactory.java b/src/java/com/android/internal/telephony/TelephonyComponentFactory.java
+index 0b22021e51..7fabaeede2 100644
+--- a/src/java/com/android/internal/telephony/TelephonyComponentFactory.java
++++ b/src/java/com/android/internal/telephony/TelephonyComponentFactory.java
+@@ -600,4 +600,9 @@ public class TelephonyComponentFactory {
+         // companions; the AOSP 16 RIL constructor no longer takes it.
+         return new RIL(context, preferredNetworkType, instanceId, featureFlags);
+     }
++
++    /** Create vendor extended telephony classes. Injectable; default no-op. */
++    public void makeExtTelephonyClasses(Context context, Phone[] phones,
++            CommandsInterface[] commandsInterfaces) {
++    }
+ }
+-- 
+2.43.0
+

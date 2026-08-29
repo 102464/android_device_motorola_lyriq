@@ -1,0 +1,58 @@
+From dadfd4b2d026ffbf78c2cf89a8973da111d417b6 Mon Sep 17 00:00:00 2001
+From: 102464 <pxesrv@outlook.com>
+Date: Sun, 16 Aug 2026 16:49:50 +0800
+Subject: [PATCH 9/9] mm/mglru: guard lru_gen_rotate_memcg() against unhashed
+ lruvec
+
+kswapd0 panics on lyriq (MT6893, 6.6.89-android15) with a NULL write in
+__hlist_nulls_del(): lruvec->lrugen.list.pprev is NULL when rotate runs,
+i.e. the node was already unlinked (hlist_nulls_del_init_rcu state).
+ESR 0x96000046, str x11,[x12] with x12=0, ~343 s after boot.
+
+mem_cgroup_tryget() in shrink_many() pins the memcg through the rotate,
+so a plain css_released race cannot explain the unlink; the fifo
+invariant is broken by an as-yet unidentified party.
+
+Containment + diagnostics: bail out before touching gen/seg, the list,
+or nr_memcgs[] accounting, and ratelimited-log lruvec/op/gen/seg/next so
+the next incident yields op + a surviving WARNING stack instead of a
+panic. Do not re-add the node (could resurrect a released memcg).
+
+Not a root-cause fix; converts the panic into a diagnosable warning.
+---
+ mm/vmscan.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/mm/vmscan.c b/mm/vmscan.c
+index e2047aa24..7edc2737c 100644
+--- a/mm/vmscan.c
++++ b/mm/vmscan.c
+@@ -4947,6 +4947,17 @@ static void lru_gen_rotate_memcg(struct lruvec *lruvec, int op)
+ 	spin_lock_irqsave(&pgdat->memcg_lru.lock, flags);
+ 
+ 	VM_WARN_ON_ONCE(hlist_nulls_unhashed(&lruvec->lrugen.list));
++	/* Bail out on an unlinked lruvec: deleting it would write to a NULL
++	 * pprev. Log op/state to find who broke the fifo invariant.
++	 */
++	if (unlikely(hlist_nulls_unhashed(&lruvec->lrugen.list))) {
++		pr_warn_ratelimited("MGLRU: rotate unhashed lruvec=%p op=%d gen=%u seg=%u next=%p\n",
++				    lruvec, op,
++				    READ_ONCE(lruvec->lrugen.gen),
++				    READ_ONCE(lruvec->lrugen.seg),
++				    READ_ONCE(lruvec->lrugen.list.next));
++		goto unlock;
++	}
+ 
+ 	seg = 0;
+ 	new = old = lruvec->lrugen.gen;
+@@ -4979,6 +4990,7 @@ static void lru_gen_rotate_memcg(struct lruvec *lruvec, int op)
+ 	if (!pgdat->memcg_lru.nr_memcgs[old] && old == get_memcg_gen(pgdat->memcg_lru.seq))
+ 		WRITE_ONCE(pgdat->memcg_lru.seq, pgdat->memcg_lru.seq + 1);
+ 
++unlock:
+ 	spin_unlock_irqrestore(&pgdat->memcg_lru.lock, flags);
+ }
+ 
+-- 
+2.43.0
+

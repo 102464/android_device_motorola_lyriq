@@ -1,0 +1,78 @@
+From bdd794e978bd5e800cf9ce8fab6fab7cbae61551 Mon Sep 17 00:00:00 2001
+From: 102464 <pxesrv@outlook.com>
+Date: Sat, 29 Aug 2026 22:22:51 +0800
+Subject: [PATCH 8/9] telephony: add no-op TelephonyMetrics stub for MTK IMS
+ blobs
+
+AOSP commit a1e87f8d20 removed the legacy clearcut metrics class, but
+stock MTK IMS blobs (com.mediatek.ims ImsRILAdapter, com.mediatek.wfo
+MwiRIL) still reference its methods. Without the stub the persistent ims
+process dies with NoClassDefFoundError and RescueParty reboots the device.
+
+Signatures match the pre-removal AOSP implementation; all methods are no-ops.
+
+Change-Id: I9648f951269c73137e6b1abff71803e8f3134514
+---
+ .../telephony/metrics/TelephonyMetrics.java   | 50 +++++++++++++++++++
+ 1 file changed, 50 insertions(+)
+ create mode 100644 src/java/com/android/internal/telephony/metrics/TelephonyMetrics.java
+
+diff --git a/src/java/com/android/internal/telephony/metrics/TelephonyMetrics.java b/src/java/com/android/internal/telephony/metrics/TelephonyMetrics.java
+new file mode 100644
+index 0000000000..54be8482c3
+--- /dev/null
++++ b/src/java/com/android/internal/telephony/metrics/TelephonyMetrics.java
+@@ -0,0 +1,50 @@
++/*
++ * Copyright (C) 2026 The LineageOS Project
++ *
++ * Licensed under the Apache License, Version 2.0 (the "License");
++ * you may not use this file except in compliance with the License.
++ * You may obtain a copy of the License at
++ *
++ *      http://www.apache.org/licenses/LICENSE-2.0
++ *
++ * Unless required by applicable law or agreed to in writing, software
++ * distributed under the License is distributed on an "AS IS" BASIS,
++ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++ * See the License for the specific language governing permissions and
++ * limitations under the License.
++ */
++
++package com.android.internal.telephony.metrics;
++
++/**
++ * Minimal no-op stub of the legacy TelephonyMetrics class removed by AOSP
++ * commit a1e87f8d20 ("Removed the legacy clearcut metrics"). Stock MTK IMS
++ * blobs (com.mediatek.ims ImsRILAdapter, com.mediatek.wfo MwiRIL) still link
++ * against these methods; without the class the persistent ims process dies
++ * with NoClassDefFoundError and RescueParty reboots the device.
++ *
++ * Signatures match the pre-removal AOSP implementation.
++ *
++ * @hide
++ */
++public class TelephonyMetrics {
++
++    private static TelephonyMetrics sInstance;
++
++    public static synchronized TelephonyMetrics getInstance() {
++        if (sInstance == null) {
++            sInstance = new TelephonyMetrics();
++        }
++        return sInstance;
++    }
++
++    public void writeRilAnswer(int phoneId, int rilSerial) {}
++
++    public void writeOnRilSolicitedResponse(int phoneId, int rilSerial, int rilError,
++            int rilRequest, Object ret) {}
++
++    public void writeOnRilTimeoutResponse(int phoneId, int rilSerial, int rilRequest) {}
++
++    public synchronized void writeRilSendSms(int phoneId, int rilSerial, int tech, int format,
++            long messageId) {}
++}
+-- 
+2.43.0
+
