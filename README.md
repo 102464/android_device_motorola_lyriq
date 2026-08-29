@@ -16,7 +16,7 @@ This port is a **personal hobby project**, done purely for fun, learning and res
 | Branch | ROM | Android | State |
 |--------|-----|---------|-------|
 | `lineage-22.2` | LineageOS 22.2 | 15 | All features verified working on the maintainer's device (final acceptance 2026-08-12); **no stability is claimed or guaranteed** — see Disclaimer |
-| `sixteen-qpr2` | PixelOS | 16 | Verified working on device; requires the kernel patches listed below (to be published separately) |
+| `sixteen-qpr2` | PixelOS | 16 | Verified working on device; see the `sixteen-qpr2` branch for required patches |
 
 **LineageOS 22.2 feature status (verified on device):**
 
@@ -66,12 +66,11 @@ Proprietary blobs are extracted from the stock firmware with `extract-files.py`;
 
 ## Required patches
 
-This device tree alone is **not** sufficient for a fully functional build. The following patches on top of the ROM sources are required and will be published separately:
+This device tree alone is **not** sufficient for a fully functional build. The following patches on top of the ROM sources are required and are included in the `patches/` folder of this repository. Apply them to the corresponding AOSP source trees before building:
 
-- **Kernel patches** — required for PixelOS (Android 16). Without them the device will not function correctly on this branch.
-- **`frameworks/base`** — UDFPS touch forwarding, panel HBM toggle, FOD illumination via the stock panel HAL, UDFPS illumination through capture, and UDFPS refresh-rate vote handling. All gated behind `ro.vendor.fod.framework_managed`; no-ops on other devices.
-- **`frameworks/opt/telephony`** — injectable RIL factory compatibility and Moto ext-telephony hooks (required for eSIM).
-- **`build/make`** — allow the vendor to opt out of the deprecated CAS 1.2 HIDL service in `base_vendor.mk`. Not required in Android 16.
+- **`frameworks/base`** (`0001`-`0006`) - UDFPS touch forwarding, panel HBM toggle, FOD illumination via the stock panel HAL, UDFPS illumination through capture, UDFPS refresh-rate vote handling, and Moto edge-lights window layering. The biometrics patches are gated behind `ro.vendor.fod.framework_managed`; no-ops on other devices.
+- **`frameworks/opt/telephony`** (`0007`-`0008`) - injectable RIL factory compatibility and Moto ext-telephony hooks (required for eSIM).
+- **`build/make`** (`0009`) - allow the vendor to opt out of the deprecated CAS 1.2 HIDL service in `base_vendor.mk`. Not required in Android 16.
 
 ## Contributing
 
