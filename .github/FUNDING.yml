@@ -1,5 +1,5 @@
 # Funding platforms supported by this project
 
 github: # GitHub Sponsors usernames, e.g. [user1, user2]
-ko_fi: 102464 # Ko-fi username
+ko_fi: "102464" # Ko-fi username
 custom: # Custom sponsorship URLs, e.g. ['https://paypal.me/user']
