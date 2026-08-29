@@ -1,0 +1,102 @@
+From 421f71b3e638d2af9b3b43ffe1868a65ba7ff1e9 Mon Sep 17 00:00:00 2001
+From: 102464 <pxesrv@outlook.com>
+Date: Sat, 8 Aug 2026 08:08:40 +0000
+Subject: [PATCH 3/9] biometrics: drive FOD directly via Moto panel HAL, opt-in
+
+Replace the property+daemon relay with a direct IDisplayPanel.setMode
+binder call from FingerprintProvider, matching stock. Both the touch
+forwarding and the HBM toggle are now gated behind
+ro.vendor.fod.framework_managed (default false = AOSP behavior), so
+other devices are unaffected at build and runtime.
+---
+ .../fingerprint/aidl/FingerprintProvider.java | 50 ++++++++++++++++---
+ 1 file changed, 44 insertions(+), 6 deletions(-)
+
+diff --git a/services/core/java/com/android/server/biometrics/sensors/fingerprint/aidl/FingerprintProvider.java b/services/core/java/com/android/server/biometrics/sensors/fingerprint/aidl/FingerprintProvider.java
+index 6822dcc25cfe0..0eca8c947d71b 100644
+--- a/services/core/java/com/android/server/biometrics/sensors/fingerprint/aidl/FingerprintProvider.java
++++ b/services/core/java/com/android/server/biometrics/sensors/fingerprint/aidl/FingerprintProvider.java
+@@ -50,6 +50,7 @@ import android.os.Binder;
+ import android.os.Build;
+ import android.os.Handler;
+ import android.os.IBinder;
++import android.os.Parcel;
+ import android.os.RemoteException;
+ import android.os.ServiceManager;
+ import android.os.SystemProperties;
+@@ -759,7 +760,11 @@ public class FingerprintProvider implements IBinder.DeathRecipient, ServiceProvi
+ 
+     @Override
+     public void onPointerDown(long requestId, int sensorId, PointerContext pc) {
+-        // lyriq: forward display touches to the HAL (stock behavior)
++        if (!FOD_FRAMEWORK_MANAGED
++                && mFingerprintSensors.get(sensorId).getSensorProperties()
++                        .halHandlesDisplayTouches) {
++            return;
++        }
+         setFodHbm(true);
+         mFingerprintSensors.get(sensorId).getScheduler().getCurrentClientIfMatches(
+                 requestId, (client) -> {
+@@ -773,7 +778,11 @@ public class FingerprintProvider implements IBinder.DeathRecipient, ServiceProvi
+ 
+     @Override
+     public void onPointerUp(long requestId, int sensorId, PointerContext pc) {
+-        // lyriq: see onPointerDown
++        if (!FOD_FRAMEWORK_MANAGED
++                && mFingerprintSensors.get(sensorId).getSensorProperties()
++                        .halHandlesDisplayTouches) {
++            return;
++        }
+         setFodHbm(false);
+         mFingerprintSensors.get(sensorId).getScheduler().getCurrentClientIfMatches(
+                 requestId, (client) -> {
+@@ -798,13 +807,42 @@ public class FingerprintProvider implements IBinder.DeathRecipient, ServiceProvi
+                 });
+     }
+ 
+-    // lyriq: toggle panel HBM through an init property trigger; the goodix
+-    // HAL relies on the framework for illumination
++    // lyriq: drive panel HBM directly through the Moto display panel HAL
++    // (stock behavior); the goodix HAL relies on the framework for illumination
++    private static final String PANEL_SERVICE =
++            "com.motorola.hardware.display.panel.IDisplayPanel/default";
++    private static final String PANEL_IFACE =
++            "com.motorola.hardware.display.panel.IDisplayPanel";
++    private static final int TXN_SET_MODE = 5;  // setMode(PanelMode)
++    private static final int PANEL_MODE_NORMAL = 0;
++    private static final int PANEL_MODE_HIGH_BRIGHT_FOD = 4;
++
++    // lyriq: opt-in for devices whose UDFPS HAL needs framework-driven display
++    // touches and illumination; defaults to AOSP behavior elsewhere
++    private static final boolean FOD_FRAMEWORK_MANAGED =
++            SystemProperties.getBoolean("ro.vendor.fod.framework_managed", false);
++
+     private void setFodHbm(boolean on) {
++        if (!FOD_FRAMEWORK_MANAGED) {
++            return;
++        }
++        final IBinder panel = ServiceManager.getService(PANEL_SERVICE);
++        if (panel == null) {
++            Slog.e(getTag(), "setFodHbm: panel service unavailable");
++            return;
++        }
++        final Parcel data = Parcel.obtain();
++        final Parcel reply = Parcel.obtain();
+         try {
+-            SystemProperties.set("vendor.fod.hbm", on ? "1" : "0");
+-        } catch (RuntimeException e) {
++            data.writeInterfaceToken(PANEL_IFACE);
++            data.writeInt(on ? PANEL_MODE_HIGH_BRIGHT_FOD : PANEL_MODE_NORMAL);
++            panel.transact(TXN_SET_MODE, data, reply, 0);
++            reply.readException();
++        } catch (RemoteException | RuntimeException e) {
+             Slog.e(getTag(), "setFodHbm failed", e);
++        } finally {
++            data.recycle();
++            reply.recycle();
+         }
+     }
+ 
+-- 
+2.43.0
+

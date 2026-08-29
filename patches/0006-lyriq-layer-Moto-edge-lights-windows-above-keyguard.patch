@@ -1,0 +1,43 @@
+From c334f0d687fef85fbdd452fd8e19045857c99e2a Mon Sep 17 00:00:00 2001
+From: 102464 <pxesrv@outlook.com>
+Date: Thu, 13 Aug 2026 19:44:35 +0800
+Subject: [PATCH 6/9] lyriq: layer Moto edge-lights windows above keyguard
+
+MotoLights overlay (type 2954) and trusted overlay (2943) must sit at
+layer 32, above keyguard/doze, matching stock WMS behavior. Gated by
+ro.vendor.moto.edge_lights; inert without MotoLights.
+
+Change-Id: I3351c836c6e2d5c993b864e0bcbeec338d690988
+---
+ .../com/android/server/policy/WindowManagerPolicy.java    | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/services/core/java/com/android/server/policy/WindowManagerPolicy.java b/services/core/java/com/android/server/policy/WindowManagerPolicy.java
+index 4563ec7441a44..6e5dec64aec4c 100644
+--- a/services/core/java/com/android/server/policy/WindowManagerPolicy.java
++++ b/services/core/java/com/android/server/policy/WindowManagerPolicy.java
+@@ -76,6 +76,7 @@ import android.hardware.display.VirtualDisplay;
+ import android.os.Bundle;
+ import android.os.IBinder;
+ import android.os.PowerManager;
++import android.os.SystemProperties;
+ import android.os.RemoteException;
+ import android.util.Slog;
+ import android.util.proto.ProtoOutputStream;
+@@ -534,6 +535,13 @@ public interface WindowManagerPolicy extends WindowManagerPolicyConstants {
+             return APPLICATION_LAYER;
+         }
+ 
++        // lyriq: Moto edge-lights overlay window (2954) and trusted overlay (2943),
++        // stock assigns layer 32 (above keyguard/doze). Gated; inert without MotoLights.
++        if (SystemProperties.getBoolean("ro.vendor.moto.edge_lights", false)
++                && (type == 2954 || type == 2943)) {
++            return 32;
++        }
++
+         switch (type) {
+             case TYPE_WALLPAPER:
+                 // wallpaper is at the bottom, though the window manager may move it.
+-- 
+2.43.0
+

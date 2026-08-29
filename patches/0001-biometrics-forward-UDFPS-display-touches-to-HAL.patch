@@ -1,0 +1,43 @@
+From 6ae67586bafc4cefd2303a91c78b146ea4fbd312 Mon Sep 17 00:00:00 2001
+From: 102464 <pxesrv@outlook.com>
+Date: Tue, 4 Aug 2026 18:03:21 +0000
+Subject: [PATCH 1/9] biometrics: forward UDFPS display touches to HAL
+
+Stock removes the halHandlesDisplayTouches early-return in
+FingerprintProvider.onPointerDown/onPointerUp, so the goodix HAL
+receives onPointerDown and can trigger capture. The AOSP drop left
+the HAL waiting for a finger event that never arrived, causing
+enroll to time out with onError(5).
+---
+ .../sensors/fingerprint/aidl/FingerprintProvider.java     | 8 ++------
+ 1 file changed, 2 insertions(+), 6 deletions(-)
+
+diff --git a/services/core/java/com/android/server/biometrics/sensors/fingerprint/aidl/FingerprintProvider.java b/services/core/java/com/android/server/biometrics/sensors/fingerprint/aidl/FingerprintProvider.java
+index 1fd07aebd7fb7..e937a2f87ba0c 100644
+--- a/services/core/java/com/android/server/biometrics/sensors/fingerprint/aidl/FingerprintProvider.java
++++ b/services/core/java/com/android/server/biometrics/sensors/fingerprint/aidl/FingerprintProvider.java
+@@ -758,9 +758,7 @@ public class FingerprintProvider implements IBinder.DeathRecipient, ServiceProvi
+ 
+     @Override
+     public void onPointerDown(long requestId, int sensorId, PointerContext pc) {
+-        if (mFingerprintSensors.get(sensorId).getSensorProperties().halHandlesDisplayTouches) {
+-            return;
+-        }
++        // lyriq: forward display touches to the HAL (stock behavior)
+         mFingerprintSensors.get(sensorId).getScheduler().getCurrentClientIfMatches(
+                 requestId, (client) -> {
+                     if (!(client instanceof Udfps)) {
+@@ -773,9 +771,7 @@ public class FingerprintProvider implements IBinder.DeathRecipient, ServiceProvi
+ 
+     @Override
+     public void onPointerUp(long requestId, int sensorId, PointerContext pc) {
+-        if (mFingerprintSensors.get(sensorId).getSensorProperties().halHandlesDisplayTouches) {
+-            return;
+-        }
++        // lyriq: see onPointerDown
+         mFingerprintSensors.get(sensorId).getScheduler().getCurrentClientIfMatches(
+                 requestId, (client) -> {
+                     if (!(client instanceof Udfps)) {
+-- 
+2.43.0
+

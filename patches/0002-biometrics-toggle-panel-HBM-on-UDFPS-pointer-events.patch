@@ -1,0 +1,63 @@
+From 4585fe635e9c602361ab0aee956b9c56942a7cd5 Mon Sep 17 00:00:00 2001
+From: 102464 <pxesrv@outlook.com>
+Date: Wed, 5 Aug 2026 16:50:05 +0000
+Subject: [PATCH 2/9] biometrics: toggle panel HBM on UDFPS pointer events
+
+The goodix HAL relies on the framework for illumination but the
+AOSP15 display stack has no GHBM/local-HBM path on MTK. Drive the
+panel HBM through sys.fod.hbm (init writes the DSI command) on
+pointer down/up.
+
+Change-Id: Ife0114a3383b6af47f0128aa933f76efe61a38ff
+---
+ .../fingerprint/aidl/FingerprintProvider.java       | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/services/core/java/com/android/server/biometrics/sensors/fingerprint/aidl/FingerprintProvider.java b/services/core/java/com/android/server/biometrics/sensors/fingerprint/aidl/FingerprintProvider.java
+index e937a2f87ba0c..6822dcc25cfe0 100644
+--- a/services/core/java/com/android/server/biometrics/sensors/fingerprint/aidl/FingerprintProvider.java
++++ b/services/core/java/com/android/server/biometrics/sensors/fingerprint/aidl/FingerprintProvider.java
+@@ -52,6 +52,7 @@ import android.os.Handler;
+ import android.os.IBinder;
+ import android.os.RemoteException;
+ import android.os.ServiceManager;
++import android.os.SystemProperties;
+ import android.os.UserHandle;
+ import android.os.UserManager;
+ import android.util.Slog;
+@@ -759,6 +760,7 @@ public class FingerprintProvider implements IBinder.DeathRecipient, ServiceProvi
+     @Override
+     public void onPointerDown(long requestId, int sensorId, PointerContext pc) {
+         // lyriq: forward display touches to the HAL (stock behavior)
++        setFodHbm(true);
+         mFingerprintSensors.get(sensorId).getScheduler().getCurrentClientIfMatches(
+                 requestId, (client) -> {
+                     if (!(client instanceof Udfps)) {
+@@ -772,6 +774,7 @@ public class FingerprintProvider implements IBinder.DeathRecipient, ServiceProvi
+     @Override
+     public void onPointerUp(long requestId, int sensorId, PointerContext pc) {
+         // lyriq: see onPointerDown
++        setFodHbm(false);
+         mFingerprintSensors.get(sensorId).getScheduler().getCurrentClientIfMatches(
+                 requestId, (client) -> {
+                     if (!(client instanceof Udfps)) {
+@@ -795,6 +798,16 @@ public class FingerprintProvider implements IBinder.DeathRecipient, ServiceProvi
+                 });
+     }
+ 
++    // lyriq: toggle panel HBM through an init property trigger; the goodix
++    // HAL relies on the framework for illumination
++    private void setFodHbm(boolean on) {
++        try {
++            SystemProperties.set("vendor.fod.hbm", on ? "1" : "0");
++        } catch (RuntimeException e) {
++            Slog.e(getTag(), "setFodHbm failed", e);
++        }
++    }
++
+     @Override
+     public void setUdfpsOverlayController(@NonNull IUdfpsOverlayController controller) {
+         mUdfpsOverlayController = controller;
+-- 
+2.43.0
+

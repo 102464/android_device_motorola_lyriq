@@ -1,0 +1,38 @@
+From 39d0a5f4d957b82e886042100f539929c205dcac Mon Sep 17 00:00:00 2001
+From: Kazuhiro Inaba <kinaba@google.com>
+Date: Thu, 21 Aug 2025 02:48:32 +0000
+Subject: [PATCH 9/9] base_vendor.mk: Allow vendor to opt-out from
+ android.hardware.cas@1.2.
+
+Vendor already switched to newer AIDL HALs do not need
+the legacy HAL, regardless of the shipping API level.
+
+Bug: 439711510
+Test: Build with firstApiLevel 33 + manifest 202404
+Flag: EXEMPT BUGFIX
+Change-Id: Ieccb6df19dd36deefbcf53492fbc43d8d779d57b
+---
+ target/product/base_vendor.mk | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/target/product/base_vendor.mk b/target/product/base_vendor.mk
+index b4e450e076..2bddfb2e22 100644
+--- a/target/product/base_vendor.mk
++++ b/target/product/base_vendor.mk
+@@ -94,8 +94,11 @@ ifneq ($(TARGET_SUPPORTS_OMX_SERVICE),false)
+ endif
+ 
+ # Base modules when shipping api level is less than or equal to 33
+-PRODUCT_PACKAGES_SHIPPING_API_LEVEL_33 += \
+-    android.hardware.cas@1.2-service \
++ifneq ($(TARGET_REQUIRES_HIDL_CAS_HAL),false)
++    PRODUCT_PACKAGES_SHIPPING_API_LEVEL_33 += \
++        android.hardware.cas@1.2-service \
++
++endif
+ 
+ # Base modules when shipping api level is less than or equal to 29
+ PRODUCT_PACKAGES_SHIPPING_API_LEVEL_29 += \
+-- 
+2.43.0
+

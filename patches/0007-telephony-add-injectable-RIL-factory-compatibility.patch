@@ -1,0 +1,61 @@
+From 702f835adf3efab2af2f6c8e79d3ab2deed94ef2 Mon Sep 17 00:00:00 2001
+From: 102464 <pxesrv@outlook.com>
+Date: Tue, 4 Aug 2026 00:20:23 +0000
+Subject: [PATCH 7/9] telephony: add injectable RIL factory compatibility
+
+Add TelephonyComponentFactory.makeRIL() with a default plain-RIL
+implementation and route PhoneFactory RIL creation through the
+injection hook. Vendor component factories (e.g. MTK/Motorola) can
+then attach companion channels (MotoOemRIL) when RIL is created.
+Devices without injection get the stock AOSP RIL unchanged.
+
+Change-Id: Icef7086b79d154630c0f7dcbb5126e438d82b8c2
+---
+ src/java/com/android/internal/telephony/PhoneFactory.java  | 7 +++++--
+ .../internal/telephony/TelephonyComponentFactory.java      | 7 +++++++
+ 2 files changed, 12 insertions(+), 2 deletions(-)
+
+diff --git a/src/java/com/android/internal/telephony/PhoneFactory.java b/src/java/com/android/internal/telephony/PhoneFactory.java
+index c077ca9107..875b423c28 100644
+--- a/src/java/com/android/internal/telephony/PhoneFactory.java
++++ b/src/java/com/android/internal/telephony/PhoneFactory.java
+@@ -187,7 +187,8 @@ public class PhoneFactory {
+                     networkModes[i] = RILConstants.PREFERRED_NETWORK_MODE;
+ 
+                     Rlog.i(LOG_TAG, "Network Mode set to " + Integer.toString(networkModes[i]));
+-                    sCommandsInterfaces[i] = new RIL(context,
++                    sCommandsInterfaces[i] = TelephonyComponentFactory.getInstance()
++                            .inject(RIL.class.getName()).makeRIL(context,
+                             RadioAccessFamily.getRafFromNetworkType(networkModes[i]),
+                             cdmaSubscription, i, featureFlags);
+                 }
+@@ -327,7 +328,9 @@ public class PhoneFactory {
+ 
+             int cdmaSubscription = CdmaSubscriptionSourceManager.getDefault(context);
+             for (int i = prevActiveModemCount; i < activeModemCount; i++) {
+-                sCommandsInterfaces[i] = new RIL(context, RadioAccessFamily.getRafFromNetworkType(
++                sCommandsInterfaces[i] = TelephonyComponentFactory.getInstance()
++                        .inject(RIL.class.getName()).makeRIL(context,
++                        RadioAccessFamily.getRafFromNetworkType(
+                         RILConstants.PREFERRED_NETWORK_MODE),
+                         cdmaSubscription, i, sFeatureFlags);
+                 sPhones[i] = createPhone(context, i);
+diff --git a/src/java/com/android/internal/telephony/TelephonyComponentFactory.java b/src/java/com/android/internal/telephony/TelephonyComponentFactory.java
+index b4a3ee67e2..c83880cee4 100644
+--- a/src/java/com/android/internal/telephony/TelephonyComponentFactory.java
++++ b/src/java/com/android/internal/telephony/TelephonyComponentFactory.java
+@@ -613,4 +613,11 @@ public class TelephonyComponentFactory {
+             CellularNetworkSecuritySafetySource safetySource) {
+         return NullCipherNotifier.getInstance(safetySource);
+     }
++
++    /** Create {@link RIL} instance. Injectable for vendor RIL companions. */
++    public RIL makeRIL(Context context, int preferredNetworkType, int cdmaSubscription,
++            Integer instanceId, @NonNull FeatureFlags featureFlags) {
++        return new RIL(context, preferredNetworkType, cdmaSubscription, instanceId,
++                featureFlags);
++    }
+ }
+-- 
+2.43.0
+
